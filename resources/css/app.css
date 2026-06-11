@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin 'tailwind-clamp';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -8,4 +9,140 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-brand-red: #b90000;
+    --color-brand-red-dark: #870000;
+    --color-brand-ink: #171717;
+    --color-brand-steel: #5f6872;
+}
+
+@layer components {
+    summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .brand-mark {
+        display: inline-flex;
+        height: 2.6rem;
+        width: 2.6rem;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid var(--color-brand-red-dark);
+        border-radius: 9999px;
+        color: var(--color-brand-red-dark);
+        font-size: 1.45rem;
+        font-weight: 900;
+        font-style: italic;
+        line-height: 1;
+        box-shadow: inset 0 0 0 2px #ffffff;
+    }
+
+    .brand-mark-dark {
+        border-color: var(--color-brand-red);
+        color: var(--color-brand-red);
+        box-shadow: inset 0 0 0 2px #000000;
+    }
+
+    .brand-icon {
+        display: flex;
+        height: 8rem;
+        width: 8rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        background: var(--color-brand-red);
+        box-shadow: 0 18px 35px rgb(0 0 0 / 0.24);
+    }
+
+    .brand-icon svg {
+        height: 3.4rem;
+        width: 3.4rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+    }
+
+    .brand-panel {
+        background:
+            linear-gradient(120deg, rgb(0 0 0 / 0.86), rgb(0 0 0 / 0.92)),
+            repeating-linear-gradient(135deg, transparent 0 42px, rgb(255 255 255 / 0.06) 43px 45px),
+            #141414;
+    }
+
+    .hero-steel {
+        position: relative;
+        background-image:
+            linear-gradient(90deg, rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.05)),
+            url('https://placehold.co/1800x720/5f6872/ffffff?text=Plat+Lembaran+Baja');
+    }
+
+    .sector-construction {
+        background-image:
+            linear-gradient(rgb(185 0 0 / 0.72), rgb(185 0 0 / 0.72)),
+            url('https://placehold.co/900x520/2b2b2b/ffffff?text=Building+Construction');
+    }
+
+    .sector-automotive {
+        background-image: url('https://placehold.co/900x520/6f767d/ffffff?text=Automotive+Industry');
+    }
+
+    .sector-warehouse {
+        background-image: url('https://placehold.co/900x520/4b5563/ffffff?text=Warehouse+Supply');
+    }
+
+    .cta-strip {
+        background-image:
+            linear-gradient(90deg, rgb(185 0 0 / 0.9), rgb(185 0 0 / 0.75), rgb(0 0 0 / 0.8)),
+            repeating-linear-gradient(135deg, transparent 0 42px, rgb(255 255 255 / 0.12) 43px 45px),
+            #111111;
+    }
+
+    .section-title {
+        color: #444444;
+        font-size: 1.875rem;
+        font-weight: 900;
+        line-height: 1.1;
+    }
+
+    .section-title::after {
+        display: block;
+        width: 4.5rem;
+        height: 0.25rem;
+        margin-top: 1.35rem;
+        background: var(--color-brand-red-dark);
+        content: '';
+    }
+
+    .section-title-dark {
+        color: rgb(255 255 255 / 0.28);
+    }
+
+    .section-title-dark::after {
+        background: var(--color-brand-red);
+    }
+
+    @media (max-width: 480px) {
+        .brand-mark {
+            height: 2.25rem;
+            width: 2.25rem;
+            border-width: 3px;
+            font-size: 1.2rem;
+        }
+
+        .brand-icon {
+            height: 6.75rem;
+            width: 6.75rem;
+        }
+
+        .brand-icon svg {
+            height: 2.85rem;
+            width: 2.85rem;
+        }
+
+        .section-title {
+            font-size: 1.55rem;
+        }
+    }
 }

@@ -9,9 +9,11 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
-- php - 8.5
+- php - 8.2
+- filament/filament (FILAMENT) - v5
 - laravel/framework (LARAVEL) - v12
 - laravel/prompts (PROMPTS) - v0
+- livewire/livewire (LIVEWIRE) - v4
 - laravel/boost (BOOST) - v2
 - laravel/mcp (MCP) - v0
 - laravel/pail (PAIL) - v1
@@ -20,10 +22,6 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - pestphp/pest (PEST) - v3
 - phpunit/phpunit (PHPUNIT) - v11
 - tailwindcss (TAILWINDCSS) - v4
-
-## Skills Activation
-
-This project has domain-specific skills available in `**/skills/**`. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
 
 ## Conventions
 
@@ -55,28 +53,6 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 === boost rules ===
 
 # Laravel Boost
-
-## Tools
-
-- Laravel Boost is an MCP server with tools designed specifically for this application. Prefer Boost tools over manual alternatives like shell commands or file reads.
-- Use `database-query` to run read-only queries against the database instead of writing raw SQL in tinker.
-- Use `database-schema` to inspect table structure before writing migrations or models.
-- Use `get-absolute-url` to resolve the correct scheme, domain, and port for project URLs. Always use this before sharing a URL with the user.
-- Use `browser-logs` to read browser logs, errors, and exceptions. Only recent logs are useful, ignore old entries.
-
-## Searching Documentation (IMPORTANT)
-
-- Always use `search-docs` before making code changes. Do not skip this step. It returns version-specific docs based on installed packages automatically.
-- Pass a `packages` array to scope results when you know which packages are relevant.
-- Use multiple broad, topic-based queries: `['rate limiting', 'routing rate limiting', 'routing']`. Expect the most relevant results first.
-- Do not add package names to queries because package info is already shared. Use `test resource table`, not `filament 4 test resource table`.
-
-### Search Syntax
-
-1. Use words for auto-stemmed AND logic: `rate limit` matches both "rate" AND "limit".
-2. Use `"quoted phrases"` for exact position matching: `"infinite scroll"` requires adjacent words in order.
-3. Combine words and phrases for mixed queries: `middleware "rate limit"`.
-4. Use multiple queries for OR logic: `queries=["authentication", "middleware"]`.
 
 ## Artisan
 
@@ -148,7 +124,6 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 
 # Laravel 12
 
-- CRITICAL: ALWAYS use `search-docs` tool for version-specific Laravel documentation and updated code examples.
 - Since Laravel 11, Laravel has a new streamlined file structure which this project uses.
 
 ## Laravel 12 Structure
@@ -168,6 +143,54 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 ### Models
 
 - Casts can and likely should be set in a `casts()` method on a model rather than the `$casts` property. Follow existing conventions from other models.
+
+=== livewire/core rules ===
+
+# Livewire
+
+- Livewire allow to build dynamic, reactive interfaces in PHP without writing JavaScript.
+- You can use Alpine.js for client-side interactions instead of JavaScript frameworks.
+- Keep state server-side so the UI reflects it. Validate and authorize in actions as you would in HTTP requests.
+
+=== filament/core rules ===
+
+# Filament
+
+- This application uses Filament v5 for the admin panel.
+- Use version-specific documentation via `search-docs` for Filament APIs before changing panels, resources, pages, widgets, forms, tables, or actions.
+- Prefer Filament Artisan generators:
+  - `php artisan filament:make-resource Model --generate --no-interaction`
+  - `php artisan filament:make-page Name --no-interaction`
+  - `php artisan filament:make-widget Name --no-interaction`
+- Panel providers live in `app/Providers/Filament` and must be registered in `bootstrap/providers.php`.
+- Resource code should follow the generated Filament v5 structure:
+  - Resource class in `app/Filament/Resources/...`
+  - form schema in `Schemas/*Form.php`
+  - table configuration in `Tables/*Table.php`
+  - pages in `Pages/*`
+- Put form fields in schema classes, table columns/actions/filters in table classes, and business logic in models, actions, services, or policies.
+- Use `Filament\Models\Contracts\FilamentUser` on `App\Models\User` to restrict production panel access. Check `$panel->getId()` when multiple panels exist.
+- For JSON columns, add array casts on the model and use `Repeater` or `KeyValue` fields.
+- Configure file uploads carefully: disk, directory, visibility, accepted file types, max size, and authorization.
+- Do not treat hidden navigation as authorization. Use policies when admin permissions differ.
+- After changing Filament code, run `vendor/bin/pint --dirty --format agent` and relevant Pest tests.
+
+=== tailwind-clamp/core rules ===
+
+# Tailwind Clamp
+
+- This application uses `tailwind-clamp` with Tailwind CSS v4 for fluid responsive values.
+- The plugin is registered in `resources/css/app.css` with `@plugin 'tailwind-clamp';`.
+- Prefer clamp utilities for values that should scale smoothly between mobile and desktop instead of stacking many breakpoint overrides.
+- Use syntax with no whitespace inside the arbitrary value. Valid examples: `clamp-[py,8,16]`, `clamp-[text,lg,3xl]`, `clamp-[p,2,4,,md]`.
+- Supported common properties include spacing (`p`, `px`, `py`, `m`, `gap`), sizing (`w`, `h`, `size`, `min-*`, `max-*`), typography (`text`, `leading`, `tracking`), border radius, border width, position offsets, translate, and CSS custom properties (`--*`).
+- For spacing and sizing, unitless numbers follow Tailwind spacing behavior. Example: `clamp-[py,8,16]`.
+- For custom properties and `@theme --clamp-*` variables, use explicit CSS lengths only (`px`, `rem`, `em`), not Tailwind tokens or unitless numbers.
+- Keep existing design rules: do not scale fonts directly with viewport units; use clamp only when it improves fit and responsiveness.
+- If the project later uses `tailwind-merge`, install `tailwind-clamp-merge` and configure:
+  - `import { extendTailwindMerge } from 'tailwind-merge';`
+  - `import { withTailwindClamp } from 'tailwind-clamp-merge';`
+  - `const twMerge = extendTailwindMerge(withTailwindClamp);`
 
 === pint/core rules ===
 

@@ -1,16 +1,15 @@
 {
     "agents": [
-        "codex",
         "opencode",
-        "zed"
+        "codex"
     ],
     "cloud": false,
-    "guidelines": true,
-    "mcp": true,
-    "nightwatch": false,
-    "sail": false,
+    "packages": [
+        "filament/filament"
+    ],
     "skills": [
         "laravel-best-practices",
+        "livewire-development",
         "pest-testing",
         "tailwindcss-development"
     ]

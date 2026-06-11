@@ -24,6 +24,33 @@ return [
         BrowserDetector::class,
     ],
 
+    'geoip' => [
+        'fallback_locale' => 'id',
+
+        'headers' => [
+            'CF-IPCountry',
+            'CloudFront-Viewer-Country',
+            'X-Appengine-Country',
+            'X-Vercel-IP-Country',
+            'X-Country-Code',
+        ],
+
+        'country_locales' => [
+            'CN' => 'zh',
+            'HK' => 'zh',
+            'MO' => 'zh',
+            'TW' => 'zh',
+            'ID' => 'id',
+            'MY' => 'id',
+            'SG' => 'en',
+            'AU' => 'en',
+            'CA' => 'en',
+            'GB' => 'en',
+            'NZ' => 'en',
+            'US' => 'en',
+        ],
+    ],
+
     'locale_directions' => [
         'id' => 'ltr',
         'en' => 'ltr',

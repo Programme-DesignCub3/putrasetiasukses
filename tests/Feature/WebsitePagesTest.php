@@ -100,3 +100,24 @@ test('geoip detector redirects us visitors to english', function () {
         ->get('/kontak')
         ->assertRedirect('/en/kontak');
 });
+
+test('geoip detector keeps indonesia visitors on default locale', function () {
+    SiteSetting::factory()->create();
+
+    $this->withHeaders(['CF-IPCountry' => 'ID'])
+        ->get('/kontak')
+        ->assertSuccessful()
+        ->assertSee('Kirimkan Pesan Anda');
+});
+
+test('geoip detector falls back to indonesia when country is missing or unsupported', function () {
+    SiteSetting::factory()->create();
+
+    $this->withHeaders(['Accept-Language' => 'en'])->get('/kontak')
+        ->assertSuccessful()
+        ->assertSee('Kirimkan Pesan Anda');
+
+    $this->withHeaders(['CF-IPCountry' => 'DE'])->get('/kontak')
+        ->assertSuccessful()
+        ->assertSee('Kirimkan Pesan Anda');
+});

@@ -9,33 +9,15 @@ use NielsNumbers\LaravelLocalizer\Contracts\DetectorInterface;
 
 class GeoIpLocaleDetector implements DetectorInterface
 {
-    /**
-     * @var array<string, string>
-     */
-    private const COUNTRY_LOCALES = [
-        'CN' => 'zh',
-        'HK' => 'zh',
-        'MO' => 'zh',
-        'TW' => 'zh',
-        'ID' => 'id',
-        'MY' => 'id',
-        'SG' => 'en',
-        'AU' => 'en',
-        'CA' => 'en',
-        'GB' => 'en',
-        'NZ' => 'en',
-        'US' => 'en',
-    ];
-
     public function detect(Request $request): ?string
     {
         $country = $this->countryCode($request);
 
         if ($country === null) {
-            return null;
+            return $this->fallbackLocale();
         }
 
-        return self::COUNTRY_LOCALES[$country] ?? null;
+        return $this->countryLocales()[$country] ?? $this->fallbackLocale();
     }
 
     private function countryCode(Request $request): ?string
@@ -62,12 +44,19 @@ class GeoIpLocaleDetector implements DetectorInterface
      */
     private function countryHeaders(): array
     {
-        return [
-            'CF-IPCountry',
-            'CloudFront-Viewer-Country',
-            'X-Appengine-Country',
-            'X-Vercel-IP-Country',
-            'X-Country-Code',
-        ];
+        return config('localizer.geoip.headers', []);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function countryLocales(): array
+    {
+        return config('localizer.geoip.country_locales', []);
+    }
+
+    private function fallbackLocale(): ?string
+    {
+        return config('localizer.geoip.fallback_locale', config('app.fallback_locale'));
     }
 }

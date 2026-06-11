@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ \NielsNumbers\LaravelLocalizer\Facades\Localizer::currentLocaleDirection() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    dir="{{ \NielsNumbers\LaravelLocalizer\Facades\Localizer::currentLocaleDirection() }}">
 
-        <title>@yield('title', config('app.name'))</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>@yield('title', config('app.name'))</title>
 
-        @livewireStyles
-    </head>
-    <body class="@yield('bodyClass')">
-        @yield('content')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        @livewireScripts
-    </body>
+    @livewireStyles
+</head>
+
+<body class="@yield('bodyClass')">
+    @yield('content')
+
+    @livewireScripts
+</body>
+
 </html>

@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
-use Filament\Forms\Components\Repeater;
+use App\Models\Product;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -20,20 +21,27 @@ class ProductForm
                         TextInput::make('category')->required()->maxLength(255),
                         TextInput::make('name')->required()->maxLength(255),
                         TextInput::make('slug')->required()->maxLength(255)->unique(ignoreRecord: true),
-                        TextInput::make('main_image_url')->label('Main image URL')->url()->required()->maxLength(2048),
+                        SpatieMediaLibraryFileUpload::make('main_image')
+                            ->label('Main image')
+                            ->collection(Product::MainImageCollection)
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120)
+                            ->columnSpanFull(),
                         Textarea::make('description')->required()->rows(8)->columnSpanFull(),
                         Toggle::make('is_published')->default(true),
                     ])
                     ->columns(2),
                 Section::make('Galeri')
                     ->schema([
-                        Repeater::make('gallery_images')
-                            ->schema([
-                                TextInput::make('url')->url()->required()->maxLength(2048),
-                                TextInput::make('alt')->maxLength(255),
-                            ])
-                            ->defaultItems(3)
-                            ->columns(2),
+                        SpatieMediaLibraryFileUpload::make('gallery_media')
+                            ->label('Gallery images')
+                            ->collection(Product::GalleryCollection)
+                            ->multiple()
+                            ->reorderable()
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
                     ]),
             ]);
     }

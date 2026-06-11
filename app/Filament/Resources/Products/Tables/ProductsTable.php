@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Products\Tables;
 
+use App\Models\Product;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -15,6 +17,9 @@ class ProductsTable
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('main_image')
+                    ->label('Image')
+                    ->collection(Product::MainImageCollection),
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('category')->searchable(),
                 IconColumn::make('is_published')->boolean(),

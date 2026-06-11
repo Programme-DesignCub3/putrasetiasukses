@@ -6,6 +6,8 @@ use App\Models\ContactMessage;
 use App\Models\Product;
 use App\Models\SiteSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -73,6 +75,39 @@ test('public pages render seo metadata', function () {
         ->assertSee('<title>'.$article->title.' - '.$site->company_name.'</title>', false)
         ->assertSee('property="og:type" content="article"', false)
         ->assertSee('property="og:image" content="'.$article->image_url.'"', false);
+});
+
+test('media library images override legacy placeholder urls', function () {
+    Storage::fake('public');
+
+    SiteSetting::factory()->create();
+
+    $article = Article::factory()->create([
+        'image_url' => 'https://placehold.co/640x420/000000/ffffff?text=Legacy',
+    ]);
+
+    $article
+        ->addMedia(UploadedFile::fake()->image('article-cover.jpg'))
+        ->toMediaCollection(Article::ImageCollection);
+
+    $product = Product::factory()->create([
+        'main_image_url' => 'https://placehold.co/640x420/000000/ffffff?text=Legacy',
+    ]);
+
+    $product
+        ->addMedia(UploadedFile::fake()->image('product-main.jpg'))
+        ->toMediaCollection(Product::MainImageCollection);
+
+    expect($article->fresh()->image_url)->toContain('article-cover.jpg')
+        ->and($product->fresh()->main_image_url)->toContain('product-main.jpg');
+
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/artikel/'.$article->slug)
+        ->assertSuccessful()
+        ->assertSee('article-cover.jpg');
+
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/produk/'.$product->slug)
+        ->assertSuccessful()
+        ->assertSee('product-main.jpg');
 });
 
 test('sitemap exposes localized public urls', function () {

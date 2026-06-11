@@ -5,11 +5,20 @@ namespace App\Models;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
     /** @use HasFactory<ProductFactory> */
     use HasFactory;
+
+    use InteractsWithMedia;
+
+    public const MainImageCollection = 'main_image';
+
+    public const GalleryCollection = 'gallery';
 
     /**
      * @var list<string>
@@ -33,6 +42,36 @@ class Product extends Model
             'gallery_images' => 'array',
             'is_published' => 'boolean',
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::MainImageCollection)
+            ->singleFile();
+
+        $this->addMediaCollection(self::GalleryCollection);
+    }
+
+    public function getMainImageUrlAttribute(?string $value): string
+    {
+        return $this->getFirstMediaUrl(self::MainImageCollection) ?: (string) $value;
+    }
+
+    /**
+     * @return array<int, array<string, string>>
+     */
+    public function getGalleryImagesAttribute(?string $value): array
+    {
+        if ($this->hasMedia(self::GalleryCollection)) {
+            return $this->getMedia(self::GalleryCollection)
+                ->map(fn (Media $media): array => [
+                    'url' => $media->getUrl(),
+                    'alt' => $media->name,
+                ])
+                ->all();
+        }
+
+        return json_decode((string) $value, true) ?: [];
     }
 
     /**

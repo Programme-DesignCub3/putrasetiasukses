@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Articles\Schemas;
 
+use App\Models\Article;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -21,7 +23,13 @@ class ArticleForm
                         TextInput::make('title')->required()->maxLength(255),
                         TextInput::make('slug')->required()->maxLength(255)->unique(ignoreRecord: true),
                         TextInput::make('author')->required()->maxLength(255),
-                        TextInput::make('image_url')->label('Image URL')->url()->required()->maxLength(2048),
+                        SpatieMediaLibraryFileUpload::make('article_image')
+                            ->label('Image')
+                            ->collection(Article::ImageCollection)
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120)
+                            ->columnSpanFull(),
                         Textarea::make('excerpt')->required()->rows(3)->columnSpanFull(),
                         Textarea::make('body')->required()->rows(12)->columnSpanFull(),
                         DateTimePicker::make('published_at'),

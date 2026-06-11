@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\AboutPages\Schemas;
 
-use Filament\Forms\Components\Repeater;
+use App\Models\AboutPage;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -20,11 +21,12 @@ class AboutPageForm
                         TextInput::make('title')
                             ->required()
                             ->maxLength(255),
-                        TextInput::make('hero_image_url')
-                            ->label('Hero image URL')
-                            ->url()
-                            ->required()
-                            ->maxLength(2048),
+                        SpatieMediaLibraryFileUpload::make('hero_image')
+                            ->label('Hero image')
+                            ->collection(AboutPage::HeroImageCollection)
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
                         Toggle::make('is_published')
                             ->label('Published')
                             ->default(true),
@@ -33,11 +35,12 @@ class AboutPageForm
 
                 Section::make('Intro')
                     ->schema([
-                        TextInput::make('intro_image_url')
-                            ->label('Intro image URL')
-                            ->url()
-                            ->required()
-                            ->maxLength(2048),
+                        SpatieMediaLibraryFileUpload::make('intro_image')
+                            ->label('Intro image')
+                            ->collection(AboutPage::IntroImageCollection)
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
                         Textarea::make('intro_text')
                             ->rows(4)
                             ->columnSpanFull(),
@@ -63,18 +66,14 @@ class AboutPageForm
 
                 Section::make('Galeri & Video')
                     ->schema([
-                        Repeater::make('gallery_images')
+                        SpatieMediaLibraryFileUpload::make('gallery_media')
                             ->label('Gallery images')
-                            ->schema([
-                                TextInput::make('url')
-                                    ->label('Image URL')
-                                    ->url()
-                                    ->required()
-                                    ->maxLength(2048),
-                                TextInput::make('alt')
-                                    ->maxLength(255),
-                            ])
-                            ->defaultItems(4)
+                            ->collection(AboutPage::GalleryCollection)
+                            ->multiple()
+                            ->reorderable()
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120)
                             ->columnSpanFull(),
                         TextInput::make('video_title')
                             ->required()

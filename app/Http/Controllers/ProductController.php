@@ -12,6 +12,8 @@ class ProductController extends Controller
     {
         abort_unless($product->is_published, 404);
 
+        $product->load('media');
+
         return view('products.show', [
             'site' => SiteSetting::current(),
             'product' => $product,

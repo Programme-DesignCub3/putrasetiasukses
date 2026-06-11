@@ -5,11 +5,17 @@ namespace App\Models;
 use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Article extends Model
+class Article extends Model implements HasMedia
 {
     /** @use HasFactory<ArticleFactory> */
     use HasFactory;
+
+    use InteractsWithMedia;
+
+    public const ImageCollection = 'article_image';
 
     /**
      * @var list<string>
@@ -37,6 +43,17 @@ class Article extends Model
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::ImageCollection)
+            ->singleFile();
+    }
+
+    public function getImageUrlAttribute(?string $value): string
+    {
+        return $this->getFirstMediaUrl(self::ImageCollection) ?: (string) $value;
     }
 
     /**

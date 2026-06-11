@@ -41,6 +41,7 @@ Route::localize(function (): void {
         ]);
     })->name('about');
 
+    Route::get('/produk', [ProductController::class, 'index'])->name('products.index');
     Route::get('/produk/{product:slug}', [ProductController::class, 'show'])->name('products.show');
     Route::get('/artikel', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/artikel/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');

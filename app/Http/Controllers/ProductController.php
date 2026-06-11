@@ -8,6 +8,20 @@ use Illuminate\Contracts\View\View;
 
 class ProductController extends Controller
 {
+    public function index(): View
+    {
+        $products = Product::query()
+            ->with('media')
+            ->where('is_published', true)
+            ->ordered()
+            ->get();
+
+        return view('products.index', [
+            'site' => SiteConfig::current(),
+            'products' => $products,
+        ]);
+    }
+
     public function show(Product $product): View
     {
         abort_unless($product->is_published, 404);

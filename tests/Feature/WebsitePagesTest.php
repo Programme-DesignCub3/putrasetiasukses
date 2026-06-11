@@ -33,6 +33,12 @@ test('about page renders managed content', function () {
 test('product page renders managed content', function () {
     Product::factory()->create();
 
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/produk')
+        ->assertSuccessful()
+        ->assertSee('Produk')
+        ->assertSee('Plat Hitam')
+        ->assertSee('Lihat Detail');
+
     $this->withHeaders(['Accept-Language' => 'id'])->get('/produk/plat-hitam')
         ->assertSuccessful()
         ->assertSee('Plat Hitam')
@@ -111,6 +117,7 @@ test('sitemap exposes localized public urls', function () {
         ->assertSuccessful()
         ->assertHeader('content-type', 'application/xml')
         ->assertSee(route('home'), false)
+        ->assertSee(route('products.index'), false)
         ->assertSee(route('products.show', ['product' => 'plat-hitam']), false)
         ->assertSee('/en/produk/plat-hitam', false)
         ->assertSee('/zh/artikel/perkembangan-industri-baja-indonesia', false)

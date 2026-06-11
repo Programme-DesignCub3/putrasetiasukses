@@ -20,6 +20,7 @@ class SitemapController extends Controller
 
         $this->addLocalizedUrl($sitemap, 'home', priority: 1.0);
         $this->addLocalizedUrl($sitemap, 'about', lastModificationDate: $this->latestTimestamp(AboutPage::query()->max('updated_at')), priority: 0.8);
+        $this->addLocalizedUrl($sitemap, 'products.index', lastModificationDate: $this->latestTimestamp(Product::query()->max('updated_at')), priority: 0.8);
         $this->addLocalizedUrl($sitemap, 'articles.index', lastModificationDate: $this->latestTimestamp(Article::query()->max('updated_at')), priority: 0.7);
         $this->addLocalizedUrl($sitemap, 'contact', priority: 0.6);
 

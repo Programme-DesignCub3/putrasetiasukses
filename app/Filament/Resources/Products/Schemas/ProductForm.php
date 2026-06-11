@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
+use App\Models\Category;
 use App\Models\Product;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -18,9 +20,19 @@ class ProductForm
             ->components([
                 Section::make('Informasi Produk')
                     ->schema([
-                        TextInput::make('category.id')->label('Category (ID)')->required()->maxLength(255),
-                        TextInput::make('category.en')->label('Category (EN)')->required()->maxLength(255),
-                        TextInput::make('category.zh')->label('Category (ZH)')->required()->maxLength(255),
+                        Select::make('categories')
+                            ->label('Kategori')
+                            ->multiple()
+                            ->relationship(
+                                name: 'categories',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn ($query) => $query->where('type', Category::TypeProduct)->where('is_active', true),
+                            )
+                            ->getOptionLabelFromRecordUsing(fn (Category $record): string => $record->name)
+                            ->preload()
+                            ->searchable()
+                            ->required()
+                            ->columnSpanFull(),
                         TextInput::make('name.id')->label('Name (ID)')->required()->maxLength(255),
                         TextInput::make('name.en')->label('Name (EN)')->required()->maxLength(255),
                         TextInput::make('name.zh')->label('Name (ZH)')->required()->maxLength(255),

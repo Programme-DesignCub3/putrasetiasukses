@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -72,6 +73,26 @@ class Article extends Model implements HasMedia
             ->generateSlugsFrom(fn (Article $article): string => $article->getTranslation('title', 'id', false) ?: '')
             ->saveSlugsTo('slug')
             ->doNotGenerateSlugsOnUpdate();
+    }
+
+    /**
+     * @return BelongsToMany<Category, $this>
+     */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function getCategoryNamesAttribute(): string
+    {
+        if ($this->relationLoaded('categories') && $this->categories->isNotEmpty()) {
+            return $this->categories
+                ->pluck('name')
+                ->filter()
+                ->implode(', ');
+        }
+
+        return (string) $this->category;
     }
 
     public function getImageUrlAttribute(?string $value): string

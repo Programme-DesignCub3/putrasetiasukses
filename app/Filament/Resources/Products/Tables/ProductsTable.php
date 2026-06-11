@@ -21,13 +21,14 @@ class ProductsTable
                     ->label('Image')
                     ->collection(Product::MainImageCollection),
                 TextColumn::make('name')->searchable(),
-                TextColumn::make('category')->searchable(),
+                TextColumn::make('category_names')->label('Kategori'),
                 IconColumn::make('is_published')->boolean(),
                 TextColumn::make('updated_at')->dateTime()->sortable(),
             ])
             ->filters([
                 //
             ])
+            ->modifyQueryUsing(fn ($query) => $query->with('categories'))
             ->defaultSort('order_column')
             ->reorderable('order_column')
             ->recordActions([

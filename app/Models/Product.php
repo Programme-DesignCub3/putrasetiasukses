@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
@@ -77,6 +78,26 @@ class Product extends Model implements HasMedia, Sortable
             ->generateSlugsFrom(fn (Product $product): string => $product->getTranslation('name', 'id', false) ?: '')
             ->saveSlugsTo('slug')
             ->doNotGenerateSlugsOnUpdate();
+    }
+
+    /**
+     * @return BelongsToMany<Category, $this>
+     */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function getCategoryNamesAttribute(): string
+    {
+        if ($this->relationLoaded('categories') && $this->categories->isNotEmpty()) {
+            return $this->categories
+                ->pluck('name')
+                ->filter()
+                ->implode(', ');
+        }
+
+        return (string) $this->category;
     }
 
     public function registerMediaCollections(): void

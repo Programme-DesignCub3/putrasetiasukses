@@ -26,6 +26,7 @@ class SitemapController extends Controller
 
         Product::query()
             ->where('is_published', true)
+            ->with('categories')
             ->ordered()
             ->get()
             ->each(fn (Product $product) => $this->addLocalizedUrl(
@@ -38,6 +39,7 @@ class SitemapController extends Controller
 
         Article::query()
             ->where('is_published', true)
+            ->with('categories')
             ->latest('published_at')
             ->get()
             ->each(fn (Article $article) => $this->addLocalizedUrl(

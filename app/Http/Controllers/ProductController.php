@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function index(): View
     {
         $products = Product::query()
-            ->with('media')
+            ->with(['categories', 'media'])
             ->where('is_published', true)
             ->ordered()
             ->get();
@@ -27,6 +27,7 @@ class ProductController extends Controller
         abort_unless($product->is_published, 404);
 
         $product->load('media');
+        $product->loadMissing('categories');
 
         return view('products.show', [
             'site' => SiteConfig::current(),

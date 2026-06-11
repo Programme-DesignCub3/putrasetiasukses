@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\Articles\Schemas;
 
 use App\Models\Article;
+use App\Models\Category;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -19,9 +21,19 @@ class ArticleForm
             ->components([
                 Section::make('Artikel')
                     ->schema([
-                        TextInput::make('category.id')->label('Category (ID)')->required()->maxLength(255),
-                        TextInput::make('category.en')->label('Category (EN)')->required()->maxLength(255),
-                        TextInput::make('category.zh')->label('Category (ZH)')->required()->maxLength(255),
+                        Select::make('categories')
+                            ->label('Kategori')
+                            ->multiple()
+                            ->relationship(
+                                name: 'categories',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn ($query) => $query->where('type', Category::TypeArticle)->where('is_active', true),
+                            )
+                            ->getOptionLabelFromRecordUsing(fn (Category $record): string => $record->name)
+                            ->preload()
+                            ->searchable()
+                            ->required()
+                            ->columnSpanFull(),
                         TextInput::make('title.id')->label('Title (ID)')->required()->maxLength(255),
                         TextInput::make('title.en')->label('Title (EN)')->required()->maxLength(255),
                         TextInput::make('title.zh')->label('Title (ZH)')->required()->maxLength(255),

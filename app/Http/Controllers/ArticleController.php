@@ -11,7 +11,7 @@ class ArticleController extends Controller
     public function index(): View
     {
         $articles = Article::query()
-            ->with('media')
+            ->with(['categories', 'media'])
             ->where('is_published', true)
             ->latest('published_at')
             ->get();
@@ -28,6 +28,7 @@ class ArticleController extends Controller
         abort_unless($article->is_published, 404);
 
         $article->load('media');
+        $article->loadMissing('categories');
 
         return view('articles.show', [
             'site' => SiteConfig::current(),

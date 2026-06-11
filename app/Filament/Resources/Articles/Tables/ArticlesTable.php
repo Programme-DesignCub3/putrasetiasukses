@@ -21,7 +21,7 @@ class ArticlesTable
                     ->label('Image')
                     ->collection(Article::ImageCollection),
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('category')->searchable(),
+                TextColumn::make('category_names')->label('Kategori'),
                 IconColumn::make('is_featured')->boolean(),
                 IconColumn::make('is_published')->boolean(),
                 TextColumn::make('published_at')->dateTime()->sortable(),
@@ -29,6 +29,7 @@ class ArticlesTable
             ->filters([
                 //
             ])
+            ->modifyQueryUsing(fn ($query) => $query->with('categories'))
             ->recordActions([
                 EditAction::make(),
             ])

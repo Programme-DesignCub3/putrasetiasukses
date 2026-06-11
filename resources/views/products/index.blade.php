@@ -21,7 +21,7 @@
                                 </a>
 
                                 <div class="flex flex-1 flex-col p-5">
-                                    <p class="text-sm font-black uppercase text-brand-red-dark">{{ $product->category }}</p>
+                                    <p class="text-sm font-black uppercase text-brand-red-dark">{{ $product->category_names }}</p>
                                     <h2 class="mt-2 text-2xl font-black leading-tight text-black">{{ $product->name }}</h2>
                                     <p class="mt-4 line-clamp-4 text-sm font-medium leading-relaxed text-zinc-600">
                                         {{ $product->description }}

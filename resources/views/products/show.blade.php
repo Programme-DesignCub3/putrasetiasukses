@@ -21,7 +21,7 @@
                 </section>
 
                 <section class="flex flex-col">
-                    <p class="text-2xl font-black text-brand-red-dark">{{ $product->category }}</p>
+                    <p class="text-2xl font-black text-brand-red-dark">{{ $product->category_names }}</p>
                     <h1 class="mt-3 text-5xl font-black leading-none text-black sm:text-6xl">{{ $product->name }}</h1>
 
                     <div class="mt-12">

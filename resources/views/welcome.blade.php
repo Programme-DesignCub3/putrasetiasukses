@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ \NielsNumbers\LaravelLocalizer\Facades\Localizer::currentLocaleDirection() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>{{ $site->company_name }}</title>
+@section('title', $site->company_name)
+@section('bodyClass', 'bg-white font-sans text-brand-ink antialiased')
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="bg-white font-sans text-brand-ink antialiased">
+@section('content')
         <div class="min-h-screen overflow-hidden">
             <x-site.header :site="$site" active="home" />
 
@@ -104,5 +99,4 @@
             <x-site.whatsapp-button :site="$site" />
             <x-site.footer :site="$site" />
         </div>
-    </body>
-</html>
+@endsection

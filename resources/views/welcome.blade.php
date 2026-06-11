@@ -1,4 +1,4 @@
-<x-layouts.app :title="$site->company_name" body-class="bg-white font-sans text-brand-ink antialiased">
+<x-layouts.app :title="$site->company_name" :description="$site->tagline" body-class="bg-white font-sans text-brand-ink antialiased">
         <div class="min-h-screen overflow-hidden">
             <x-site.header :site="$site" active="home" />
 

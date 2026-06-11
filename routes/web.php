@@ -3,9 +3,18 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SitemapController;
 use App\Models\AboutPage;
 use App\Models\SiteSetting;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+
+Route::get('/robots.txt', function () {
+    return response("User-agent: *\nAllow: /\nSitemap: ".route('sitemap')."\n", 200, [
+        'Content-Type' => 'text/plain',
+    ]);
+})->name('robots');
 
 Route::localize(function (): void {
     Route::get('/', function () {

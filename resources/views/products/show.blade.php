@@ -1,4 +1,4 @@
-<x-layouts.app :title="$product->name.' - '.$site->company_name" body-class="bg-white font-sans text-brand-ink antialiased">
+<x-layouts.app :title="$product->name.' - '.$site->company_name" :description="$product->description" :image="$product->main_image_url" body-class="bg-white font-sans text-brand-ink antialiased">
         <div class="min-h-screen overflow-hidden">
             <x-site.header :site="$site" active="products" />
 

@@ -1,4 +1,4 @@
-<x-layouts.app :title="__('site.contact.title').' - '.$site->company_name" body-class="bg-black font-sans text-white antialiased">
+<x-layouts.app :title="__('site.contact.title').' - '.$site->company_name" :description="$site->tagline" image="https://placehold.co/1400x320/1f2937/ffffff?text=Kontak" body-class="bg-black font-sans text-white antialiased">
         <div class="min-h-screen overflow-hidden bg-black">
             <x-site.header :site="$site" active="contact" />
 

@@ -57,6 +57,47 @@ test('article pages render managed content', function () {
         ->assertSee('Peluang Masa Depan');
 });
 
+test('public pages render seo metadata', function () {
+    $site = SiteSetting::factory()->create();
+    $article = Article::factory()->create();
+
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/')
+        ->assertSuccessful()
+        ->assertSee('<title>'.$site->company_name.'</title>', false)
+        ->assertSee('name="description"', false)
+        ->assertSee($site->tagline)
+        ->assertSee('property="og:type" content="website"', false);
+
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/artikel/'.$article->slug)
+        ->assertSuccessful()
+        ->assertSee('<title>'.$article->title.' - '.$site->company_name.'</title>', false)
+        ->assertSee('property="og:type" content="article"', false)
+        ->assertSee('property="og:image" content="'.$article->image_url.'"', false);
+});
+
+test('sitemap exposes localized public urls', function () {
+    SiteSetting::factory()->create();
+    Product::factory()->create();
+    Article::factory()->create();
+
+    $this->get('/sitemap.xml')
+        ->assertSuccessful()
+        ->assertHeader('content-type', 'application/xml')
+        ->assertSee(route('home'), false)
+        ->assertSee(route('products.show', ['product' => 'plat-hitam']), false)
+        ->assertSee('/en/produk/plat-hitam', false)
+        ->assertSee('/zh/artikel/perkembangan-industri-baja-indonesia', false)
+        ->assertSee('hreflang="x-default"', false);
+});
+
+test('robots file points crawlers to the sitemap', function () {
+    $this->get('/robots.txt')
+        ->assertSuccessful()
+        ->assertHeader('content-type', 'text/plain; charset=UTF-8')
+        ->assertSee('User-agent: *')
+        ->assertSee(route('sitemap'));
+});
+
 test('contact form stores messages', function () {
     SiteSetting::factory()->create();
 

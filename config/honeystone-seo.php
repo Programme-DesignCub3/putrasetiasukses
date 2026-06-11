@@ -1,0 +1,85 @@
+<?php
+
+declare(strict_types=1);
+
+use Honeystone\Seo\Generators;
+
+return [
+
+    'generators' => [
+        Generators\MetaGenerator::class => [
+            'title' => env('APP_NAME'),
+            'titleTemplate' => '{title} - '.env('APP_NAME'),
+            'description' => env('SEO_DESCRIPTION', ''),
+            'keywords' => [
+                'material besi',
+                'material baja',
+                'plat hitam',
+                'plat putih',
+                'plat galvanil',
+                'stockist baja',
+                'distributor baja',
+            ],
+            'canonicalEnabled' => true,
+            'canonical' => null, // null to use current url
+            'robots' => [],
+            'custom' => [
+                // [
+                //     'greeting' => 'Hey, thanks for checking out the source code of our website. '.
+                //         'Hopefully you find what you are looking for 👍'
+                // ],
+                // [
+                //     'google-site-verification' => 'xxx',
+                // ],
+            ],
+        ],
+        Generators\TwitterGenerator::class => [
+            'enabled' => true,
+            'site' => '', // @twitterUsername
+            'card' => 'summary_large_image',
+            'creator' => '',
+            'creatorId' => '',
+            'title' => '',
+            'description' => '',
+            'image' => env('SEO_IMAGE', 'https://placehold.co/1200x630/ba0000/ffffff?text=PT+Putra+Setia+Sukses+Bersama'),
+            'imageAlt' => '',
+        ],
+        Generators\OpenGraphGenerator::class => [
+            'enabled' => true,
+            'site' => env('APP_NAME'),
+            'type' => 'website',
+            'title' => '',
+            'description' => '',
+            'images' => [
+                env('SEO_IMAGE', 'https://placehold.co/1200x630/ba0000/ffffff?text=PT+Putra+Setia+Sukses+Bersama'),
+            ],
+            'audio' => [],
+            'videos' => [],
+            'determiner' => '',
+            'url' => null, // null to use current url
+            'locale' => '',
+            'alternateLocales' => [],
+            'custom' => [],
+        ],
+        Generators\JsonLdGenerator::class => [
+            'enabled' => true,
+            'pretty' => env('APP_DEBUG'),
+            'type' => 'WebPage',
+            'name' => '',
+            'description' => '',
+            'images' => [
+                env('SEO_IMAGE', 'https://placehold.co/1200x630/ba0000/ffffff?text=PT+Putra+Setia+Sukses+Bersama'),
+            ],
+            'url' => null, // null to use current url
+            'custom' => [],
+
+            // determines if the configured json-ld is automatically placed on the graph
+            'place-on-graph' => true,
+        ],
+    ],
+
+    'sync' => [
+        'url-canonical' => true,
+        'keywords-tags' => false,
+    ],
+];

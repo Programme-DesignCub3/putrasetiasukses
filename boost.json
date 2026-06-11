@@ -1,10 +1,15 @@
 {
-    "agents": ["opencode", "codex"],
+    "agents": [
+        "opencode",
+        "codex"
+    ],
     "cloud": false,
-    "packages": ["filament/filament"],
     "guidelines": true,
     "mcp": true,
     "nightwatch": false,
+    "packages": [
+        "filament/filament"
+    ],
     "sail": false,
     "skills": [
         "laravel-best-practices",

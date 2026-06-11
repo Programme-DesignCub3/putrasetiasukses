@@ -2,11 +2,11 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     dir="{{ \NielsNumbers\LaravelLocalizer\Facades\Localizer::currentLocaleDirection() }}">
 
-<head>
+<head prefix="@openGraphPrefix">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title }}</title>
+    @metadata
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

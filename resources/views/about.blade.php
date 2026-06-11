@@ -1,4 +1,4 @@
-<x-layouts.app :title="__('site.about.title').' - '.$site->company_name" body-class="bg-black font-sans text-white antialiased">
+<x-layouts.app :title="__('site.about.title').' - '.$site->company_name" :description="$aboutPage->intro_text" :image="$aboutPage->hero_image_url" body-class="bg-black font-sans text-white antialiased">
         <div class="min-h-screen overflow-hidden bg-black">
             <x-site.header :site="$site" active="about" />
 

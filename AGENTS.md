@@ -23,6 +23,10 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - phpunit/phpunit (PHPUNIT) - v11
 - tailwindcss (TAILWINDCSS) - v4
 
+## Skills Activation
+
+This project has domain-specific skills available in `**/skills/**`. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
+
 ## Conventions
 
 - You must follow all existing code conventions used in this application. When creating or editing a file, check sibling files for the correct structure, approach, and naming.
@@ -53,6 +57,28 @@ This application is a Laravel application and its main Laravel ecosystems packag
 === boost rules ===
 
 # Laravel Boost
+
+## Tools
+
+- Laravel Boost is an MCP server with tools designed specifically for this application. Prefer Boost tools over manual alternatives like shell commands or file reads.
+- Use `database-query` to run read-only queries against the database instead of writing raw SQL in tinker.
+- Use `database-schema` to inspect table structure before writing migrations or models.
+- Use `get-absolute-url` to resolve the correct scheme, domain, and port for project URLs. Always use this before sharing a URL with the user.
+- Use `browser-logs` to read browser logs, errors, and exceptions. Only recent logs are useful, ignore old entries.
+
+## Searching Documentation (IMPORTANT)
+
+- Always use `search-docs` before making code changes. Do not skip this step. It returns version-specific docs based on installed packages automatically.
+- Pass a `packages` array to scope results when you know which packages are relevant.
+- Use multiple broad, topic-based queries: `['rate limiting', 'routing rate limiting', 'routing']`. Expect the most relevant results first.
+- Do not add package names to queries because package info is already shared. Use `test resource table`, not `filament 4 test resource table`.
+
+### Search Syntax
+
+1. Use words for auto-stemmed AND logic: `rate limit` matches both "rate" AND "limit".
+2. Use `"quoted phrases"` for exact position matching: `"infinite scroll"` requires adjacent words in order.
+3. Combine words and phrases for mixed queries: `middleware "rate limit"`.
+4. Use multiple queries for OR logic: `queries=["authentication", "middleware"]`.
 
 ## Artisan
 
@@ -90,6 +116,13 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - The application is served by Laravel Herd at `https?://[kebab-case-project-dir].test`. Use the `get-absolute-url` tool to generate valid URLs. Never run commands to serve the site. It is always available.
 - Use the `herd` CLI to manage services, PHP versions, and sites (e.g. `herd sites`, `herd services:start <service>`, `herd php:list`). Run `herd list` to discover all available commands.
 
+=== tests rules ===
+
+# Test Enforcement
+
+- Every change must be programmatically tested. Write a new test or update an existing test, then run the affected tests to make sure they pass.
+- Run the minimum number of tests needed to ensure code quality and speed. Use `php artisan test --compact` with a specific filename or filter.
+
 === laravel/core rules ===
 
 # Do Things the Laravel Way
@@ -124,6 +157,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 # Laravel 12
 
+- CRITICAL: ALWAYS use `search-docs` tool for version-specific Laravel documentation and updated code examples.
 - Since Laravel 11, Laravel has a new streamlined file structure which this project uses.
 
 ## Laravel 12 Structure
@@ -152,46 +186,6 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - You can use Alpine.js for client-side interactions instead of JavaScript frameworks.
 - Keep state server-side so the UI reflects it. Validate and authorize in actions as you would in HTTP requests.
 
-=== filament/core rules ===
-
-# Filament
-
-- This application uses Filament v5 for the admin panel.
-- Use version-specific documentation via `search-docs` for Filament APIs before changing panels, resources, pages, widgets, forms, tables, or actions.
-- Prefer Filament Artisan generators:
-  - `php artisan filament:make-resource Model --generate --no-interaction`
-  - `php artisan filament:make-page Name --no-interaction`
-  - `php artisan filament:make-widget Name --no-interaction`
-- Panel providers live in `app/Providers/Filament` and must be registered in `bootstrap/providers.php`.
-- Resource code should follow the generated Filament v5 structure:
-  - Resource class in `app/Filament/Resources/...`
-  - form schema in `Schemas/*Form.php`
-  - table configuration in `Tables/*Table.php`
-  - pages in `Pages/*`
-- Put form fields in schema classes, table columns/actions/filters in table classes, and business logic in models, actions, services, or policies.
-- Use `Filament\Models\Contracts\FilamentUser` on `App\Models\User` to restrict production panel access. Check `$panel->getId()` when multiple panels exist.
-- For JSON columns, add array casts on the model and use `Repeater` or `KeyValue` fields.
-- Configure file uploads carefully: disk, directory, visibility, accepted file types, max size, and authorization.
-- Do not treat hidden navigation as authorization. Use policies when admin permissions differ.
-- After changing Filament code, run `vendor/bin/pint --dirty --format agent` and relevant Pest tests.
-
-=== tailwind-clamp/core rules ===
-
-# Tailwind Clamp
-
-- This application uses `tailwind-clamp` with Tailwind CSS v4 for fluid responsive values.
-- The plugin is registered in `resources/css/app.css` with `@plugin 'tailwind-clamp';`.
-- Prefer clamp utilities for values that should scale smoothly between mobile and desktop instead of stacking many breakpoint overrides.
-- Use syntax with no whitespace inside the arbitrary value. Valid examples: `clamp-[py,8,16]`, `clamp-[text,lg,3xl]`, `clamp-[p,2,4,,md]`.
-- Supported common properties include spacing (`p`, `px`, `py`, `m`, `gap`), sizing (`w`, `h`, `size`, `min-*`, `max-*`), typography (`text`, `leading`, `tracking`), border radius, border width, position offsets, translate, and CSS custom properties (`--*`).
-- For spacing and sizing, unitless numbers follow Tailwind spacing behavior. Example: `clamp-[py,8,16]`.
-- For custom properties and `@theme --clamp-*` variables, use explicit CSS lengths only (`px`, `rem`, `em`), not Tailwind tokens or unitless numbers.
-- Keep existing design rules: do not scale fonts directly with viewport units; use clamp only when it improves fit and responsiveness.
-- If the project later uses `tailwind-merge`, install `tailwind-clamp-merge` and configure:
-  - `import { extendTailwindMerge } from 'tailwind-merge';`
-  - `import { withTailwindClamp } from 'tailwind-clamp-merge';`
-  - `const twMerge = extendTailwindMerge(withTailwindClamp);`
-
 === pint/core rules ===
 
 # Laravel Pint Code Formatter
@@ -207,5 +201,241 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - The `{name}` argument should not include the test suite directory. Use `php artisan make:test --pest SomeFeatureTest` instead of `php artisan make:test --pest Feature/SomeFeatureTest`.
 - Run tests: `php artisan test --compact` or filter: `php artisan test --compact --filter=testName`.
 - Do NOT delete tests without approval.
+
+=== filament/filament rules ===
+
+## Filament
+
+- Filament is a Laravel UI framework built on Livewire, Alpine.js, and Tailwind CSS. UIs are defined in PHP via fluent, chainable components. Follow existing conventions in this app.
+- Use the `search-docs` tool for official documentation on Artisan commands, code examples, testing, relationships, and idiomatic practices. If `search-docs` is unavailable, refer to https://filamentphp.com/docs.
+
+### Artisan
+
+- Always use Filament-specific Artisan commands to create files. Find available commands with the `list-artisan-commands` tool, or run `php artisan --help`.
+- Inspect required options before running, and always pass `--no-interaction`.
+
+### Patterns
+
+Always use static `make()` methods to initialize components. Most configuration methods accept a `Closure` for dynamic values.
+
+Use `Get $get` to read other form field values for conditional logic:
+
+<code-snippet name="Conditional form field visibility" lang="php">
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
+
+Select::make('type')
+    ->options(CompanyType::class)
+    ->required()
+    ->live(),
+
+TextInput::make('company_name')
+    ->required()
+    ->visible(fn (Get $get): bool => $get('type') === 'business'),
+
+</code-snippet>
+
+Use `Set $set` inside `->afterStateUpdated()` on a `->live()` field to mutate another field reactively. Prefer `->live(onBlur: true)` on text inputs to avoid per-keystroke updates:
+
+<code-snippet name="Reactive field update" lang="php">
+use Filament\Schemas\Components\Utilities\Set;
+use Illuminate\Support\Str;
+
+TextInput::make('title')
+    ->required()
+    ->live(onBlur: true)
+    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(
+        'slug',
+        Str::slug($state ?? ''),
+    )),
+
+TextInput::make('slug')
+    ->required(),
+
+</code-snippet>
+
+Compose layout by nesting `Section` and `Grid`. Children need explicit `->columnSpan()` or `->columnSpanFull()`:
+
+<code-snippet name="Section and Grid layout" lang="php">
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+
+Section::make('Details')
+    ->schema([
+        Grid::make(2)->schema([
+            TextInput::make('first_name')
+                ->columnSpan(1),
+            TextInput::make('last_name')
+                ->columnSpan(1),
+            TextInput::make('bio')
+                ->columnSpanFull(),
+        ]),
+    ]),
+
+</code-snippet>
+
+Use `Repeater` for inline `HasMany` management. `->relationship()` with no args binds to the relationship matching the field name:
+
+<code-snippet name="Repeater for HasMany" lang="php">
+use Filament\Forms\Components\Repeater;
+
+Repeater::make('qualifications')
+    ->relationship()
+    ->schema([
+        TextInput::make('institution')
+            ->required(),
+        TextInput::make('qualification')
+            ->required(),
+    ])
+    ->columns(2),
+
+</code-snippet>
+
+Use `state()` with a `Closure` to compute derived column values:
+
+<code-snippet name="Computed table column value" lang="php">
+use Filament\Tables\Columns\TextColumn;
+
+TextColumn::make('full_name')
+    ->state(fn (User $record): string => "{$record->first_name} {$record->last_name}"),
+
+</code-snippet>
+
+Use `SelectFilter` for enum or relationship filters, and `Filter` with a `->query()` closure for custom logic:
+
+<code-snippet name="Table filters" lang="php">
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
+
+SelectFilter::make('status')
+    ->options(UserStatus::class),
+
+SelectFilter::make('author')
+    ->relationship('author', 'name'),
+
+Filter::make('verified')
+    ->query(fn (Builder $query) => $query->whereNotNull('email_verified_at')),
+
+</code-snippet>
+
+Actions are buttons that encapsulate optional modal forms and behavior:
+
+<code-snippet name="Action with modal form" lang="php">
+use Filament\Actions\Action;
+
+Action::make('updateEmail')
+    ->schema([
+        TextInput::make('email')
+            ->email()
+            ->required(),
+    ])
+    ->action(fn (array $data, User $record) => $record->update($data)),
+
+</code-snippet>
+
+### Testing
+
+Testing setup (requires `pestphp/pest-plugin-livewire` in `composer.json`):
+
+- Always call `$this->actingAs(User::factory()->create())` before testing panel functionality.
+- For edit pages, pass `['record' => $user->id]`, use `->call('save')` (not `->call('create')`), and do not assert `->assertRedirect()` (edit pages do not redirect after save).
+
+<code-snippet name="Table test" lang="php">
+use function Pest\Livewire\livewire;
+
+livewire(ListUsers::class)
+    ->assertCanSeeTableRecords($users)
+    ->searchTable($users->first()->name)
+    ->assertCanSeeTableRecords($users->take(1))
+    ->assertCanNotSeeTableRecords($users->skip(1));
+
+</code-snippet>
+
+<code-snippet name="Create resource test" lang="php">
+use function Pest\Laravel\assertDatabaseHas;
+
+livewire(CreateUser::class)
+    ->fillForm([
+        'name' => 'Test',
+        'email' => 'test@example.com',
+    ])
+    ->call('create')
+    ->assertNotified()
+    ->assertHasNoFormErrors()
+    ->assertRedirect();
+
+assertDatabaseHas(User::class, [
+    'name' => 'Test',
+    'email' => 'test@example.com',
+]);
+
+</code-snippet>
+
+<code-snippet name="Edit resource test" lang="php">
+livewire(EditUser::class, ['record' => $user->id])
+    ->fillForm(['name' => 'Updated'])
+    ->call('save')
+    ->assertNotified()
+    ->assertHasNoFormErrors();
+
+assertDatabaseHas(User::class, [
+    'id' => $user->id,
+    'name' => 'Updated',
+]);
+
+</code-snippet>
+
+<code-snippet name="Testing validation" lang="php">
+livewire(CreateUser::class)
+    ->fillForm([
+        'name' => null,
+        'email' => 'invalid-email',
+    ])
+    ->call('create')
+    ->assertHasFormErrors([
+        'name' => 'required',
+        'email' => 'email',
+    ])
+    ->assertNotNotified();
+
+</code-snippet>
+
+Use `->callAction(DeleteAction::class)` for page actions, or `->callAction(TestAction::make('name')->table($record))` for table actions:
+
+<code-snippet name="Calling actions" lang="php">
+use Filament\Actions\Testing\TestAction;
+
+livewire(ListUsers::class)
+    ->callAction(TestAction::make('promote')->table($user), [
+        'role' => 'admin',
+    ])
+    ->assertNotified();
+
+</code-snippet>
+
+### Correct Namespaces
+
+- Form fields (`TextInput`, `Select`, `Repeater`, etc.): `Filament\Forms\Components\`
+- Infolist entries (`TextEntry`, `IconEntry`, etc.): `Filament\Infolists\Components\`
+- Layout components (`Grid`, `Section`, `Fieldset`, `Tabs`, `Wizard`, etc.): `Filament\Schemas\Components\`
+- Schema utilities (`Get`, `Set`, etc.): `Filament\Schemas\Components\Utilities\`
+- Table columns (`TextColumn`, `IconColumn`, etc.): `Filament\Tables\Columns\`
+- Table filters (`SelectFilter`, `Filter`, etc.): `Filament\Tables\Filters\`
+- Actions (`DeleteAction`, `CreateAction`, etc.): `Filament\Actions\`. Never use `Filament\Tables\Actions\`, `Filament\Forms\Actions\`, or any other sub-namespace for actions.
+- Icons: `Filament\Support\Icons\Heroicon` enum (e.g., `Heroicon::PencilSquare`)
+
+### Common Mistakes
+
+- **Never assume public file visibility.** File visibility is `private` by default. Always use `->visibility('public')` when public access is needed.
+- **Never assume full-width layout.** `Grid`, `Section`, `Fieldset`, and `Repeater` do not span all columns by default.
+- **Use `Select::make('author_id')->relationship('author', 'name')` for BelongsTo fields.** `BelongsToSelect` does not exist in v4.
+- **`Repeater` uses `->schema()`, not `->fields()`.**
+- **Never add `->dehydrated(false)` to fields that need to be saved.** It strips the value from form state before `->action()` or the save handler runs. Only use it for helper/UI-only fields.
+- **Use correct property types when overriding `Page`, `Resource`, and `Widget` properties.** These properties have union types or changed modifiers that must be preserved:
+  - `$navigationIcon`: `protected static string | BackedEnum | null` (not `?string`)
+  - `$navigationGroup`: `protected static string | UnitEnum | null` (not `?string`)
+  - `$view`: `protected string` (not `protected static string`) on `Page` and `Widget` classes
 
 </laravel-boost-guidelines>

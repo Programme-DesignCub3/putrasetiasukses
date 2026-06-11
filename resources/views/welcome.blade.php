@@ -1,9 +1,4 @@
-@extends('layouts.app')
-
-@section('title', $site->company_name)
-@section('bodyClass', 'bg-white font-sans text-brand-ink antialiased')
-
-@section('content')
+<x-layouts.app :title="$site->company_name" body-class="bg-white font-sans text-brand-ink antialiased">
         <div class="min-h-screen overflow-hidden">
             <x-site.header :site="$site" active="home" />
 
@@ -99,4 +94,4 @@
             <x-site.whatsapp-button :site="$site" />
             <x-site.footer :site="$site" />
         </div>
-@endsection
+</x-layouts.app>

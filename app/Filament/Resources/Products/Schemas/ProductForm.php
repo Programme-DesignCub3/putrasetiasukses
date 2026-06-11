@@ -18,9 +18,16 @@ class ProductForm
             ->components([
                 Section::make('Informasi Produk')
                     ->schema([
-                        TextInput::make('category')->required()->maxLength(255),
-                        TextInput::make('name')->required()->maxLength(255),
-                        TextInput::make('slug')->required()->maxLength(255)->unique(ignoreRecord: true),
+                        TextInput::make('category.id')->label('Category (ID)')->required()->maxLength(255),
+                        TextInput::make('category.en')->label('Category (EN)')->required()->maxLength(255),
+                        TextInput::make('category.zh')->label('Category (ZH)')->required()->maxLength(255),
+                        TextInput::make('name.id')->label('Name (ID)')->required()->maxLength(255),
+                        TextInput::make('name.en')->label('Name (EN)')->required()->maxLength(255),
+                        TextInput::make('name.zh')->label('Name (ZH)')->required()->maxLength(255),
+                        TextInput::make('slug')
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->helperText('Kosongkan saat membuat produk agar slug dibuat otomatis.'),
                         SpatieMediaLibraryFileUpload::make('main_image')
                             ->label('Main image')
                             ->collection(Product::MainImageCollection)
@@ -28,10 +35,12 @@ class ProductForm
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120)
                             ->columnSpanFull(),
-                        Textarea::make('description')->required()->rows(8)->columnSpanFull(),
+                        Textarea::make('description.id')->label('Description (ID)')->required()->rows(8)->columnSpanFull(),
+                        Textarea::make('description.en')->label('Description (EN)')->required()->rows(8)->columnSpanFull(),
+                        Textarea::make('description.zh')->label('Description (ZH)')->required()->rows(8)->columnSpanFull(),
                         Toggle::make('is_published')->default(true),
                     ])
-                    ->columns(2),
+                    ->columns(3),
                 Section::make('Galeri')
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('gallery_media')

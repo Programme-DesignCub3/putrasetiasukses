@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\SiteSetting;
+use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 
 class ArticleController extends Controller
@@ -17,7 +17,7 @@ class ArticleController extends Controller
             ->get();
 
         return view('articles.index', [
-            'site' => SiteSetting::current(),
+            'site' => SiteConfig::current(),
             'featuredArticles' => $articles->where('is_featured', true)->take(2),
             'articles' => $articles->where('is_featured', false),
         ]);
@@ -30,7 +30,7 @@ class ArticleController extends Controller
         $article->load('media');
 
         return view('articles.show', [
-            'site' => SiteSetting::current(),
+            'site' => SiteConfig::current(),
             'article' => $article,
         ]);
     }

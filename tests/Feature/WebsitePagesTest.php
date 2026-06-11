@@ -4,7 +4,7 @@ use App\Models\AboutPage;
 use App\Models\Article;
 use App\Models\ContactMessage;
 use App\Models\Product;
-use App\Models\SiteSetting;
+use App\Support\SiteConfig;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Storage;
 uses(RefreshDatabase::class);
 
 test('home page renders with shared site content', function () {
-    SiteSetting::factory()->create();
-
     $this->withHeaders(['Accept-Language' => 'id'])->get('/')
         ->assertSuccessful()
         ->assertSee('PT Putra Setia Sukses Bersama')
@@ -21,7 +19,6 @@ test('home page renders with shared site content', function () {
 });
 
 test('about page renders managed content', function () {
-    SiteSetting::factory()->create();
     AboutPage::factory()->create();
 
     $this->withHeaders(['Accept-Language' => 'id'])->get('/tentang-kami')
@@ -34,7 +31,6 @@ test('about page renders managed content', function () {
 });
 
 test('product page renders managed content', function () {
-    SiteSetting::factory()->create();
     Product::factory()->create();
 
     $this->withHeaders(['Accept-Language' => 'id'])->get('/produk/plat-hitam')
@@ -45,7 +41,6 @@ test('product page renders managed content', function () {
 });
 
 test('article pages render managed content', function () {
-    SiteSetting::factory()->create();
     Article::factory()->create();
 
     $this->withHeaders(['Accept-Language' => 'id'])->get('/artikel')
@@ -60,7 +55,7 @@ test('article pages render managed content', function () {
 });
 
 test('public pages render seo metadata', function () {
-    $site = SiteSetting::factory()->create();
+    $site = SiteConfig::current();
     $article = Article::factory()->create();
 
     $this->withHeaders(['Accept-Language' => 'id'])->get('/')
@@ -79,8 +74,6 @@ test('public pages render seo metadata', function () {
 
 test('media library images override legacy placeholder urls', function () {
     Storage::fake('public');
-
-    SiteSetting::factory()->create();
 
     $article = Article::factory()->create([
         'image_url' => 'https://placehold.co/640x420/000000/ffffff?text=Legacy',
@@ -111,7 +104,6 @@ test('media library images override legacy placeholder urls', function () {
 });
 
 test('sitemap exposes localized public urls', function () {
-    SiteSetting::factory()->create();
     Product::factory()->create();
     Article::factory()->create();
 
@@ -134,8 +126,6 @@ test('robots file points crawlers to the sitemap', function () {
 });
 
 test('contact form stores messages', function () {
-    SiteSetting::factory()->create();
-
     $this->post('/kontak', [
         'name' => 'Budi',
         'company' => 'PT Contoh',
@@ -149,7 +139,6 @@ test('contact form stores messages', function () {
 });
 
 test('localized public routes render in english and chinese', function () {
-    SiteSetting::factory()->create();
     Article::factory()->create();
 
     $this->get('/en/artikel')
@@ -162,24 +151,18 @@ test('localized public routes render in english and chinese', function () {
 });
 
 test('geoip detector redirects china visitors to chinese', function () {
-    SiteSetting::factory()->create();
-
     $this->withHeaders(['CF-IPCountry' => 'CN'])
         ->get('/kontak')
         ->assertRedirect('/zh/kontak');
 });
 
 test('geoip detector redirects us visitors to english', function () {
-    SiteSetting::factory()->create();
-
     $this->withHeaders(['CF-IPCountry' => 'US'])
         ->get('/kontak')
         ->assertRedirect('/en/kontak');
 });
 
 test('geoip detector keeps indonesia visitors on default locale', function () {
-    SiteSetting::factory()->create();
-
     $this->withHeaders(['CF-IPCountry' => 'ID'])
         ->get('/kontak')
         ->assertSuccessful()
@@ -187,8 +170,6 @@ test('geoip detector keeps indonesia visitors on default locale', function () {
 });
 
 test('geoip detector falls back to indonesia when country is missing or unsupported', function () {
-    SiteSetting::factory()->create();
-
     $this->withHeaders(['Accept-Language' => 'en'])->get('/kontak')
         ->assertSuccessful()
         ->assertSee('Kirimkan Pesan Anda');

@@ -19,9 +19,16 @@ class ArticleForm
             ->components([
                 Section::make('Artikel')
                     ->schema([
-                        TextInput::make('category')->required()->maxLength(255),
-                        TextInput::make('title')->required()->maxLength(255),
-                        TextInput::make('slug')->required()->maxLength(255)->unique(ignoreRecord: true),
+                        TextInput::make('category.id')->label('Category (ID)')->required()->maxLength(255),
+                        TextInput::make('category.en')->label('Category (EN)')->required()->maxLength(255),
+                        TextInput::make('category.zh')->label('Category (ZH)')->required()->maxLength(255),
+                        TextInput::make('title.id')->label('Title (ID)')->required()->maxLength(255),
+                        TextInput::make('title.en')->label('Title (EN)')->required()->maxLength(255),
+                        TextInput::make('title.zh')->label('Title (ZH)')->required()->maxLength(255),
+                        TextInput::make('slug')
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->helperText('Kosongkan saat membuat artikel agar slug dibuat otomatis.'),
                         TextInput::make('author')->required()->maxLength(255),
                         SpatieMediaLibraryFileUpload::make('article_image')
                             ->label('Image')
@@ -30,13 +37,17 @@ class ArticleForm
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120)
                             ->columnSpanFull(),
-                        Textarea::make('excerpt')->required()->rows(3)->columnSpanFull(),
-                        Textarea::make('body')->required()->rows(12)->columnSpanFull(),
+                        Textarea::make('excerpt.id')->label('Excerpt (ID)')->required()->rows(3)->columnSpanFull(),
+                        Textarea::make('excerpt.en')->label('Excerpt (EN)')->required()->rows(3)->columnSpanFull(),
+                        Textarea::make('excerpt.zh')->label('Excerpt (ZH)')->required()->rows(3)->columnSpanFull(),
+                        Textarea::make('body.id')->label('Body (ID)')->required()->rows(12)->columnSpanFull(),
+                        Textarea::make('body.en')->label('Body (EN)')->required()->rows(12)->columnSpanFull(),
+                        Textarea::make('body.zh')->label('Body (ZH)')->required()->rows(12)->columnSpanFull(),
                         DateTimePicker::make('published_at'),
                         Toggle::make('is_featured')->default(false),
                         Toggle::make('is_published')->default(true),
                     ])
-                    ->columns(2),
+                    ->columns(3),
             ]);
     }
 }

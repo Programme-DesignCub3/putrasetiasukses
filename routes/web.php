@@ -5,7 +5,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SitemapController;
 use App\Models\AboutPage;
-use App\Models\SiteSetting;
+use App\Support\SiteConfig;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
@@ -19,7 +19,7 @@ Route::get('/robots.txt', function () {
 Route::localize(function (): void {
     Route::get('/', function () {
         return view('welcome', [
-            'site' => SiteSetting::current(),
+            'site' => SiteConfig::current(),
             'advantages' => [
                 ['title' => 'Stockist & Distributor Terpercaya', 'copy' => 'Kami memastikan ketersediaan stok plat selalu terjaga untuk memenuhi kebutuhan pelanggan.', 'icon' => 'warehouse'],
                 ['title' => 'Harga Kompetitif', 'copy' => 'Kami menawarkan harga bersaing dengan kualitas plat terbaik.', 'icon' => 'tag'],
@@ -36,7 +36,7 @@ Route::localize(function (): void {
 
     Route::get('/tentang-kami', function () {
         return view('about', [
-            'site' => SiteSetting::current(),
+            'site' => SiteConfig::current(),
             'aboutPage' => AboutPage::published(),
         ]);
     })->name('about');

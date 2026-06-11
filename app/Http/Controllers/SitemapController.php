@@ -25,7 +25,7 @@ class SitemapController extends Controller
 
         Product::query()
             ->where('is_published', true)
-            ->latest('updated_at')
+            ->ordered()
             ->get()
             ->each(fn (Product $product) => $this->addLocalizedUrl(
                 $sitemap,

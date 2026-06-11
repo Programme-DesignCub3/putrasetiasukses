@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
-use App\Models\SiteSetting;
+use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ class ContactController extends Controller
     public function create(): View
     {
         return view('contact', [
-            'site' => SiteSetting::current(),
+            'site' => SiteConfig::current(),
         ]);
     }
 

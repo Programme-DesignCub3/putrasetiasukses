@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\SiteSetting;
+use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 
 class ProductController extends Controller
@@ -15,7 +15,7 @@ class ProductController extends Controller
         $product->load('media');
 
         return view('products.show', [
-            'site' => SiteSetting::current(),
+            'site' => SiteConfig::current(),
             'product' => $product,
         ]);
     }

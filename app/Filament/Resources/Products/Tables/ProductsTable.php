@@ -20,7 +20,7 @@ class ProductsTable
                 SpatieMediaLibraryImageColumn::make('main_image')
                     ->label('Image')
                     ->collection(Product::MainImageCollection),
-                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('name')->searchable(),
                 TextColumn::make('category')->searchable(),
                 IconColumn::make('is_published')->boolean(),
                 TextColumn::make('updated_at')->dateTime()->sortable(),
@@ -28,6 +28,8 @@ class ProductsTable
             ->filters([
                 //
             ])
+            ->defaultSort('order_column')
+            ->reorderable('order_column')
             ->recordActions([
                 EditAction::make(),
             ])

@@ -29,5 +29,5 @@ test('filament language switcher renders on the admin login page', function (): 
         ->assertSuccessful()
         ->assertSee('Indonesia')
         ->assertSee('English')
-        ->assertSee('Chinese');
+        ->assertSee('中文');
 });

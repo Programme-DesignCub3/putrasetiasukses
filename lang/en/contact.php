@@ -13,8 +13,4 @@ return [
     'locations' => 'Our Locations and Contact',
     'success' => 'Your message has been sent. Our team will contact you shortly.',
     'recaptcha_failed' => 'Security verification failed. Please try again.',
-    'seo' => [
-        'title' => 'Contact',
-        'description' => 'Contact PT Putra Setia Sukses Bersama for product information and orders.',
-    ],
 ];

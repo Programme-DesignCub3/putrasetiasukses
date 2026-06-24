@@ -17,8 +17,8 @@ class ContactController extends Controller
         $site = SiteConfig::current();
 
         $metadata->build(
-            title: __('contact.title').' - '.$site->company_name,
-            description: $site->tagline,
+            title: __('seo.contact.title').' - '.$site->company_name,
+            description: __('seo.contact.description'),
             image: 'https://placehold.co/1400x320/1f2937/ffffff?text=Kontak',
         );
 

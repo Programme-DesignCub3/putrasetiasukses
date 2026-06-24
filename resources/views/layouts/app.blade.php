@@ -30,7 +30,14 @@
 </head>
 
 <body class="{{ $bodyClass }}">
-    {{ $slot }}
+    <div class="min-h-screen overflow-hidden">
+        <x-site.layout.header :site="$site" :active="$activeSection" />
+
+        {{ $slot }}
+
+        <x-site.whatsapp-button :site="$site" />
+        <x-site.layout.footer :site="$site" />
+    </div>
 
     <x-site.cookie-consent :enabled="$siteAnalytics['cookieConsentEnabled']" />
 

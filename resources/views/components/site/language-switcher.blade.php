@@ -1,7 +1,3 @@
-@props([
-    'isDark' => false,
-])
-
 @php
     $locales = config('localizer.supported_locales', []);
 @endphp
@@ -18,8 +14,7 @@
             @class([
                 'px-2.5 py-2 text-xs font-black uppercase transition',
                 'bg-brand-red text-white' => $isActive,
-                'bg-white/10 text-white hover:bg-brand-red' => ! $isActive && $isDark,
-                'bg-zinc-100 text-brand-ink hover:bg-brand-red hover:text-white' => ! $isActive && ! $isDark,
+                'bg-zinc-100 text-brand-ink hover:bg-brand-red hover:text-white' => ! $isActive,
             ])
         >
             {{ __("site.language.{$locale}") }}

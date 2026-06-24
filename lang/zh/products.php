@@ -6,8 +6,4 @@ return [
     'description' => '产品描述',
     'order' => '订购与联系',
     'view_detail' => '查看详情',
-    'seo' => [
-        'title' => '产品',
-        'description' => '浏览 PT Putra Setia Sukses Bersama 的钢铁产品系列。',
-    ],
 ];

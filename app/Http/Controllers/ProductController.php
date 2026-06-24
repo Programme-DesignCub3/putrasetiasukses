@@ -14,8 +14,8 @@ class ProductController extends Controller
         $site = SiteConfig::current();
 
         $metadata->build(
-            title: __('products.title').' - '.$site->company_name,
-            description: __('products.intro'),
+            title: __('seo.products.title').' - '.$site->company_name,
+            description: __('seo.products.description'),
             image: 'https://placehold.co/1400x320/2b2b2b/ffffff?text=Produk',
         );
 

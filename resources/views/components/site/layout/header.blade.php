@@ -1,8 +1,6 @@
 @props(['site', 'active' => 'home'])
 
 @php
-    $isDarkHeader = in_array($active, [], true);
-
     $navigation = [
         ['label' => __('site.navigation.home'), 'key' => 'home', 'url' => route('home')],
         ['label' => __('site.navigation.about'), 'key' => 'about', 'url' => route('about')],
@@ -13,11 +11,11 @@
     ];
 @endphp
 
-<header class="{{ $isDarkHeader ? 'bg-black' : 'bg-white' }} relative z-20">
+<header class="bg-white relative z-20">
     <div
         class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-5 sm:py-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div class="flex items-center justify-between gap-4">
-            <x-site.brand :site="$site" :dark="$isDarkHeader" />
+            <x-site.brand :site="$site" />
 
             <details class="group relative md:hidden">
                 <summary
@@ -43,12 +41,11 @@
         </div>
 
         <div class="flex flex-col gap-3 lg:items-end">
-            <p
-                class="{{ $isDarkHeader ? 'text-white/75' : 'text-brand-ink' }} max-w-xl text-sm font-extrabold leading-snug lg:text-right">
+            <p class="text-brand-ink max-w-xl text-sm font-extrabold leading-snug lg:text-right">
                 {{ $site->tagline }}
             </p>
 
-            <x-site.language-switcher :is-dark="$isDarkHeader" />
+            <x-site.language-switcher />
         </div>
     </div>
 

@@ -3,7 +3,7 @@
 <footer class="bg-black px-4 py-12 text-white sm:px-5 sm:py-14 lg:px-8">
     <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.35fr]">
         <div>
-            <x-site.brand :site="$site" dark />
+            <x-site.brand :site="$site" />
             <p class="mt-8 max-w-sm text-lg font-black leading-snug sm:text-xl">{{ $site->tagline }}</p>
         </div>
 

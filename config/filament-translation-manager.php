@@ -15,6 +15,12 @@ return [
     'navigation_group' => 'Website',
     'prefix_tabs' => [
         'site' => 'Website',
+        'about' => 'about',
+        'articles' => 'Articles',
+        'contact' => 'Contact',
+        'home' => 'Home',
+        'products' => 'Products',
+        'seo' => 'SEO',
         'filament' => 'Filament',
     ],
     'widget' => [

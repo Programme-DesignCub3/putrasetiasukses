@@ -13,11 +13,11 @@ class HomeController extends Controller
         $site = SiteConfig::current();
 
         $metadata->build(
-            title: $site->company_name,
-            description: $site->tagline,
+            title: __('seo.home.title'),
+            description: __('seo.home.description'),
         );
 
-        return view('welcome', [
+        return view('home', [
             'site' => $site,
             'advantages' => [
                 ['title' => 'Stockist & Distributor Terpercaya', 'copy' => 'Kami memastikan ketersediaan stok plat selalu terjaga untuk memenuhi kebutuhan pelanggan.', 'icon' => 'warehouse'],

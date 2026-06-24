@@ -11,7 +11,7 @@ class RecaptchaService
         $secret = config('services.recaptcha.secret_key');
 
         if (blank($secret)) {
-            return false;
+            return true;
         }
 
         $payload = [

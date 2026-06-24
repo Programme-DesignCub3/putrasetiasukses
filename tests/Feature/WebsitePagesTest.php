@@ -58,17 +58,17 @@ test('about page renders hardcoded copy with settings media without using about 
 });
 
 test('product page renders managed content', function () {
-    Product::factory()->create();
+    $product = Product::factory()->create();
 
     $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/produk')
         ->assertSuccessful()
         ->assertSee('Produk')
-        ->assertSee('Plat Hitam')
+        ->assertSee($product->getTranslation('name', 'id'))
         ->assertSee('Lihat Detail');
 
-    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/produk/plat-hitam')
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/produk/'.$product->slug)
         ->assertSuccessful()
-        ->assertSee('Plat Hitam')
+        ->assertSee($product->getTranslation('name', 'id'))
         ->assertSee('Deskripsi Barang')
         ->assertSee('Pesan & Hubungi')
         ->assertSee('product-gallery-main')
@@ -76,7 +76,7 @@ test('product page renders managed content', function () {
 });
 
 test('article pages render managed content', function () {
-    Article::factory()->create();
+    $article = Article::factory()->create();
     $richArticle = Article::factory()->create([
         'title' => [
             'id' => 'Artikel Rich Text',
@@ -94,12 +94,12 @@ test('article pages render managed content', function () {
     $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel')
         ->assertSuccessful()
         ->assertSee('Artikel Terbaru')
-        ->assertSee('Perkembangan Industri Baja');
+        ->assertSee($article->getTranslation('title', 'id'));
 
-    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel/perkembangan-industri-baja-indonesia')
+    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel/'.$article->slug)
         ->assertSuccessful()
-        ->assertSee('Heri Pradana')
-        ->assertSee('Peluang Masa Depan');
+        ->assertSee($article->author)
+        ->assertSee($article->getTranslation('title', 'id'));
 
     $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel/'.$richArticle->slug)
         ->assertSuccessful()
@@ -113,7 +113,7 @@ test('public pages render seo metadata', function () {
 
     $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/')
         ->assertSuccessful()
-        ->assertSee('<title>'.$site->company_name.'</title>', false)
+        ->assertSee('<title>'.__('seo.home.title').'</title>', false)
         ->assertSee('<link rel="canonical" href="'.route('home').'"', false)
         ->assertSee('property="og:locale" content="id"', false)
         ->assertSee('property="og:locale:alternate" content="en"', false)
@@ -129,7 +129,7 @@ test('public pages render seo metadata', function () {
         ->assertSee('property="article:published_time"', false)
         ->assertSee('"datePublished"', false)
         ->assertSee('"author"', false)
-        ->assertSee('property="og:image" content="'.$article->image_url.'"', false);
+        ->assertSee('property="og:image" content="'.e($article->image_url).'"', false);
 });
 
 test('cookie consent banner prepares google analytics without loading it immediately', function () {
@@ -217,22 +217,22 @@ test('categories have their own translatable details and media', function () {
 });
 
 test('sitemap exposes localized public urls', function () {
-    Product::factory()->create();
-    Article::factory()->create();
+    $product = Product::factory()->create();
+    $article = Article::factory()->create();
 
     $xml = SitemapBuilder::default()->build()->render();
 
     expect($xml)
         ->toContain(route('home'))
         ->toContain(route('products.index'))
-        ->toContain('/en/produk/plat-hitam')
-        ->toContain('/zh/artikel/perkembangan-industri-baja-indonesia')
+        ->toContain('/en/produk/'.$product->slug)
+        ->toContain('/zh/artikel/'.$article->slug)
         ->toContain('hreflang="x-default"');
 });
 
 test('sitemap can be generated as a static public file', function () {
-    Product::factory()->create();
-    Article::factory()->create();
+    $product = Product::factory()->create();
+    $article = Article::factory()->create();
 
     $path = public_path('sitemap-test.xml');
     File::delete($path);
@@ -246,8 +246,8 @@ test('sitemap can be generated as a static public file', function () {
 
     expect($contents)
         ->toContain(route('home'))
-        ->toContain('/en/produk/plat-hitam')
-        ->toContain('/zh/artikel/perkembangan-industri-baja-indonesia')
+        ->toContain('/en/produk/'.$product->slug)
+        ->toContain('/zh/artikel/'.$article->slug)
         ->toContain('hreflang="x-default"');
 
     File::delete($path);

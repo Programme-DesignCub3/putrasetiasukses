@@ -14,8 +14,8 @@ class ArticleController extends Controller
         $site = SiteConfig::current();
 
         $metadata->build(
-            title: __('articles.title').' - '.$site->company_name,
-            description: $site->tagline,
+            title: __('seo.articles.title').' - '.$site->company_name,
+            description: __('seo.articles.description'),
             image: 'https://placehold.co/1400x320/4b5563/ffffff?text=Artikel',
         );
 

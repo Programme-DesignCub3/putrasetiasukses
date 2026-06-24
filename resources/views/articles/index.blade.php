@@ -1,47 +1,40 @@
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased">
-        <div class="min-h-screen overflow-hidden">
-            <x-site.header :site="$site" active="articles" />
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles" :site="$site">
+    <main>
+        <x-site.layout.page-hero :title="__('articles.title')" image="https://placehold.co/1400x320/4b5563/ffffff?text=Artikel" />
 
-            <main>
-                <x-site.page-hero :title="__('articles.title')" image="https://placehold.co/1400x320/4b5563/ffffff?text=Artikel" />
+        <x-site.layout.container class="clamp-[py,40px,56px]">
+            <x-site.section-heading :level="1" :label="__('articles.latest')" />
 
-                <section class="mx-auto max-w-7xl px-4 clamp-[py,40px,56px] sm:px-5 lg:px-8">
-                    <h1 class="section-title">{{ __('articles.latest') }}</h1>
+            <div class="relative mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
+                @foreach ($featuredArticles as $article)
+                    <x-articles.article-card :article="$article" :large="$loop->first" />
+                @endforeach
 
-                    <div class="relative mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
-                        @foreach ($featuredArticles as $article)
-                            <x-site.article-card :article="$article" :large="$loop->first" />
-                        @endforeach
+                <button class="absolute left-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-md bg-brand-red text-white" type="button" aria-label="Artikel sebelumnya">
+                    <span class="text-4xl font-black leading-none">&lsaquo;</span>
+                </button>
+                <button class="absolute right-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-md bg-brand-red text-white" type="button" aria-label="Artikel berikutnya">
+                    <span class="text-4xl font-black leading-none">&rsaquo;</span>
+                </button>
+            </div>
+        </x-site.layout.container>
 
-                        <button class="absolute left-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-md bg-brand-red text-white" type="button" aria-label="Artikel sebelumnya">
-                            <span class="text-4xl font-black leading-none">&lsaquo;</span>
-                        </button>
-                        <button class="absolute right-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-md bg-brand-red text-white" type="button" aria-label="Artikel berikutnya">
-                            <span class="text-4xl font-black leading-none">&rsaquo;</span>
-                        </button>
-                    </div>
-                </section>
+        <x-site.layout.container class="pb-16">
+            <x-site.section-heading :label="__('articles.all')" />
 
-                <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-5 lg:px-8">
-                    <h2 class="section-title">{{ __('articles.all') }}</h2>
+            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($articles as $article)
+                    <x-articles.article-card :article="$article" />
+                @endforeach
+            </div>
 
-                    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        @foreach ($articles as $article)
-                            <x-site.article-card :article="$article" />
-                        @endforeach
-                    </div>
-
-                    <nav class="mt-10 flex justify-center gap-5" aria-label="Halaman artikel">
-                        <a class="flex h-12 w-12 items-center justify-center rounded-md bg-brand-red text-2xl font-black text-white" href="#">&lsaquo;</a>
-                        @foreach ([1, 2, 3, 4] as $page)
-                            <a class="flex h-12 w-12 items-center justify-center rounded-md bg-brand-red text-xl font-black text-white" href="#">{{ $page }}</a>
-                        @endforeach
-                        <a class="flex h-12 w-12 items-center justify-center rounded-md bg-brand-red text-2xl font-black text-white" href="#">&rsaquo;</a>
-                    </nav>
-                </section>
-            </main>
-
-            <x-site.whatsapp-button :site="$site" />
-            <x-site.footer :site="$site" />
-        </div>
+            <nav class="mt-10 flex justify-center gap-5" aria-label="Halaman artikel">
+                <a class="flex h-12 w-12 items-center justify-center rounded-md bg-brand-red text-2xl font-black text-white" href="#">&lsaquo;</a>
+                @foreach ([1, 2, 3, 4] as $page)
+                    <a class="flex h-12 w-12 items-center justify-center rounded-md bg-brand-red text-xl font-black text-white" href="#">{{ $page }}</a>
+                @endforeach
+                <a class="flex h-12 w-12 items-center justify-center rounded-md bg-brand-red text-2xl font-black text-white" href="#">&rsaquo;</a>
+            </nav>
+        </x-site.layout.container>
+    </main>
 </x-layouts.app>

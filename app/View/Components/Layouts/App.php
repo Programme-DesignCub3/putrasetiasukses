@@ -12,6 +12,8 @@ class App extends Component
 {
     public function __construct(
         public string $bodyClass = '',
+        public ?string $activeSection = 'home',
+        public mixed $site = null,
     ) {}
 
     public function render(): View|Closure|string

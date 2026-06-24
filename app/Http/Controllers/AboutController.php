@@ -15,7 +15,7 @@ class AboutController extends Controller
         $aboutPage = AboutPageContent::current();
 
         $metadata->build(
-            title: __('about.title').' - '.$site->company_name,
+            title: __('seo.about.title').' - '.$site->company_name,
             description: $aboutPage->intro_text,
             image: $aboutPage->hero_image_url,
         );

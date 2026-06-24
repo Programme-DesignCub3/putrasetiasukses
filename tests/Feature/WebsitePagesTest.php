@@ -37,17 +37,19 @@ test('about page renders managed content', function () {
 test('product page renders managed content', function () {
     Product::factory()->create();
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/produk')
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/produk')
         ->assertSuccessful()
         ->assertSee('Produk')
         ->assertSee('Plat Hitam')
         ->assertSee('Lihat Detail');
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/produk/plat-hitam')
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/produk/plat-hitam')
         ->assertSuccessful()
         ->assertSee('Plat Hitam')
         ->assertSee('Deskripsi Barang')
-        ->assertSee('Pesan & Hubungi');
+        ->assertSee('Pesan & Hubungi')
+        ->assertSee('product-gallery-main')
+        ->assertSee('product-gallery-thumbs');
 });
 
 test('article pages render managed content', function () {

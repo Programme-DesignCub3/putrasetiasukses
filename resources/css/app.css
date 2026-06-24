@@ -208,6 +208,90 @@
         border-right: 1px solid #d4d4d8;
     }
 
+    .product-gallery-main {
+        position: relative;
+        background: #f4f4f5;
+    }
+
+    .product-gallery-button {
+        position: absolute;
+        top: 50%;
+        z-index: 10;
+        display: flex;
+        height: 2.5rem;
+        width: 2.5rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem;
+        background: var(--color-brand-red);
+        color: #ffffff;
+        transform: translateY(-50%);
+        transition:
+            background-color 160ms ease,
+            transform 160ms ease;
+    }
+
+    .product-gallery-button:hover {
+        background: var(--color-brand-red-dark);
+        transform: translateY(-50%) scale(1.04);
+    }
+
+    .product-gallery-prev {
+        left: 0.75rem;
+    }
+
+    .product-gallery-next {
+        right: 0.75rem;
+    }
+
+    .product-gallery-pagination {
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        gap: 0.45rem;
+    }
+
+    .product-gallery-pagination .swiper-pagination-bullet {
+        width: 0.65rem;
+        height: 0.65rem;
+        margin: 0;
+        background: #ffffff;
+        opacity: 0.72;
+    }
+
+    .product-gallery-pagination .swiper-pagination-bullet-active {
+        background: var(--color-brand-red);
+        opacity: 1;
+    }
+
+    .product-gallery-thumb {
+        display: block;
+        width: 100%;
+        cursor: pointer;
+        overflow: hidden;
+        border: 3px solid transparent;
+        background: #f4f4f5;
+        transition:
+            border-color 160ms ease,
+            opacity 160ms ease;
+    }
+
+    .product-gallery-thumbs .swiper-slide {
+        opacity: 0.55;
+    }
+
+    .product-gallery-thumbs .swiper-slide-thumb-active {
+        opacity: 1;
+    }
+
+    .product-gallery-thumbs .swiper-slide-thumb-active .product-gallery-thumb {
+        border-color: var(--color-brand-red);
+    }
+
     @media (max-width: 480px) {
         .brand-mark {
             height: 2.25rem;

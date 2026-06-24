@@ -1,23 +1,59 @@
+@php
+    $productImages = collect([
+        [
+            'url' => $product->main_image_url,
+            'alt' => $product->name,
+        ],
+    ])
+        ->merge($product->gallery_images ?? [])
+        ->filter(fn (array $image): bool => filled($image['url'] ?? null))
+        ->unique('url')
+        ->values();
+@endphp
+
 <x-layouts.app :title="$product->name.' - '.$site->company_name" :description="$product->description" :image="$product->main_image_url" body-class="bg-white font-sans text-brand-ink antialiased">
         <div class="min-h-screen overflow-hidden">
             <x-site.header :site="$site" active="products" />
 
             <main class="mx-auto grid max-w-7xl gap-10 px-4 clamp-[py,48px,80px] sm:px-5 lg:grid-cols-2 lg:px-8">
-                <section>
-                    <img src="{{ $product->main_image_url }}" alt="{{ $product->name }}" class="aspect-[4/3] w-full object-cover">
+                <section data-product-gallery>
+                    <div class="product-gallery-main swiper">
+                        <div class="swiper-wrapper">
+                            @foreach ($productImages as $image)
+                                <div class="swiper-slide">
+                                    <img src="{{ $image['url'] }}" alt="{{ $image['alt'] ?? $product->name }}" class="aspect-[4/3] w-full object-cover">
+                                </div>
+                            @endforeach
+                        </div>
 
-                    <div class="relative mt-6 grid grid-cols-3 gap-3 sm:gap-4">
-                        @foreach ($product->gallery_images ?? [] as $image)
-                            <img src="{{ $image['url'] ?? '' }}" alt="{{ $image['alt'] ?? $product->name }}" class="aspect-[16/9] w-full object-cover">
-                        @endforeach
-
-                        <button class="absolute left-0 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md bg-brand-red text-white" type="button" aria-label="Gambar sebelumnya">
-                            <span class="text-2xl font-black leading-none">&lsaquo;</span>
-                        </button>
-                        <button class="absolute right-0 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md bg-brand-red text-white" type="button" aria-label="Gambar berikutnya">
-                            <span class="text-2xl font-black leading-none">&rsaquo;</span>
-                        </button>
+                        @if ($productImages->count() > 1)
+                            <button class="product-gallery-button product-gallery-prev" type="button" aria-label="Gambar sebelumnya">
+                                <span class="text-2xl font-black leading-none">&lsaquo;</span>
+                            </button>
+                            <button class="product-gallery-button product-gallery-next" type="button" aria-label="Gambar berikutnya">
+                                <span class="text-2xl font-black leading-none">&rsaquo;</span>
+                            </button>
+                            <div class="product-gallery-pagination"></div>
+                        @endif
                     </div>
+
+                    @if ($productImages->count() > 1)
+                        <div class="product-gallery-thumbs swiper mt-5">
+                            <div class="swiper-wrapper">
+                                @foreach ($productImages as $image)
+                                    <div class="swiper-slide">
+                                        <button class="product-gallery-thumb" type="button">
+                                            <img src="{{ $image['url'] }}" alt="{{ $image['alt'] ?? $product->name }}" class="aspect-[16/9] w-full object-cover">
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        @foreach ($productImages as $image)
+                            <img src="{{ $image['url'] }}" alt="{{ $image['alt'] ?? $product->name }}" class="mt-5 aspect-[16/9] w-full max-w-48 object-cover">
+                        @endforeach
+                    @endif
                 </section>
 
                 <section class="flex flex-col">

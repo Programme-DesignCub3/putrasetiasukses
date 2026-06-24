@@ -4,7 +4,7 @@ import Swiper from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 
 const initHomeSliders = () => {
     if (document.querySelector(".home-testimonials-swiper")) {
@@ -48,6 +48,59 @@ if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initHomeSliders);
 } else {
     initHomeSliders();
+}
+
+const initProductGalleries = () => {
+    document.querySelectorAll("[data-product-gallery]").forEach((gallery) => {
+        const mainElement = gallery.querySelector(".product-gallery-main");
+        const thumbElement = gallery.querySelector(".product-gallery-thumbs");
+
+        if (!mainElement) {
+            return;
+        }
+
+        const slideCount = mainElement.querySelectorAll(".swiper-slide").length;
+        let thumbs = null;
+
+        if (thumbElement) {
+            thumbs = new Swiper(thumbElement, {
+                modules: [FreeMode],
+                slidesPerView: 3,
+                spaceBetween: 12,
+                freeMode: true,
+                watchSlidesProgress: true,
+                breakpoints: {
+                    640: {
+                        slidesPerView: 4,
+                        spaceBetween: 14,
+                    },
+                },
+            });
+        }
+
+        new Swiper(mainElement, {
+            modules: [Navigation, Pagination, Thumbs],
+            loop: slideCount > 1,
+            spaceBetween: 12,
+            navigation: {
+                nextEl: gallery.querySelector(".product-gallery-next"),
+                prevEl: gallery.querySelector(".product-gallery-prev"),
+            },
+            pagination: {
+                el: gallery.querySelector(".product-gallery-pagination"),
+                clickable: true,
+            },
+            thumbs: {
+                swiper: thumbs,
+            },
+        });
+    });
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initProductGalleries);
+} else {
+    initProductGalleries();
 }
 
 const cookieConsentKey = "pssb_cookie_consent_v1";

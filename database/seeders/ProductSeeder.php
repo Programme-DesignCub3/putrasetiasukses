@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
                 $product,
             );
 
-            $category = Category::findOrCreateForType(Category::TypeProduct, $product['category']);
+            $category = ProductCategory::findOrCreate($product['category']);
 
             $record->categories()->syncWithoutDetaching([$category->id]);
         }

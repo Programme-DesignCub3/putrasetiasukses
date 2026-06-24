@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Database\Factories\ArticleFactory;
+use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
+use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
+use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,7 +15,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
-class Article extends Model implements HasMedia
+class Article extends Model implements HasMedia, HasRichContent
 {
     /** @use HasFactory<ArticleFactory> */
     use HasFactory;
@@ -20,6 +23,9 @@ class Article extends Model implements HasMedia
     use HasSlug;
     use HasTranslations;
     use InteractsWithMedia;
+    use InteractsWithRichContent;
+
+    public const BodyAttachmentCollection = 'article_body_attachments';
 
     public const ImageCollection = 'article_image';
 
@@ -65,6 +71,17 @@ class Article extends Model implements HasMedia
     {
         $this->addMediaCollection(self::ImageCollection)
             ->singleFile();
+
+        $this->addMediaCollection(self::BodyAttachmentCollection);
+    }
+
+    protected function setUpRichContent(): void
+    {
+        $this->registerRichContent('body')
+            ->fileAttachmentProvider(
+                SpatieMediaLibraryFileAttachmentProvider::make()
+                    ->collection(self::BodyAttachmentCollection),
+            );
     }
 
     public function getSlugOptions(): SlugOptions
@@ -76,11 +93,12 @@ class Article extends Model implements HasMedia
     }
 
     /**
-     * @return BelongsToMany<Category, $this>
+     * @return BelongsToMany<ArticleCategory, $this>
      */
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(ArticleCategory::class, 'article_category', 'article_id', 'category_id')
+            ->orderBy('order_column');
     }
 
     public function getCategoryNamesAttribute(): string

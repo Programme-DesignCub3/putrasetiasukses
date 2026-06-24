@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class ProductsTable
@@ -18,15 +19,30 @@ class ProductsTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('main_image')
-                    ->label('Image')
+                    ->label('Gambar')
                     ->collection(Product::MainImageCollection),
-                TextColumn::make('name')->searchable(),
-                TextColumn::make('category_names')->label('Kategori'),
-                IconColumn::make('is_published')->boolean(),
-                TextColumn::make('updated_at')->dateTime()->sortable(),
+                TextColumn::make('name')
+                    ->label('Nama')
+                    ->searchable()
+                    ->sortable()
+                    ->wrap(),
+                TextColumn::make('category_names')
+                    ->label('Kategori')
+                    ->badge(),
+                IconColumn::make('is_published')
+                    ->label('Published')
+                    ->boolean(),
+                TextColumn::make('updated_at')
+                    ->label('Diubah')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
-                //
+                TernaryFilter::make('is_published')
+                    ->label('Published')
+                    ->trueLabel('Published')
+                    ->falseLabel('Draft'),
             ])
             ->modifyQueryUsing(fn ($query) => $query->with('categories'))
             ->defaultSort('order_column')

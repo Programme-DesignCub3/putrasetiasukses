@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -19,6 +19,7 @@ class ProductForm
         return $schema
             ->components([
                 Section::make('Informasi Produk')
+                    ->description('Atur kategori, status, dan slug produk.')
                     ->schema([
                         Select::make('categories')
                             ->label('Kategori')
@@ -26,44 +27,66 @@ class ProductForm
                             ->relationship(
                                 name: 'categories',
                                 titleAttribute: 'name',
-                                modifyQueryUsing: fn ($query) => $query->where('type', Category::TypeProduct)->where('is_active', true),
+                                modifyQueryUsing: fn ($query) => $query->where('is_active', true)->ordered(),
                             )
-                            ->getOptionLabelFromRecordUsing(fn (Category $record): string => $record->name)
+                            ->getOptionLabelFromRecordUsing(fn (ProductCategory $record): string => $record->name)
                             ->preload()
                             ->searchable()
                             ->required()
-                            ->columnSpanFull(),
-                        TextInput::make('name.id')->label('Name (ID)')->required()->maxLength(255),
-                        TextInput::make('name.en')->label('Name (EN)')->required()->maxLength(255),
-                        TextInput::make('name.zh')->label('Name (ZH)')->required()->maxLength(255),
+                            ->columnSpan(2),
                         TextInput::make('slug')
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
                             ->helperText('Kosongkan saat membuat produk agar slug dibuat otomatis.'),
+                        Toggle::make('is_published')
+                            ->label('Published')
+                            ->default(true),
+                    ])
+                    ->columns(3),
+
+                Section::make('Konten Produk')
+                    ->description('Bahasa Indonesia wajib diisi; bahasa lain boleh kosong.')
+                    ->schema([
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::textInput('name', 'Name', $locale)
+                                    ->maxLength(255),
+                            ],
+                            label: 'Nama Produk',
+                        ),
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::textarea('description', 'Description', $locale, 8)
+                                    ->columnSpanFull(),
+                            ],
+                            label: 'Deskripsi Produk',
+                        ),
+                    ])
+                    ->columns(3),
+
+                Section::make('Media Produk')
+                    ->description('Gunakan gambar WebP/JPEG/PNG teroptimasi untuk halaman publik.')
+                    ->schema([
                         SpatieMediaLibraryFileUpload::make('main_image')
-                            ->label('Main image')
+                            ->label('Gambar utama')
                             ->collection(Product::MainImageCollection)
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120)
-                            ->columnSpanFull(),
-                        Textarea::make('description.id')->label('Description (ID)')->required()->rows(8)->columnSpanFull(),
-                        Textarea::make('description.en')->label('Description (EN)')->required()->rows(8)->columnSpanFull(),
-                        Textarea::make('description.zh')->label('Description (ZH)')->required()->rows(8)->columnSpanFull(),
-                        Toggle::make('is_published')->default(true),
-                    ])
-                    ->columns(3),
-                Section::make('Galeri')
-                    ->schema([
+                            ->columnSpan(1),
                         SpatieMediaLibraryFileUpload::make('gallery_media')
-                            ->label('Gallery images')
+                            ->label('Galeri produk')
                             ->collection(Product::GalleryCollection)
                             ->multiple()
                             ->reorderable()
+                            ->panelLayout('grid')
+                            ->reorderable()
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120),
-                    ]),
+                            ->maxSize(5120)
+                            ->columnSpan(2),
+                    ])
+                    ->columns(3),
             ]);
     }
 }

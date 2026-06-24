@@ -10,6 +10,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class CategoriesTable
@@ -19,11 +20,13 @@ class CategoriesTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('category_image')
-                    ->label('Image')
+                    ->label('Gambar')
                     ->collection(Category::ImageCollection),
                 TextColumn::make('name')
                     ->label('Nama')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->wrap(),
                 TextColumn::make('type')
                     ->label('Tipe')
                     ->badge()
@@ -35,7 +38,8 @@ class CategoriesTable
                     })
                     ->searchable(),
                 TextColumn::make('slug')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make('articles_count')
                     ->label('Artikel')
                     ->counts('articles')
@@ -48,8 +52,10 @@ class CategoriesTable
                     ->label('Active')
                     ->boolean(),
                 TextColumn::make('updated_at')
+                    ->label('Diubah')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
                 SelectFilter::make('type')
@@ -59,8 +65,14 @@ class CategoriesTable
                         Category::TypeArticle => 'Artikel / News',
                         Category::TypeProject => 'Project',
                     ]),
+                TernaryFilter::make('is_active')
+                    ->label('Active')
+                    ->trueLabel('Active')
+                    ->falseLabel('Inactive'),
             ])
             ->modifyQueryUsing(fn ($query) => $query->withCount(['articles', 'products']))
+            ->defaultSort('order_column')
+            ->reorderable('order_column')
             ->recordActions([
                 EditAction::make(),
             ])

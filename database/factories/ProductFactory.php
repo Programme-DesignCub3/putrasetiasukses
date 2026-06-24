@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,7 +14,7 @@ class ProductFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Product $product): void {
-            $category = Category::findOrCreateForType(Category::TypeProduct, $product->getTranslations('category'));
+            $category = ProductCategory::findOrCreate($product->getTranslations('category'));
 
             $product->categories()->syncWithoutDetaching([$category->id]);
         });

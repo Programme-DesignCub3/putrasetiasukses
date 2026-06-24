@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Article;
-use App\Models\Category;
+use App\Models\ArticleCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,7 +14,7 @@ class ArticleFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Article $article): void {
-            $category = Category::findOrCreateForType(Category::TypeArticle, $article->getTranslations('category'));
+            $category = ArticleCategory::findOrCreate($article->getTranslations('category'));
 
             $article->categories()->syncWithoutDetaching([$category->id]);
         });

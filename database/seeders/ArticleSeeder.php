@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Article;
-use App\Models\Category;
+use App\Models\ArticleCategory;
 use Illuminate\Database\Seeder;
 
 class ArticleSeeder extends Seeder
@@ -19,7 +19,7 @@ class ArticleSeeder extends Seeder
                 $article,
             );
 
-            $category = Category::findOrCreateForType(Category::TypeArticle, $article['category']);
+            $category = ArticleCategory::findOrCreate($article['category']);
 
             $record->categories()->syncWithoutDetaching([$category->id]);
         }

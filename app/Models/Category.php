@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Database\Factories\CategoryFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -14,7 +17,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
-class Category extends Model implements HasMedia
+class Category extends Model implements HasMedia, Sortable
 {
     /** @use HasFactory<CategoryFactory> */
     use HasFactory;
@@ -22,6 +25,7 @@ class Category extends Model implements HasMedia
     use HasSlug;
     use HasTranslations;
     use InteractsWithMedia;
+    use SortableTrait;
 
     public const TypeProduct = 'product';
 
@@ -42,6 +46,14 @@ class Category extends Model implements HasMedia
     ];
 
     /**
+     * @var array<string, mixed>
+     */
+    public array $sortable = [
+        'order_column_name' => 'order_column',
+        'sort_when_creating' => true,
+    ];
+
+    /**
      * @var list<string>
      */
     protected $fillable = [
@@ -52,6 +64,7 @@ class Category extends Model implements HasMedia
         'image_url',
         'gallery_images',
         'is_active',
+        'order_column',
     ];
 
     /**
@@ -62,7 +75,13 @@ class Category extends Model implements HasMedia
         return [
             'gallery_images' => 'array',
             'is_active' => 'boolean',
+            'order_column' => 'integer',
         ];
+    }
+
+    public function buildSortQuery(): Builder
+    {
+        return static::query()->where('type', $this->type);
     }
 
     public function getSlugOptions(): SlugOptions
@@ -119,12 +138,12 @@ class Category extends Model implements HasMedia
         return json_decode((string) $value, true) ?: [];
     }
 
-    public static function findOrCreateForType(string $type, array|string $name): self
+    public static function findOrCreateForType(string $type, array|string $name): static
     {
-        $translations = is_array($name) ? $name : self::translations($name);
+        $translations = is_array($name) ? $name : static::translations($name);
         $slug = Str::slug($translations['id'] ?? $translations['en'] ?? $translations['zh'] ?? '');
 
-        return self::query()->firstOrCreate(
+        return static::query()->firstOrCreate(
             [
                 'type' => $type,
                 'slug' => $slug,

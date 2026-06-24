@@ -39,8 +39,7 @@ class ArticlesRelationManager extends RelationManager
             ->headerActions([
                 AttachAction::make()
                     ->recordTitle(fn (Article $record): string => $record->title)
-                    ->preload()
-                    ->searchable(),
+                    ->preloadRecordSelect(),
             ])
             ->actions([
                 EditAction::make(),

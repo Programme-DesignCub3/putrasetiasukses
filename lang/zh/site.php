@@ -13,11 +13,16 @@ return [
         'projects' => '项目',
         'articles' => '文章',
         'contact' => '联系',
+        'search' => '搜索',
         'menu' => '菜单',
     ],
     'cta' => [
         'contact_us' => '联系我们',
         'strip' => '请立即联系我们。我们很乐意为您服务。',
+    ],
+    'slider' => [
+        'prev' => '上一张',
+        'next' => '下一张',
     ],
     'cookie' => [
         'title' => '隐私和 Cookie',

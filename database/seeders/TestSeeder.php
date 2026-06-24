@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Enums\CategoryType;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\Product;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -19,28 +21,35 @@ class TestSeeder extends Seeder
         ]);
 
         Category::factory()->create([
-            'type' => Category::TypeProduct,
+            'type' => CategoryType::Product,
             'name' => ['id' => 'Plat Baja', 'en' => 'Steel Plate', 'zh' => '钢板'],
         ]);
 
         Category::factory()->create([
-            'type' => Category::TypeProduct,
+            'type' => CategoryType::Product,
             'name' => ['id' => 'Besi Beton', 'en' => 'Rebar', 'zh' => '钢筋'],
         ]);
 
         Category::factory()->create([
-            'type' => Category::TypeArticle,
+            'type' => CategoryType::Article,
             'name' => ['id' => 'Industri & Konstruksi', 'en' => 'Industry & Construction', 'zh' => '工业与建筑'],
         ]);
 
         Category::factory()->create([
-            'type' => Category::TypeArticle,
+            'type' => CategoryType::Article,
             'name' => ['id' => 'Tips & Panduan', 'en' => 'Tips & Guides', 'zh' => '提示与指南'],
+        ]);
+
+        Category::factory()->create([
+            'type' => CategoryType::Project,
+            'name' => ['id' => 'Konstruksi Gedung', 'en' => 'Building Construction', 'zh' => '建筑施工'],
         ]);
 
         Product::factory()->count(4)->create();
 
         Article::factory()->count(3)->create();
+
+        Project::factory()->count(2)->create();
 
         ContactMessage::factory()->create([
             'name' => 'Budi Santoso',

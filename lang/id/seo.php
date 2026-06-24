@@ -21,4 +21,12 @@ return [
         'title' => 'Artikel',
         'description' => 'Baca artikel dan berita terbaru seputar industri besi dan baja.',
     ],
+    'projects' => [
+        'title' => 'Proyek',
+        'description' => 'Portofolio proyek konstruksi dan fabrikasi baja PT Putra Setia Sukses Bersama.',
+    ],
+    'search' => [
+        'title' => 'Cari',
+        'description' => 'Cari produk, artikel, dan proyek di PT Putra Setia Sukses Bersama.',
+    ],
 ];

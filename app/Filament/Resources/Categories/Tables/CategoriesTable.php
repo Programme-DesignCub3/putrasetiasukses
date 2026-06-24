@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Categories\Tables;
 
+use App\Enums\CategoryType;
 use App\Models\Category;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -30,12 +31,7 @@ class CategoriesTable
                 TextColumn::make('type')
                     ->label('Tipe')
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        Category::TypeProduct => 'Produk',
-                        Category::TypeArticle => 'Artikel / News',
-                        Category::TypeProject => 'Project',
-                        default => $state,
-                    })
+                    ->formatStateUsing(fn (CategoryType $state): string => $state->getLabel())
                     ->searchable(),
                 TextColumn::make('slug')
                     ->searchable()
@@ -47,6 +43,10 @@ class CategoriesTable
                 TextColumn::make('products_count')
                     ->label('Produk')
                     ->counts('products')
+                    ->sortable(),
+                TextColumn::make('projects_count')
+                    ->label('Project')
+                    ->counts('projects')
                     ->sortable(),
                 IconColumn::make('is_active')
                     ->label('Active')
@@ -60,17 +60,13 @@ class CategoriesTable
             ->filters([
                 SelectFilter::make('type')
                     ->label('Tipe')
-                    ->options([
-                        Category::TypeProduct => 'Produk',
-                        Category::TypeArticle => 'Artikel / News',
-                        Category::TypeProject => 'Project',
-                    ]),
+                    ->options(CategoryType::class),
                 TernaryFilter::make('is_active')
                     ->label('Active')
                     ->trueLabel('Active')
                     ->falseLabel('Inactive'),
             ])
-            ->modifyQueryUsing(fn ($query) => $query->withCount(['articles', 'products']))
+            ->modifyQueryUsing(fn ($query) => $query->withCount(['articles', 'products', 'projects']))
             ->defaultSort('order_column')
             ->reorderable('order_column')
             ->recordActions([

@@ -18,7 +18,7 @@ class ArticleCategoryResource extends Resource
 {
     protected static ?string $model = ArticleCategory::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::DocumentText;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::RectangleGroup;
 
     protected static ?string $navigationLabel = 'Kategori Artikel';
 

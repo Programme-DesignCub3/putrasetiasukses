@@ -17,11 +17,13 @@
     --color-brand-steel: #5f6872;
 }
 
-@layer components {
-    summary::-webkit-details-marker {
-        display: none;
+@layer base {
+    [x-cloak] {
+        display: none !important;
     }
+}
 
+@layer components {
     .brand-mark {
         display: inline-flex;
         height: 2.6rem;
@@ -194,12 +196,12 @@
         border-right: 1px solid #d4d4d8;
     }
 
-    .product-gallery-main {
+    .gallery-main {
         position: relative;
         background: #f4f4f5;
     }
 
-    .product-gallery-button {
+    .slider-nav-button {
         position: absolute;
         top: 50%;
         z-index: 10;
@@ -217,20 +219,20 @@
             transform 160ms ease;
     }
 
-    .product-gallery-button:hover {
+    .slider-nav-button:hover {
         background: var(--color-brand-red-dark);
         transform: translateY(-50%) scale(1.04);
     }
 
-    .product-gallery-prev {
+    .slider-nav-prev {
         left: 0.75rem;
     }
 
-    .product-gallery-next {
+    .slider-nav-next {
         right: 0.75rem;
     }
 
-    .product-gallery-pagination {
+    .gallery-pagination {
         position: absolute;
         right: 1rem;
         bottom: 1rem;
@@ -241,7 +243,7 @@
         gap: 0.45rem;
     }
 
-    .product-gallery-pagination .swiper-pagination-bullet {
+    .gallery-pagination .swiper-pagination-bullet {
         width: 0.65rem;
         height: 0.65rem;
         margin: 0;
@@ -249,12 +251,12 @@
         opacity: 0.72;
     }
 
-    .product-gallery-pagination .swiper-pagination-bullet-active {
+    .gallery-pagination .swiper-pagination-bullet-active {
         background: var(--color-brand-red);
         opacity: 1;
     }
 
-    .product-gallery-thumb {
+    .gallery-thumb {
         display: block;
         width: 100%;
         cursor: pointer;
@@ -266,15 +268,15 @@
             opacity 160ms ease;
     }
 
-    .product-gallery-thumbs .swiper-slide {
+    .gallery-thumbs .swiper-slide {
         opacity: 0.55;
     }
 
-    .product-gallery-thumbs .swiper-slide-thumb-active {
+    .gallery-thumbs .swiper-slide-thumb-active {
         opacity: 1;
     }
 
-    .product-gallery-thumbs .swiper-slide-thumb-active .product-gallery-thumb {
+    .gallery-thumbs .swiper-slide-thumb-active .gallery-thumb {
         border-color: var(--color-brand-red);
     }
 

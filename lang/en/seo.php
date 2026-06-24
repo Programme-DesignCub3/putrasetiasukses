@@ -21,4 +21,12 @@ return [
         'title' => 'Articles',
         'description' => 'Read the latest articles and news about the iron and steel industry.',
     ],
+    'projects' => [
+        'title' => 'Projects',
+        'description' => 'Portfolio of construction and steel fabrication projects by PT Putra Setia Sukses Bersama.',
+    ],
+    'search' => [
+        'title' => 'Search',
+        'description' => 'Search products, articles, and projects at PT Putra Setia Sukses Bersama.',
+    ],
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CategoryType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -13,17 +14,17 @@ class ProductCategory extends Category
     {
         static::addGlobalScope(
             'product-category',
-            fn (Builder $builder) => $builder->where('type', self::TypeProduct),
+            fn (Builder $builder) => $builder->where('type', CategoryType::Product),
         );
 
         static::creating(function (ProductCategory $category): void {
-            $category->type = self::TypeProduct;
+            $category->type = CategoryType::Product;
         });
     }
 
     public static function findOrCreate(array|string $name): self
     {
-        return self::findOrCreateForType(self::TypeProduct, $name);
+        return self::findOrCreateForType(CategoryType::Product, $name);
     }
 
     /**

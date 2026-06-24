@@ -6,4 +6,7 @@ return [
     'description' => 'Deskripsi Barang',
     'order' => 'Pesan & Hubungi',
     'view_detail' => 'Lihat Detail',
+    'search' => 'Cari produk...',
+    'all_categories' => 'Semua Kategori',
+    'no_results' => 'Produk tidak ditemukan.',
 ];

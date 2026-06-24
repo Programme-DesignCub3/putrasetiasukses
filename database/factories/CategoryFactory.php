@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\CategoryType;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,9 +20,9 @@ class CategoryFactory extends Factory
     {
         return [
             'type' => $this->faker->randomElement([
-                Category::TypeProduct,
-                Category::TypeArticle,
-                Category::TypeProject,
+                CategoryType::Product,
+                CategoryType::Article,
+                CategoryType::Project,
             ]),
             'name' => [
                 'id' => $this->faker->words(2, true),

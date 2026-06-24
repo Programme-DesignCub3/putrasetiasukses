@@ -24,7 +24,7 @@ class ContactMessageResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $modelLabel = 'Pesan Kontak';
 

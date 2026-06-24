@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CategoryType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -13,17 +14,17 @@ class ArticleCategory extends Category
     {
         static::addGlobalScope(
             'article-category',
-            fn (Builder $builder) => $builder->where('type', self::TypeArticle),
+            fn (Builder $builder) => $builder->where('type', CategoryType::Article),
         );
 
         static::creating(function (ArticleCategory $category): void {
-            $category->type = self::TypeArticle;
+            $category->type = CategoryType::Article;
         });
     }
 
     public static function findOrCreate(array|string $name): self
     {
-        return self::findOrCreateForType(self::TypeArticle, $name);
+        return self::findOrCreateForType(CategoryType::Article, $name);
     }
 
     /**

@@ -6,4 +6,7 @@ return [
     'description' => '产品描述',
     'order' => '订购与联系',
     'view_detail' => '查看详情',
+    'search' => '搜索产品...',
+    'all_categories' => '所有分类',
+    'no_results' => '未找到产品。',
 ];

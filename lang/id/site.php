@@ -13,11 +13,16 @@ return [
         'projects' => 'Our Project',
         'articles' => 'Artikel',
         'contact' => 'Kontak',
+        'search' => 'Cari',
         'menu' => 'Menu',
     ],
     'cta' => [
         'contact_us' => 'Hubungi Kami',
         'strip' => 'Silahkan menghubungi kami segera. Kami dengan senang hati akan melayani anda',
+    ],
+    'slider' => [
+        'prev' => 'Sebelumnya',
+        'next' => 'Selanjutnya',
     ],
     'cookie' => [
         'title' => 'Privasi dan Cookie',

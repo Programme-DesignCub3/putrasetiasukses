@@ -5,6 +5,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +27,7 @@ Route::localize(function (): void {
     Route::get('/artikel/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
     Route::get('/kontak', [ContactController::class, 'create'])->name('contact');
     Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store');
+    Route::get('/proyek', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/proyek/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('/cari', SearchController::class)->name('search');
 });

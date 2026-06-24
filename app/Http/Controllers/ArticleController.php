@@ -19,16 +19,17 @@ class ArticleController extends Controller
             image: 'https://placehold.co/1400x320/4b5563/ffffff?text=Artikel',
         );
 
-        $articles = Article::query()
+        $featuredArticles = Article::query()
             ->with(['categories', 'media'])
             ->where('is_published', true)
+            ->where('is_featured', true)
             ->latest('published_at')
+            ->take(2)
             ->get();
 
         return view('articles.index', [
             'site' => $site,
-            'featuredArticles' => $articles->where('is_featured', true)->take(2),
-            'articles' => $articles->where('is_featured', false),
+            'featuredArticles' => $featuredArticles,
         ]);
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\CategoryType;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,11 +10,11 @@ uses(RefreshDatabase::class);
 test('articles can belong to multiple editable article categories', function () {
     $article = Article::factory()->create();
     $industry = Category::factory()->create([
-        'type' => Category::TypeArticle,
+        'type' => CategoryType::Article,
         'name' => Category::translations('Industri'),
     ]);
     $guide = Category::factory()->create([
-        'type' => Category::TypeArticle,
+        'type' => CategoryType::Article,
         'name' => Category::translations('Panduan'),
     ]);
 

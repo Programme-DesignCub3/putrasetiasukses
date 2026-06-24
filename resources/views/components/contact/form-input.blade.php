@@ -14,5 +14,6 @@
         name="{{ $name }}"
         value="{{ old($name) }}"
         {{ $required ? 'required' : '' }}
+        {{ $attributes->except(['name', 'label', 'type', 'required', 'colSpan']) }}
     >
 </label>

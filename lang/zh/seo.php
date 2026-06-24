@@ -21,4 +21,12 @@ return [
         'title' => '文章',
         'description' => '阅读关于钢铁行业的最新文章和新闻。',
     ],
+    'projects' => [
+        'title' => '项目',
+        'description' => 'PT Putra Setia Sukses Bersama 的项目组合。',
+    ],
+    'search' => [
+        'title' => '搜索',
+        'description' => '在 PT Putra Setia Sukses Bersama 搜索产品、文章和项目。',
+    ],
 ];

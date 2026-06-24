@@ -19,5 +19,6 @@ class StaticPagesSection implements SitemapSection
         $this->addLocalizedUrl($sitemap, 'products.index', lastModificationDate: $this->latestTimestamp(Product::query()->max('updated_at')), priority: 0.8);
         $this->addLocalizedUrl($sitemap, 'articles.index', lastModificationDate: $this->latestTimestamp(Article::query()->max('updated_at')), priority: 0.7);
         $this->addLocalizedUrl($sitemap, 'contact', priority: 0.6);
+        $this->addLocalizedUrl($sitemap, 'search', priority: 0.5);
     }
 }

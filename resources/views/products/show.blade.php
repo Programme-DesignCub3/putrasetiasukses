@@ -14,7 +14,7 @@
 <x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products" :site="$site">
     <main class="clamp-[py,48px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
         <section data-product-gallery>
-            <div class="product-gallery-main swiper">
+            <div class="gallery-main swiper">
                 <div class="swiper-wrapper">
                     @foreach ($productImages as $image)
                         <div class="swiper-slide">
@@ -25,24 +25,18 @@
                 </div>
 
                 @if ($productImages->count() > 1)
-                    <button class="product-gallery-button product-gallery-prev" type="button"
-                        aria-label="Gambar sebelumnya">
-                        <span class="text-2xl font-black leading-none">&lsaquo;</span>
-                    </button>
-                    <button class="product-gallery-button product-gallery-next" type="button"
-                        aria-label="Gambar berikutnya">
-                        <span class="text-2xl font-black leading-none">&rsaquo;</span>
-                    </button>
-                    <div class="product-gallery-pagination"></div>
+                    <x-site.slider-nav direction="prev" class="slider-nav-prev" />
+                    <x-site.slider-nav direction="next" class="slider-nav-next" />
+                    <div class="gallery-pagination"></div>
                 @endif
             </div>
 
             @if ($productImages->count() > 1)
-                <div class="product-gallery-thumbs swiper mt-5">
+                <div class="gallery-thumbs swiper mt-5">
                     <div class="swiper-wrapper">
                         @foreach ($productImages as $image)
                             <div class="swiper-slide">
-                                <button class="product-gallery-thumb" type="button">
+                                <button class="gallery-thumb" type="button">
                                     <img class="aspect-[16/9] w-full object-cover" src="{{ $image['url'] }}"
                                         alt="{{ $image['alt'] ?? $product->name }}">
                                 </button>

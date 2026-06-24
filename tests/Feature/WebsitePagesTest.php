@@ -1,9 +1,11 @@
 <?php
 
+use App\Enums\CategoryType;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\Product;
+use App\Models\Project;
 use App\Support\SiteConfig;
 use App\Support\Sitemap\SitemapBuilder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -71,8 +73,8 @@ test('product page renders managed content', function () {
         ->assertSee($product->getTranslation('name', 'id'))
         ->assertSee('Deskripsi Barang')
         ->assertSee('Pesan & Hubungi')
-        ->assertSee('product-gallery-main')
-        ->assertSee('product-gallery-thumbs');
+        ->assertSee('gallery-main')
+        ->assertSee('gallery-thumbs');
 });
 
 test('article pages render managed content', function () {
@@ -132,12 +134,24 @@ test('public pages render seo metadata', function () {
         ->assertSee('property="og:image" content="'.e($article->image_url).'"', false);
 });
 
+test('search page renders and accepts search query', function () {
+    $product = Product::factory()->create();
+
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/cari')
+        ->assertSuccessful()
+        ->assertSee(__('search.title'));
+
+    $this->withHeaders(['Accept-Language' => 'en'])->get('/en/cari')
+        ->assertSuccessful()
+        ->assertSee('Search');
+});
+
 test('cookie consent banner prepares google analytics without loading it immediately', function () {
     config(['services.google_analytics.measurement_id' => 'G-TEST123']);
 
     $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/')
         ->assertSuccessful()
-        ->assertSee('data-cookie-consent', false)
+        ->assertSee('x-data="cookieConsent"', false)
         ->assertSee('Privasi dan Cookie')
         ->assertSee('G-TEST123')
         ->assertDontSee('googletagmanager.com/gtag/js', false);
@@ -191,7 +205,7 @@ test('categories have their own translatable details and media', function () {
     Storage::fake('public');
 
     $category = Category::factory()->create([
-        'type' => Category::TypeProduct,
+        'type' => CategoryType::Product,
         'description' => [
             'id' => 'Kategori plat baja untuk kebutuhan proyek.',
             'en' => 'Steel plate category for project needs.',
@@ -219,6 +233,7 @@ test('categories have their own translatable details and media', function () {
 test('sitemap exposes localized public urls', function () {
     $product = Product::factory()->create();
     $article = Article::factory()->create();
+    $project = Project::factory()->create();
 
     $xml = SitemapBuilder::default()->build()->render();
 
@@ -227,12 +242,14 @@ test('sitemap exposes localized public urls', function () {
         ->toContain(route('products.index'))
         ->toContain('/en/produk/'.$product->slug)
         ->toContain('/zh/artikel/'.$article->slug)
+        ->toContain('/en/proyek/'.$project->slug)
         ->toContain('hreflang="x-default"');
 });
 
 test('sitemap can be generated as a static public file', function () {
     $product = Product::factory()->create();
     $article = Article::factory()->create();
+    $project = Project::factory()->create();
 
     $path = public_path('sitemap-test.xml');
     File::delete($path);
@@ -248,6 +265,7 @@ test('sitemap can be generated as a static public file', function () {
         ->toContain(route('home'))
         ->toContain('/en/produk/'.$product->slug)
         ->toContain('/zh/artikel/'.$article->slug)
+        ->toContain('/en/proyek/'.$project->slug)
         ->toContain('hreflang="x-default"');
 
     File::delete($path);

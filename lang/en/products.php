@@ -6,4 +6,7 @@ return [
     'description' => 'Product Description',
     'order' => 'Order & Contact',
     'view_detail' => 'View Details',
+    'search' => 'Search products...',
+    'all_categories' => 'All Categories',
+    'no_results' => 'No products found.',
 ];

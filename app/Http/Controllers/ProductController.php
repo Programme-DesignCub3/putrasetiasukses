@@ -19,15 +19,8 @@ class ProductController extends Controller
             image: 'https://placehold.co/1400x320/2b2b2b/ffffff?text=Produk',
         );
 
-        $products = Product::query()
-            ->with(['categories', 'media'])
-            ->where('is_published', true)
-            ->ordered()
-            ->get();
-
         return view('products.index', [
             'site' => $site,
-            'products' => $products,
         ]);
     }
 

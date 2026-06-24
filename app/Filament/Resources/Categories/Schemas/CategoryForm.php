@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Categories\Schemas;
 
+use App\Enums\CategoryType;
 use App\Models\Category;
 use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\Select;
@@ -22,11 +23,7 @@ class CategoryForm
                     ->schema([
                         Select::make('type')
                             ->label('Tipe')
-                            ->options([
-                                Category::TypeProduct => 'Produk',
-                                Category::TypeArticle => 'Artikel / News',
-                                Category::TypeProject => 'Project',
-                            ])
+                            ->options(CategoryType::class)
                             ->required(),
                         Toggle::make('is_active')
                             ->label('Active')

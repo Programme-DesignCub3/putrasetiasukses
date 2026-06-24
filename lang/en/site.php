@@ -13,11 +13,16 @@ return [
         'projects' => 'Our Project',
         'articles' => 'Articles',
         'contact' => 'Contact',
+        'search' => 'Search',
         'menu' => 'Menu',
     ],
     'cta' => [
         'contact_us' => 'Contact Us',
         'strip' => 'Please contact us now. We will be happy to assist you.',
+    ],
+    'slider' => [
+        'prev' => 'Previous',
+        'next' => 'Next',
     ],
     'cookie' => [
         'title' => 'Privacy and Cookies',

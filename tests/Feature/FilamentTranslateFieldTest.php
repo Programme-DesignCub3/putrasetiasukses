@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\CategoryType;
 use App\Filament\Resources\Articles\Pages\CreateArticle;
 use App\Models\Article;
 use App\Models\Category;
@@ -28,7 +29,7 @@ test('indonesian article translations are required while other locales are optio
     $this->actingAs(User::factory()->create());
 
     $category = Category::factory()->create([
-        'type' => Category::TypeArticle,
+        'type' => CategoryType::Article,
         'is_active' => true,
         'name' => Category::translations('Berita'),
     ]);
@@ -72,7 +73,7 @@ test('article forms reject missing indonesian translations', function (array $da
     $this->actingAs(User::factory()->create());
 
     $category = Category::factory()->create([
-        'type' => Category::TypeArticle,
+        'type' => CategoryType::Article,
         'is_active' => true,
         'name' => Category::translations('Berita'),
     ]);

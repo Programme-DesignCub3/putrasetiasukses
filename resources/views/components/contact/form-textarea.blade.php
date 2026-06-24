@@ -13,5 +13,6 @@
         name="{{ $name }}"
         rows="{{ $rows }}"
         {{ $required ? 'required' : '' }}
+        {{ $attributes->except(['name', 'label', 'required', 'rows', 'colSpan']) }}
     >{{ old($name) }}</textarea>
 </label>

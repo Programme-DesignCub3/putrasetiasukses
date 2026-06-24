@@ -6,6 +6,8 @@ use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Filament\Resources\ContactMessages\Pages\ListContactMessages;
 use App\Filament\Resources\ProductCategories\Pages\ListProductCategories;
 use App\Filament\Resources\Products\Pages\ListProducts;
+use App\Filament\Resources\ProjectCategories\Pages\ListProjectCategories;
+use App\Filament\Resources\Projects\Pages\ListProjects;
 use App\Models\User;
 use Benriadh1\FilamentTranslationManager\Pages\TranslationManagerEnhancedPage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,6 +27,8 @@ test('filament resource list pages render with the admin layout', function (stri
     ListContactMessages::class,
     ListProductCategories::class,
     ListProducts::class,
+    ListProjectCategories::class,
+    ListProjects::class,
     TranslationManagerEnhancedPage::class,
 ]);
 

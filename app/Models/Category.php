@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CategoryType;
 use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,12 +27,6 @@ class Category extends Model implements HasMedia, Sortable
     use HasTranslations;
     use InteractsWithMedia;
     use SortableTrait;
-
-    public const TypeProduct = 'product';
-
-    public const TypeArticle = 'article';
-
-    public const TypeProject = 'project';
 
     public const ImageCollection = 'category_image';
 
@@ -73,6 +68,7 @@ class Category extends Model implements HasMedia, Sortable
     protected function casts(): array
     {
         return [
+            'type' => CategoryType::class,
             'gallery_images' => 'array',
             'is_active' => 'boolean',
             'order_column' => 'integer',
@@ -108,6 +104,14 @@ class Category extends Model implements HasMedia, Sortable
         return $this->belongsToMany(Article::class);
     }
 
+    /**
+     * @return BelongsToMany<Project, $this>
+     */
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::ImageCollection)
@@ -138,7 +142,7 @@ class Category extends Model implements HasMedia, Sortable
         return json_decode((string) $value, true) ?: [];
     }
 
-    public static function findOrCreateForType(string $type, array|string $name): static
+    public static function findOrCreateForType(CategoryType $type, array|string $name): static
     {
         $translations = is_array($name) ? $name : static::translations($name);
         $slug = Str::slug($translations['id'] ?? $translations['en'] ?? $translations['zh'] ?? '');

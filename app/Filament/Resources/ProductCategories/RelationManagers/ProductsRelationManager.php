@@ -37,8 +37,7 @@ class ProductsRelationManager extends RelationManager
             ->headerActions([
                 AttachAction::make()
                     ->recordTitle(fn (Product $record): string => $record->name)
-                    ->preload()
-                    ->searchable(),
+                    ->preloadRecordSelect(),
             ])
             ->actions([
                 EditAction::make(),

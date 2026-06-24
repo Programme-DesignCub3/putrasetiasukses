@@ -8,6 +8,10 @@
 
     @metadata
 
+    @foreach ($alternateUrls as $hreflang => $url)
+        <link rel="alternate" hreflang="{{ $hreflang }}" href="{{ $url }}">
+    @endforeach
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @livewireStyles

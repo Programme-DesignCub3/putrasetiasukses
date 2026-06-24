@@ -96,10 +96,7 @@ class SitemapBuilder
     {
         App::setLocale($locale);
 
-        return route($routeName, [
-            ...$parameters,
-            'locale' => $locale,
-        ]);
+        return route($routeName, $this->localizedParameters($parameters, $locale));
     }
 
     private function hreflang(string $locale): string
@@ -108,6 +105,25 @@ class SitemapBuilder
             'zh' => 'zh-CN',
             default => str_replace('_', '-', $locale),
         };
+    }
+
+    /**
+     * @param  array<string, mixed>  $parameters
+     * @return array<string, mixed>
+     */
+    private function localizedParameters(array $parameters, string $locale): array
+    {
+        $defaultLocale = config('localizer.supported_locales.0', 'id');
+
+        if ($locale === $defaultLocale && config('localizer.hide_default_locale', false)) {
+            unset($parameters['locale']);
+
+            return $parameters;
+        }
+
+        $parameters['locale'] = $locale;
+
+        return $parameters;
     }
 
     private function latestTimestamp(mixed $value): ?DateTimeInterface

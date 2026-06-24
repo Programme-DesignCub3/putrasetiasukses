@@ -68,6 +68,10 @@ test('public pages render seo metadata', function () {
     $this->withHeaders(['Accept-Language' => 'id'])->get('/')
         ->assertSuccessful()
         ->assertSee('<title>'.$site->company_name.'</title>', false)
+        ->assertSee('<link rel="canonical" href="'.route('home').'"', false)
+        ->assertSee('rel="alternate" hreflang="en"', false)
+        ->assertSee('rel="alternate" hreflang="zh-CN"', false)
+        ->assertSee('rel="alternate" hreflang="x-default"', false)
         ->assertSee('name="description"', false)
         ->assertSee($site->tagline)
         ->assertSee('property="og:type" content="website"', false);

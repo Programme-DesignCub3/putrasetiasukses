@@ -7,17 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
-class Category extends Model
+class Category extends Model implements HasMedia
 {
     /** @use HasFactory<CategoryFactory> */
     use HasFactory;
 
     use HasSlug;
     use HasTranslations;
+    use InteractsWithMedia;
 
     public const TypeProduct = 'product';
 
@@ -25,11 +29,16 @@ class Category extends Model
 
     public const TypeProject = 'project';
 
+    public const ImageCollection = 'category_image';
+
+    public const GalleryCollection = 'category_gallery';
+
     /**
      * @var list<string>
      */
     public array $translatable = [
         'name',
+        'description',
     ];
 
     /**
@@ -38,7 +47,10 @@ class Category extends Model
     protected $fillable = [
         'type',
         'name',
+        'description',
         'slug',
+        'image_url',
+        'gallery_images',
         'is_active',
     ];
 
@@ -48,6 +60,7 @@ class Category extends Model
     protected function casts(): array
     {
         return [
+            'gallery_images' => 'array',
             'is_active' => 'boolean',
         ];
     }
@@ -74,6 +87,36 @@ class Category extends Model
     public function articles(): BelongsToMany
     {
         return $this->belongsToMany(Article::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::ImageCollection)
+            ->singleFile();
+
+        $this->addMediaCollection(self::GalleryCollection);
+    }
+
+    public function getImageUrlAttribute(?string $value): string
+    {
+        return $this->getFirstMediaUrl(self::ImageCollection) ?: (string) $value;
+    }
+
+    /**
+     * @return array<int, array<string, string>>
+     */
+    public function getGalleryImagesAttribute(?string $value): array
+    {
+        if ($this->hasMedia(self::GalleryCollection)) {
+            return $this->getMedia(self::GalleryCollection)
+                ->map(fn (Media $media): array => [
+                    'url' => $media->getUrl(),
+                    'alt' => $media->name,
+                ])
+                ->all();
+        }
+
+        return json_decode((string) $value, true) ?: [];
     }
 
     public static function findOrCreateForType(string $type, array|string $name): self

@@ -2,6 +2,7 @@
 
 use App\Models\AboutPage;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\Product;
 use App\Support\SiteConfig;
@@ -115,6 +116,35 @@ test('media library images override legacy placeholder urls', function () {
     $this->withHeaders(['Accept-Language' => 'id'])->get('/produk/'.$product->slug)
         ->assertSuccessful()
         ->assertSee('product-main.jpg');
+});
+
+test('categories have their own translatable details and media', function () {
+    Storage::fake('public');
+
+    $category = Category::factory()->create([
+        'type' => Category::TypeProduct,
+        'description' => [
+            'id' => 'Kategori plat baja untuk kebutuhan proyek.',
+            'en' => 'Steel plate category for project needs.',
+            'zh' => '项目用钢板类别。',
+        ],
+        'image_url' => 'https://placehold.co/640x420/000000/ffffff?text=Legacy',
+    ]);
+
+    $category
+        ->addMedia(UploadedFile::fake()->image('category-cover.jpg'))
+        ->toMediaCollection(Category::ImageCollection);
+
+    $category
+        ->addMedia(UploadedFile::fake()->image('category-gallery.jpg'))
+        ->toMediaCollection(Category::GalleryCollection);
+
+    expect($category->fresh()->description)->toBe('Kategori plat baja untuk kebutuhan proyek.')
+        ->and($category->fresh()->image_url)->toContain('category-cover.jpg')
+        ->and($category->fresh()->gallery_images)
+        ->toHaveCount(1)
+        ->and($category->fresh()->gallery_images[0]['url'])
+        ->toContain('category-gallery.jpg');
 });
 
 test('sitemap exposes localized public urls', function () {

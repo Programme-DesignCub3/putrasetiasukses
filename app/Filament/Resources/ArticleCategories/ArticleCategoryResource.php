@@ -22,9 +22,9 @@ class ArticleCategoryResource extends Resource
 
     protected static ?string $navigationLabel = 'Kategori Artikel';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Konten';
+    protected static string|\UnitEnum|null $navigationGroup = 'Artikel';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $modelLabel = 'Kategori Artikel';
 

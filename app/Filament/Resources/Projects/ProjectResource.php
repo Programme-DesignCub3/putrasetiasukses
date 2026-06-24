@@ -22,9 +22,9 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationLabel = 'Project';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Konten';
+    protected static string|\UnitEnum|null $navigationGroup = 'Project';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $modelLabel = 'Project';
 

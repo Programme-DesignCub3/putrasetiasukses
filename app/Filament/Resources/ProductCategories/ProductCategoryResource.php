@@ -22,7 +22,7 @@ class ProductCategoryResource extends Resource
 
     protected static ?string $navigationLabel = 'Kategori Produk';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Konten';
+    protected static string|\UnitEnum|null $navigationGroup = 'Produk';
 
     protected static ?int $navigationSort = 1;
 

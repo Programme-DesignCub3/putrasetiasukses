@@ -2,14 +2,16 @@
 
 namespace App\Observers;
 
+use App\Jobs\RegenerateSitemap;
 use App\Models\Article;
 use App\Models\Product;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Artisan;
 
 class SitemapObserver
 {
+    private static bool $dispatched = false;
+
     public function saved(Model $model): void
     {
         if (app()->environment('testing')) {
@@ -18,7 +20,7 @@ class SitemapObserver
 
         if ($model->wasRecentlyCreated) {
             if ($this->isEffectivelyPublished($model)) {
-                Artisan::call('sitemap:generate');
+                $this->dispatch();
             }
 
             return;
@@ -28,7 +30,7 @@ class SitemapObserver
             $model->translatable ?? [],
             ['is_published', 'slug'],
         ))) {
-            Artisan::call('sitemap:generate');
+            $this->dispatch();
         }
     }
 
@@ -38,7 +40,18 @@ class SitemapObserver
             return;
         }
 
-        Artisan::call('sitemap:generate');
+        $this->dispatch();
+    }
+
+    private function dispatch(): void
+    {
+        if (self::$dispatched) {
+            return;
+        }
+
+        self::$dispatched = true;
+
+        RegenerateSitemap::dispatch()->afterCommit();
     }
 
     private function isEffectivelyPublished(Model $model): bool

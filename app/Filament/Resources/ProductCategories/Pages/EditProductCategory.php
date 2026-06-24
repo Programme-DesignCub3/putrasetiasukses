@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProductCategories\Pages;
 
 use App\Filament\Resources\ProductCategories\ProductCategoryResource;
+use App\Filament\Resources\ProductCategories\RelationManagers\ProductsRelationManager;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
@@ -14,6 +15,13 @@ class EditProductCategory extends EditRecord
     {
         return [
             DeleteAction::make(),
+        ];
+    }
+
+    public function getRelationManagers(): array
+    {
+        return [
+            ProductsRelationManager::class,
         ];
     }
 }

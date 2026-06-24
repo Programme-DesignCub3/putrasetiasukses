@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Support\SiteConfig;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
@@ -122,6 +123,29 @@ test('sitemap exposes localized public urls', function () {
         ->assertSee('/en/produk/plat-hitam', false)
         ->assertSee('/zh/artikel/perkembangan-industri-baja-indonesia', false)
         ->assertSee('hreflang="x-default"', false);
+});
+
+test('sitemap can be generated as a static public file', function () {
+    Product::factory()->create();
+    Article::factory()->create();
+
+    $path = public_path('sitemap-test.xml');
+    File::delete($path);
+
+    $this->artisan('sitemap:generate', ['--path' => 'sitemap-test.xml'])
+        ->assertSuccessful();
+
+    expect(File::exists($path))->toBeTrue();
+
+    $contents = File::get($path);
+
+    expect($contents)
+        ->toContain(route('home'))
+        ->toContain('/en/produk/plat-hitam')
+        ->toContain('/zh/artikel/perkembangan-industri-baja-indonesia')
+        ->toContain('hreflang="x-default"');
+
+    File::delete($path);
 });
 
 test('robots file points crawlers to the sitemap', function () {

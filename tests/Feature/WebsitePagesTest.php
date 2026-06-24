@@ -17,7 +17,9 @@ test('home page renders with shared site content', function () {
     $this->withHeaders(['Accept-Language' => 'id'])->get('/')
         ->assertSuccessful()
         ->assertSee('PT Putra Setia Sukses Bersama')
-        ->assertSee('Plat Lembaran');
+        ->assertSee('Plat Lembaran')
+        ->assertSee('home-testimonials-swiper')
+        ->assertSee('home-partners-swiper');
 });
 
 test('about page renders managed content', function () {

@@ -55,30 +55,43 @@
                 <section id="tentang-kami" class="mx-auto grid max-w-7xl gap-12 px-4 clamp-[py,56px,64px] sm:px-5 lg:grid-cols-2 lg:px-8">
                     <div>
                         <h2 class="section-title">{{ __('site.home.testimonial_title') }}</h2>
-                        <figure class="relative mt-8 bg-brand-red p-6 text-white shadow-lg sm:p-8">
-                            <blockquote class="text-sm font-bold italic leading-relaxed sm:text-base">
-                                "PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan, dengan kualitas produk yang konsisten serta pengiriman yang tepat waktu."
-                            </blockquote>
-                            <figcaption class="mt-6 text-sm font-bold">Jonathan Doe, Pemilik Rumah</figcaption>
-                            <span class="absolute -bottom-6 left-8 h-0 w-0 border-l-[28px] border-t-[28px] border-l-transparent border-t-brand-red"></span>
-                        </figure>
-                        <div class="mt-9 flex justify-center gap-2">
-                            @foreach (range(1, 8) as $dot)
-                                <span class="h-3 w-3 rounded-full {{ $dot === 2 ? 'bg-brand-red' : 'bg-zinc-200' }}"></span>
-                            @endforeach
+                        <div class="home-slider home-testimonials-swiper swiper mt-8">
+                            <div class="swiper-wrapper">
+                                @foreach ($testimonials as $testimonial)
+                                    <div class="swiper-slide">
+                                        <figure class="relative bg-brand-red p-6 text-white shadow-lg sm:p-8">
+                                            <blockquote class="text-sm font-bold italic leading-relaxed sm:text-base">
+                                                "{{ $testimonial['quote'] }}"
+                                            </blockquote>
+                                            <figcaption class="mt-6 text-sm font-bold">{{ $testimonial['name'] }}, {{ $testimonial['role'] }}</figcaption>
+                                            <span class="absolute -bottom-6 left-8 h-0 w-0 border-l-[28px] border-t-[28px] border-l-transparent border-t-brand-red"></span>
+                                        </figure>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="home-swiper-pagination home-testimonials-pagination mt-9"></div>
                         </div>
                     </div>
 
                     <div>
                         <h2 class="section-title">{{ __('site.home.partners_title') }}</h2>
-                        <div class="mt-8 grid border border-zinc-300 sm:grid-cols-2">
-                            <div class="flex min-h-44 flex-col items-center justify-center border-b border-zinc-300 p-8 sm:min-h-52 sm:border-b-0 sm:border-r">
-                                <span class="text-4xl font-black text-sky-600 sm:text-5xl">K</span>
-                                <span class="mt-3 text-center text-sm font-black uppercase text-zinc-700">Krakatau Steel</span>
+                        <div class="relative mt-8">
+                            <div class="home-slider home-partners-swiper swiper border border-zinc-300">
+                                <div class="swiper-wrapper">
+                                    @foreach ($partners as $partner)
+                                        <div class="swiper-slide">
+                                            <div class="flex min-h-44 flex-col items-center justify-center border-zinc-300 p-8 sm:min-h-52">
+                                                <span class="text-4xl font-black sm:text-5xl" style="color: {{ $partner['color'] }}">{{ $partner['initial'] }}</span>
+                                                <span class="mt-3 text-center text-xs font-black uppercase text-zinc-700 sm:text-sm">{{ $partner['name'] }}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                            <div class="flex min-h-44 flex-col items-center justify-center p-8 sm:min-h-52">
-                                <span class="text-4xl font-black text-cyan-600 sm:text-5xl">S</span>
-                                <span class="mt-3 text-center text-xs font-black uppercase text-zinc-700">PT. Sahabat Baja Sejahtera</span>
+                            <div class="mt-6 flex items-center justify-center gap-3">
+                                <button class="home-swiper-button home-partners-prev" type="button" aria-label="Partner sebelumnya"></button>
+                                <div class="home-swiper-pagination home-partners-pagination"></div>
+                                <button class="home-swiper-button home-partners-next" type="button" aria-label="Partner berikutnya"></button>
                             </div>
                         </div>
                     </div>

@@ -1,8 +1,10 @@
 <?php
 
+use App\Filament\Resources\ArticleCategories\Pages\ListArticleCategories;
 use App\Filament\Resources\Articles\Pages\ListArticles;
 use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Filament\Resources\ContactMessages\Pages\ListContactMessages;
+use App\Filament\Resources\ProductCategories\Pages\ListProductCategories;
 use App\Filament\Resources\Products\Pages\ListProducts;
 use App\Models\User;
 use Benriadh1\FilamentTranslationManager\Pages\TranslationManagerEnhancedPage;
@@ -17,9 +19,11 @@ test('filament resource list pages render with the admin layout', function (stri
     Livewire::test($page)
         ->assertStatus(200);
 })->with([
+    ListArticleCategories::class,
     ListArticles::class,
     ListCategories::class,
     ListContactMessages::class,
+    ListProductCategories::class,
     ListProducts::class,
     TranslationManagerEnhancedPage::class,
 ]);

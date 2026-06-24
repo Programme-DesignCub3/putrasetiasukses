@@ -23,7 +23,7 @@ class CategoryForm
                             ->label('Tipe')
                             ->options([
                                 Category::TypeProduct => 'Produk',
-                                Category::TypeArticle => 'Artikel',
+                                Category::TypeArticle => 'Artikel / News',
                                 Category::TypeProject => 'Project',
                             ])
                             ->required(),

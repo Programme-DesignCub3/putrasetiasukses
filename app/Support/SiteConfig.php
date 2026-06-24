@@ -73,6 +73,10 @@ class SiteConfig
                     'zh' => '坦格朗 Bitung PKT 工业区 F6 & 7 区',
                 ],
             ],
+            'analytics' => [
+                'cookie_consent_enabled' => true,
+                'google_measurement_id' => config('services.google_analytics.measurement_id'),
+            ],
         ];
     }
 

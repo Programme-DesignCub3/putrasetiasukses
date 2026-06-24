@@ -6,6 +6,7 @@ use App\Support\SiteConfig;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Inerba\DbConfig\AbstractPageSettings;
@@ -127,6 +128,19 @@ class WebsiteSettings extends AbstractPageSettings
                             ->rows(3),
                     ])
                     ->columns(3),
+
+                Section::make('Cookie dan Analytics')
+                    ->schema([
+                        Toggle::make('analytics.cookie_consent_enabled')
+                            ->label('Tampilkan cookie consent')
+                            ->default(true),
+                        TextInput::make('analytics.google_measurement_id')
+                            ->label('Google Analytics Measurement ID')
+                            ->placeholder('G-XXXXXXXXXX')
+                            ->maxLength(50)
+                            ->helperText('Script Google Analytics hanya dimuat setelah pengunjung menyetujui analitik.'),
+                    ])
+                    ->columns(2),
             ])
             ->statePath('data');
     }

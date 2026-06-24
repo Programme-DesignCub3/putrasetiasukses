@@ -68,7 +68,7 @@ test('public pages render seo metadata', function () {
     $site = SiteConfig::current();
     $article = Article::factory()->create();
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/')
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/')
         ->assertSuccessful()
         ->assertSee('<title>'.$site->company_name.'</title>', false)
         ->assertSee('<link rel="canonical" href="'.route('home').'"', false)
@@ -87,6 +87,30 @@ test('public pages render seo metadata', function () {
         ->assertSee('"datePublished"', false)
         ->assertSee('"author"', false)
         ->assertSee('property="og:image" content="'.$article->image_url.'"', false);
+});
+
+test('cookie consent banner prepares google analytics without loading it immediately', function () {
+    config(['services.google_analytics.measurement_id' => 'G-TEST123']);
+
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/')
+        ->assertSuccessful()
+        ->assertSee('data-cookie-consent', false)
+        ->assertSee('Privasi dan Cookie')
+        ->assertSee('G-TEST123')
+        ->assertDontSee('googletagmanager.com/gtag/js', false);
+});
+
+test('cookie consent banner can be disabled while analytics remains configured', function () {
+    config([
+        'services.cookie_consent.enabled' => false,
+        'services.google_analytics.measurement_id' => 'G-TEST123',
+    ]);
+
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/')
+        ->assertSuccessful()
+        ->assertDontSee('data-cookie-consent', false)
+        ->assertSee('cookieConsentEnabled', false)
+        ->assertSee('G-TEST123');
 });
 
 test('media library images override legacy placeholder urls', function () {

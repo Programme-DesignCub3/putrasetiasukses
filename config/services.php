@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'google_analytics' => [
+        'measurement_id' => env('GOOGLE_ANALYTICS_ID'),
+    ],
+
+    'cookie_consent' => [
+        'enabled' => env('COOKIE_CONSENT_ENABLED', true),
+    ],
+
 ];

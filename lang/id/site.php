@@ -58,4 +58,10 @@ return [
         'contact_us' => 'Hubungi Kami',
         'strip' => 'Silahkan menghubungi kami segera. Kami dengan senang hati akan melayani anda',
     ],
+    'cookie' => [
+        'title' => 'Privasi dan Cookie',
+        'description' => 'Kami menggunakan cookie penting untuk menjalankan situs. Dengan persetujuan Anda, kami juga akan memakai Google Analytics untuk memahami performa halaman.',
+        'accept' => 'Terima analitik',
+        'reject' => 'Tolak non-esensial',
+    ],
 ];

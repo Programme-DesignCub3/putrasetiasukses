@@ -11,11 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('about_pages', function (Blueprint $table) {
-            $table->string('hero_image_url')->nullable()->change();
-            $table->string('intro_image_url')->nullable()->change();
-        });
-
         Schema::table('articles', function (Blueprint $table) {
             $table->string('image_url')->nullable()->change();
         });
@@ -30,11 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('about_pages', function (Blueprint $table) {
-            $table->string('hero_image_url')->nullable(false)->change();
-            $table->string('intro_image_url')->nullable(false)->change();
-        });
-
         Schema::table('articles', function (Blueprint $table) {
             $table->string('image_url')->nullable(false)->change();
         });

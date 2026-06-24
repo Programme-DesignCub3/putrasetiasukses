@@ -10,7 +10,6 @@ use App\Support\SiteConfig;
 use App\Support\Sitemap\SitemapBuilder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +26,7 @@ test('home page renders with shared site content', function () {
         ->assertSee('home-partners-swiper');
 });
 
-test('about page renders hardcoded copy with settings media without using about page records', function () {
+test('about page renders hardcoded copy with settings media', function () {
     DbConfig::set(SiteConfig::Group.'.about', [
         'hero_image' => 'about/hero.jpg',
         'intro_image' => 'about/intro.jpg',
@@ -36,13 +35,6 @@ test('about page renders hardcoded copy with settings media without using about 
         ],
         'video_url' => 'https://www.youtube.com/embed/test-video',
     ]);
-
-    expect(DB::table('about_pages')->count())->toBe(0);
-
-    $queries = [];
-    DB::listen(function ($query) use (&$queries): void {
-        $queries[] = $query->sql;
-    });
 
     $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/tentang-kami')
         ->assertSuccessful()
@@ -55,8 +47,6 @@ test('about page renders hardcoded copy with settings media without using about 
         ->assertSee('/storage/about/intro.jpg', false)
         ->assertSee('/storage/about/gallery/warehouse.jpg', false)
         ->assertSee('https://www.youtube.com/embed/test-video', false);
-
-    expect(collect($queries)->contains(fn (string $sql): bool => str_contains($sql, 'about_pages')))->toBeFalse();
 });
 
 test('product page renders managed content', function () {

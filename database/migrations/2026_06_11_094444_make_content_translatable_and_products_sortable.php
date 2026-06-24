@@ -16,7 +16,6 @@ return new class extends Migration
 
         $this->makeProductsTranslatable();
         $this->makeArticlesTranslatable();
-        $this->makeAboutPagesTranslatable();
     }
 
     /**
@@ -26,7 +25,6 @@ return new class extends Migration
     {
         $this->makeProductsPlain();
         $this->makeArticlesPlain();
-        $this->makeAboutPagesPlain();
         $this->createSiteSettingsTable();
     }
 
@@ -107,62 +105,6 @@ return new class extends Migration
         });
     }
 
-    private function makeAboutPagesTranslatable(): void
-    {
-        if (! Schema::hasTable('about_pages') || Schema::hasColumn('about_pages', 'title_translations')) {
-            return;
-        }
-
-        Schema::table('about_pages', function (Blueprint $table): void {
-            $table->json('title_translations')->nullable()->after('title');
-            $table->json('intro_text_translations')->nullable()->after('intro_text');
-            $table->json('vision_title_translations')->nullable()->after('vision_title');
-            $table->json('vision_body_translations')->nullable()->after('vision_body');
-            $table->json('mission_title_translations')->nullable()->after('mission_title');
-            $table->json('mission_body_translations')->nullable()->after('mission_body');
-            $table->json('video_title_translations')->nullable()->after('video_title');
-        });
-
-        DB::table('about_pages')
-            ->orderBy('id')
-            ->get()
-            ->each(function (object $aboutPage): void {
-                DB::table('about_pages')
-                    ->where('id', $aboutPage->id)
-                    ->update([
-                        'title_translations' => $this->translations($aboutPage->title),
-                        'intro_text_translations' => $this->translations($aboutPage->intro_text),
-                        'vision_title_translations' => $this->translations($aboutPage->vision_title),
-                        'vision_body_translations' => $this->translations($aboutPage->vision_body),
-                        'mission_title_translations' => $this->translations($aboutPage->mission_title),
-                        'mission_body_translations' => $this->translations($aboutPage->mission_body),
-                        'video_title_translations' => $this->translations($aboutPage->video_title),
-                    ]);
-            });
-
-        Schema::table('about_pages', function (Blueprint $table): void {
-            $table->dropColumn([
-                'title',
-                'intro_text',
-                'vision_title',
-                'vision_body',
-                'mission_title',
-                'mission_body',
-                'video_title',
-            ]);
-        });
-
-        Schema::table('about_pages', function (Blueprint $table): void {
-            $table->renameColumn('title_translations', 'title');
-            $table->renameColumn('intro_text_translations', 'intro_text');
-            $table->renameColumn('vision_title_translations', 'vision_title');
-            $table->renameColumn('vision_body_translations', 'vision_body');
-            $table->renameColumn('mission_title_translations', 'mission_title');
-            $table->renameColumn('mission_body_translations', 'mission_body');
-            $table->renameColumn('video_title_translations', 'video_title');
-        });
-    }
-
     private function makeProductsPlain(): void
     {
         if (! Schema::hasTable('products') || Schema::hasColumn('products', 'category_plain')) {
@@ -233,61 +175,6 @@ return new class extends Migration
             $table->renameColumn('title_plain', 'title');
             $table->renameColumn('excerpt_plain', 'excerpt');
             $table->renameColumn('body_plain', 'body');
-        });
-    }
-
-    private function makeAboutPagesPlain(): void
-    {
-        if (! Schema::hasTable('about_pages') || Schema::hasColumn('about_pages', 'title_plain')) {
-            return;
-        }
-
-        Schema::table('about_pages', function (Blueprint $table): void {
-            $table->string('title_plain')->nullable()->after('title');
-            $table->text('intro_text_plain')->nullable()->after('intro_text');
-            $table->string('vision_title_plain')->nullable()->after('vision_title');
-            $table->text('vision_body_plain')->nullable()->after('vision_body');
-            $table->string('mission_title_plain')->nullable()->after('mission_title');
-            $table->text('mission_body_plain')->nullable()->after('mission_body');
-            $table->string('video_title_plain')->nullable()->after('video_title');
-        });
-
-        DB::table('about_pages')
-            ->get()
-            ->each(function (object $aboutPage): void {
-                DB::table('about_pages')
-                    ->where('id', $aboutPage->id)
-                    ->update([
-                        'title_plain' => $this->plain($aboutPage->title),
-                        'intro_text_plain' => $this->plain($aboutPage->intro_text),
-                        'vision_title_plain' => $this->plain($aboutPage->vision_title),
-                        'vision_body_plain' => $this->plain($aboutPage->vision_body),
-                        'mission_title_plain' => $this->plain($aboutPage->mission_title),
-                        'mission_body_plain' => $this->plain($aboutPage->mission_body),
-                        'video_title_plain' => $this->plain($aboutPage->video_title),
-                    ]);
-            });
-
-        Schema::table('about_pages', function (Blueprint $table): void {
-            $table->dropColumn([
-                'title',
-                'intro_text',
-                'vision_title',
-                'vision_body',
-                'mission_title',
-                'mission_body',
-                'video_title',
-            ]);
-        });
-
-        Schema::table('about_pages', function (Blueprint $table): void {
-            $table->renameColumn('title_plain', 'title');
-            $table->renameColumn('intro_text_plain', 'intro_text');
-            $table->renameColumn('vision_title_plain', 'vision_title');
-            $table->renameColumn('vision_body_plain', 'vision_body');
-            $table->renameColumn('mission_title_plain', 'mission_title');
-            $table->renameColumn('mission_body_plain', 'mission_body');
-            $table->renameColumn('video_title_plain', 'video_title');
         });
     }
 

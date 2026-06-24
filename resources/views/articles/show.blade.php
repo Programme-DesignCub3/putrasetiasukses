@@ -1,4 +1,9 @@
 <x-layouts.app :title="$article->title . ' - ' . $site->company_name" :description="$article->excerpt" :image="$article->image_url" type="article"
+    :published-at="$article->published_at"
+    :modified-at="$article->updated_at"
+    :author="$article->author"
+    :section="$article->category_names"
+    :tags="$article->categories->pluck('name')->all()"
     body-class="bg-white font-sans text-brand-ink antialiased">
     <div class="min-h-screen overflow-hidden">
         <x-site.header :site="$site" active="articles" />

@@ -80,6 +80,9 @@ test('public pages render seo metadata', function () {
         ->assertSuccessful()
         ->assertSee('<title>'.$article->title.' - '.$site->company_name.'</title>', false)
         ->assertSee('property="og:type" content="article"', false)
+        ->assertSee('property="article:published_time"', false)
+        ->assertSee('"datePublished"', false)
+        ->assertSee('"author"', false)
         ->assertSee('property="og:image" content="'.$article->image_url.'"', false);
 });
 

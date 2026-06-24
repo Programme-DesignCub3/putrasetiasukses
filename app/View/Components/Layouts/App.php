@@ -6,6 +6,8 @@ namespace App\View\Components\Layouts;
 
 use Closure;
 use Honeystone\Seo\Contracts\BuildsMetadata;
+use Honeystone\Seo\OpenGraph\ArticleProperties;
+use Honeystone\Seo\OpenGraph\ProfileProperties;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\App as Locale;
 use Illuminate\Support\Str;
@@ -26,6 +28,11 @@ class App extends Component
         public ?string $description = null,
         public ?string $image = null,
         public string $type = 'website',
+        public mixed $publishedAt = null,
+        public mixed $modifiedAt = null,
+        public ?string $author = null,
+        public ?string $section = null,
+        public array $tags = [],
     ) {
         app()->forgetInstance(BuildsMetadata::class);
 
@@ -45,13 +52,16 @@ class App extends Component
             ->description($description)
             ->keywords(...config('seo.keywords', []))
             ->canonical($this->canonicalUrl)
-            ->openGraphType($type)
+            ->openGraphType($this->openGraphType())
             ->openGraphAlternateLocales($this->openGraphAlternateLocales())
-            ->jsonLdType($type === 'article' ? 'Article' : 'WebPage');
+            ->jsonLdType($type === 'article' ? 'Article' : 'WebPage')
+            ->jsonLdProperty('inLanguage', app()->getLocale());
 
         if ($image) {
             seo()->images($image);
         }
+
+        $this->addArticleStructuredData();
     }
 
     public function render(): View|Closure|string
@@ -123,6 +133,60 @@ class App extends Component
             'zh' => 'zh-CN',
             default => str_replace('_', '-', $locale),
         };
+    }
+
+    private function openGraphType(): string|ArticleProperties
+    {
+        if ($this->type !== 'article') {
+            return $this->type;
+        }
+
+        return new ArticleProperties(
+            publishedTime: $this->publishedAt,
+            modifiedTime: $this->modifiedAt,
+            author: $this->author ? new ProfileProperties(username: $this->author) : null,
+            section: $this->section,
+            tag: $this->tags,
+        );
+    }
+
+    private function addArticleStructuredData(): void
+    {
+        if ($this->type !== 'article') {
+            return;
+        }
+
+        if ($this->publishedAt) {
+            seo()->jsonLdProperty('datePublished', $this->dateForMetadata($this->publishedAt));
+        }
+
+        if ($this->modifiedAt) {
+            seo()->jsonLdProperty('dateModified', $this->dateForMetadata($this->modifiedAt));
+        }
+
+        if ($this->author) {
+            seo()->jsonLdProperty('author', [
+                '@type' => 'Person',
+                'name' => $this->author,
+            ]);
+        }
+
+        if ($this->section) {
+            seo()->jsonLdProperty('articleSection', $this->section);
+        }
+
+        if ($this->tags !== []) {
+            seo()->jsonLdProperty('keywords', $this->tags);
+        }
+    }
+
+    private function dateForMetadata(mixed $value): string
+    {
+        if (is_object($value) && method_exists($value, 'toAtomString')) {
+            return $value->toAtomString();
+        }
+
+        return (string) $value;
     }
 
     /**

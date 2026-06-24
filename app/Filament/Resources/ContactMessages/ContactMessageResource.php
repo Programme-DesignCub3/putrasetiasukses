@@ -18,7 +18,7 @@ class ContactMessageResource extends Resource
 {
     protected static ?string $model = ContactMessage::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Envelope;
 
     protected static ?string $navigationLabel = 'Pesan Kontak';
 
@@ -51,8 +51,8 @@ class ContactMessageResource extends Resource
     {
         return [
             'index' => ListContactMessages::route('/'),
-            'create' => CreateContactMessage::route('/create'),
-            'edit' => EditContactMessage::route('/{record}/edit'),
+            // 'create' => CreateContactMessage::route('/create'),
+            // 'edit' => EditContactMessage::route('/{record}/edit'),
         ];
     }
 }

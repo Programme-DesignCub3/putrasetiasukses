@@ -1,12 +1,12 @@
-<x-layouts.app :title="__('site.articles.title').' - '.$site->company_name" :description="$site->tagline" image="https://placehold.co/1400x320/4b5563/ffffff?text=Artikel" body-class="bg-white font-sans text-brand-ink antialiased">
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased">
         <div class="min-h-screen overflow-hidden">
             <x-site.header :site="$site" active="articles" />
 
             <main>
-                <x-site.page-hero :title="__('site.articles.title')" image="https://placehold.co/1400x320/4b5563/ffffff?text=Artikel" />
+                <x-site.page-hero :title="__('articles.title')" image="https://placehold.co/1400x320/4b5563/ffffff?text=Artikel" />
 
                 <section class="mx-auto max-w-7xl px-4 clamp-[py,40px,56px] sm:px-5 lg:px-8">
-                    <h1 class="section-title">{{ __('site.articles.latest') }}</h1>
+                    <h1 class="section-title">{{ __('articles.latest') }}</h1>
 
                     <div class="relative mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
                         @foreach ($featuredArticles as $article)
@@ -23,7 +23,7 @@
                 </section>
 
                 <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-5 lg:px-8">
-                    <h2 class="section-title">{{ __('site.articles.all') }}</h2>
+                    <h2 class="section-title">{{ __('articles.all') }}</h2>
 
                     <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         @foreach ($articles as $article)

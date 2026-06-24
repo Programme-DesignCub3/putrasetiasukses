@@ -1,10 +1,4 @@
-<x-layouts.app :title="$article->title . ' - ' . $site->company_name" :description="$article->excerpt" :image="$article->image_url" type="article"
-    :published-at="$article->published_at"
-    :modified-at="$article->updated_at"
-    :author="$article->author"
-    :section="$article->category_names"
-    :tags="$article->categories->pluck('name')->all()"
-    body-class="bg-white font-sans text-brand-ink antialiased">
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased">
     <div class="min-h-screen overflow-hidden">
         <x-site.header :site="$site" active="articles" />
 
@@ -16,14 +10,12 @@
                 <h1 class="mt-4 max-w-5xl text-4xl font-black leading-tight text-black sm:text-5xl">
                     {{ $article->title }}</h1>
                 <p class="mt-5 text-sm font-bold text-zinc-500">
-                    {{ __('site.articles.byline', ['author' => $article->author]) }} &middot;
+                    {{ __('articles.byline', ['author' => $article->author]) }} &middot;
                     {{ $article->published_at?->translatedFormat('j F Y') }}
                 </p>
 
-                <div class="mt-10 max-w-5xl space-y-7 text-base font-semibold leading-relaxed text-zinc-700 sm:text-lg">
-                    @foreach (preg_split('/\R+/', $article->body) as $paragraph)
-                        <p>{{ $paragraph }}</p>
-                    @endforeach
+                <div class="mt-10 max-w-5xl text-base font-semibold leading-relaxed text-zinc-700 sm:text-lg [&_a]:font-black [&_a]:text-brand-red [&_blockquote]:border-l-4 [&_blockquote]:border-brand-red [&_blockquote]:pl-5 [&_blockquote]:italic [&_h2]:mt-10 [&_h2]:text-3xl [&_h2]:font-black [&_h2]:text-black [&_h3]:mt-8 [&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-black [&_li]:mb-2 [&_ol]:my-7 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-7 [&_ul]:my-7 [&_ul]:list-disc [&_ul]:pl-6">
+                    {!! $article->renderRichContent('body') !!}
                 </div>
             </article>
         </main>

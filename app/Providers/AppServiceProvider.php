@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Support\FilamentTranslatableFields;
 use Illuminate\Support\ServiceProvider;
+use SolutionForest\FilamentTranslateField\Facades\FilamentTranslateField;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        FilamentTranslateField::defaultLocales(FilamentTranslatableFields::locales())
+            ->getLocaleLabelUsing(fn (string $locale): ?string => FilamentTranslatableFields::localeLabels()[$locale] ?? null);
     }
 }

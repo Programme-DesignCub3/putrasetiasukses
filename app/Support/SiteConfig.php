@@ -77,6 +77,17 @@ class SiteConfig
                 'cookie_consent_enabled' => true,
                 'google_measurement_id' => config('services.google_analytics.measurement_id'),
             ],
+            'about' => [
+                'hero_image' => 'https://placehold.co/1400x320/8b0000/ffffff?text=Tentang+Kami',
+                'intro_image' => 'https://placehold.co/520x640/5f6872/ffffff?text=Plat+Baja',
+                'gallery_images' => [
+                    ['url' => 'https://placehold.co/640x420/8aaee0/ffffff?text=Construction', 'alt' => 'Construction'],
+                    ['url' => 'https://placehold.co/640x420/71717a/ffffff?text=Steel+Plate', 'alt' => 'Steel Plate'],
+                    ['url' => 'https://placehold.co/640x420/6b7280/ffffff?text=Automotive', 'alt' => 'Automotive'],
+                    ['url' => 'https://placehold.co/640x420/4b5563/ffffff?text=Warehouse', 'alt' => 'Warehouse'],
+                ],
+                'video_url' => null,
+            ],
         ];
     }
 
@@ -95,7 +106,7 @@ class SiteConfig
     /**
      * @param  array<string, string>|string|null  $value
      */
-    private static function translated(array|string|null $value): string
+    public static function translated(array|string|null $value): string
     {
         if (is_string($value)) {
             return $value;

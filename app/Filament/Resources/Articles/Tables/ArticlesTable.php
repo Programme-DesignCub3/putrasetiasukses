@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class ArticlesTable
@@ -18,18 +19,39 @@ class ArticlesTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('article_image')
-                    ->label('Image')
+                    ->label('Gambar')
                     ->collection(Article::ImageCollection),
-                TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('category_names')->label('Kategori'),
-                IconColumn::make('is_featured')->boolean(),
-                IconColumn::make('is_published')->boolean(),
-                TextColumn::make('published_at')->dateTime()->sortable(),
+                TextColumn::make('title')
+                    ->label('Judul')
+                    ->searchable()
+                    ->sortable()
+                    ->wrap(),
+                TextColumn::make('category_names')
+                    ->label('Kategori')
+                    ->badge(),
+                IconColumn::make('is_featured')
+                    ->label('Unggulan')
+                    ->boolean(),
+                IconColumn::make('is_published')
+                    ->label('Published')
+                    ->boolean(),
+                TextColumn::make('published_at')
+                    ->label('Dipublikasi')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
-                //
+                TernaryFilter::make('is_published')
+                    ->label('Published')
+                    ->trueLabel('Published')
+                    ->falseLabel('Draft'),
+                TernaryFilter::make('is_featured')
+                    ->label('Unggulan')
+                    ->trueLabel('Unggulan')
+                    ->falseLabel('Biasa'),
             ])
             ->modifyQueryUsing(fn ($query) => $query->with('categories'))
+            ->defaultSort('published_at', 'desc')
             ->recordActions([
                 EditAction::make(),
             ])

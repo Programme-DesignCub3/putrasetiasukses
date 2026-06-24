@@ -204,7 +204,7 @@ class SeoMetadataBuilder
      */
     private function localizedParameters(array $parameters, string $locale): array
     {
-        $defaultLocale = config('localizer.supported_locales.0', app()->getLocale());
+        $defaultLocale = config('localizer.geoip.fallback_locale', app()->getLocale());
 
         if ($locale === $defaultLocale && config('localizer.hide_default_locale', false)) {
             unset($parameters['locale']);

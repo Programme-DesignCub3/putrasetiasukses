@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\Categories\Schemas;
 
 use App\Models\Category;
+use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -18,6 +18,7 @@ class CategoryForm
         return $schema
             ->components([
                 Section::make('Kategori')
+                    ->description('Kelompokkan konten untuk produk, artikel, atau project.')
                     ->schema([
                         Select::make('type')
                             ->label('Tipe')
@@ -27,58 +28,45 @@ class CategoryForm
                                 Category::TypeProject => 'Project',
                             ])
                             ->required(),
+                        Toggle::make('is_active')
+                            ->label('Active')
+                            ->default(true),
                         TextInput::make('slug')
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
                             ->helperText('Kosongkan saat membuat kategori agar slug dibuat otomatis.'),
-                        TextInput::make('name.id')
-                            ->label('Name (ID)')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('name.en')
-                            ->label('Name (EN)')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('name.zh')
-                            ->label('Name (ZH)')
-                            ->required()
-                            ->maxLength(255),
-                        Textarea::make('description.id')
-                            ->label('Description (ID)')
-                            ->rows(5)
-                            ->columnSpanFull(),
-                        Textarea::make('description.en')
-                            ->label('Description (EN)')
-                            ->rows(5)
-                            ->columnSpanFull(),
-                        Textarea::make('description.zh')
-                            ->label('Description (ZH)')
-                            ->rows(5)
-                            ->columnSpanFull(),
-                        Toggle::make('is_active')
-                            ->label('Active')
-                            ->default(true),
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::textInput('name', 'Name', $locale)
+                                    ->maxLength(255),
+                                FilamentTranslatableFields::textarea('description', 'Description', $locale, 5, required: false)
+                                    ->columnSpanFull(),
+                            ],
+                            label: 'Konten Kategori',
+                        ),
                     ])
                     ->columns(3),
                 Section::make('Media Kategori')
+                    ->description('Gambar digunakan untuk kartu kategori dan halaman terkait.')
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('category_image')
-                            ->label('Image')
+                            ->label('Gambar utama')
                             ->collection(Category::ImageCollection)
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120)
-                            ->columnSpanFull(),
+                            ->columnSpan(1),
                         SpatieMediaLibraryFileUpload::make('category_gallery')
-                            ->label('Gallery images')
+                            ->label('Galeri kategori')
                             ->collection(Category::GalleryCollection)
                             ->multiple()
                             ->reorderable()
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120)
-                            ->columnSpanFull(),
-                    ]),
+                            ->columnSpan(2),
+                    ])
+                    ->columns(3),
             ]);
     }
 }

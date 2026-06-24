@@ -15,16 +15,45 @@ class ContactMessageForm
         return $schema
             ->components([
                 Section::make('Pesan')
+                    ->description('Data pengirim dari form kontak website.')
                     ->schema([
-                        TextInput::make('name')->required()->maxLength(255),
-                        TextInput::make('company')->maxLength(255),
-                        TextInput::make('phone')->required()->maxLength(50),
-                        TextInput::make('email')->email()->maxLength(255),
-                        TextInput::make('subject')->required()->maxLength(255)->columnSpanFull(),
-                        Textarea::make('message')->required()->rows(8)->columnSpanFull(),
-                        DateTimePicker::make('read_at')->label('Dibaca pada'),
+                        TextInput::make('name')
+                            ->label('Nama')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('company')
+                            ->label('Perusahaan')
+                            ->maxLength(255),
+                        TextInput::make('phone')
+                            ->label('Telepon')
+                            ->required()
+                            ->maxLength(50),
+                        TextInput::make('email')
+                            ->label('Email')
+                            ->email()
+                            ->maxLength(255),
                     ])
                     ->columns(2),
+
+                Section::make('Isi Pesan')
+                    ->schema([
+                        TextInput::make('subject')
+                            ->label('Subjek')
+                            ->required()
+                            ->maxLength(255),
+                        Textarea::make('message')
+                            ->label('Pesan')
+                            ->required()
+                            ->rows(8)
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2),
+
+                Section::make('Status')
+                    ->schema([
+                        DateTimePicker::make('read_at')
+                            ->label('Dibaca pada'),
+                    ]),
             ]);
     }
 }

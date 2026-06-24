@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Support\SitemapBuilder;
+use App\Support\Sitemap\SitemapBuilder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -25,13 +25,13 @@ class GenerateSitemap extends Command
     /**
      * Execute the console command.
      */
-    public function handle(SitemapBuilder $sitemapBuilder): int
+    public function handle(): int
     {
         $relativePath = trim((string) $this->option('path'), '/\\');
         $path = public_path($relativePath);
 
         File::ensureDirectoryExists(dirname($path));
-        File::put($path, $sitemapBuilder->build()->render());
+        File::put($path, SitemapBuilder::default()->build()->render());
 
         $this->components->info("Sitemap generated at [{$path}].");
 

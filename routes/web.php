@@ -8,13 +8,13 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+// Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
-Route::get('/robots.txt', function () {
-    return response("User-agent: *\nAllow: /\nSitemap: ".route('sitemap')."\n", 200, [
-        'Content-Type' => 'text/plain',
-    ]);
-})->name('robots');
+// Route::get('/robots.txt', function () {
+//     return response("User-agent: *\nAllow: /\nSitemap: ".route('sitemap')."\n", 200, [
+//         'Content-Type' => 'text/plain',
+//     ]);
+// })->name('robots');
 
 Route::localize(function (): void {
     Route::get('/', HomeController::class)->name('home');

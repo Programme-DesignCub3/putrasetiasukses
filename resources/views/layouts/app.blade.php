@@ -20,10 +20,6 @@
 
     @metadata
 
-    @foreach ($alternateUrls as $hreflang => $url)
-        <link rel="alternate" hreflang="{{ $hreflang }}" href="{{ $url }}">
-    @endforeach
-
     <script>
         window.siteAnalytics = {{ Illuminate\Support\Js::from($siteAnalytics) }};
     </script>
@@ -39,6 +35,8 @@
     <x-site.cookie-consent :enabled="$siteAnalytics['cookieConsentEnabled']" />
 
     @livewireScripts
+
+    @stack('scripts')
 </body>
 
 </html>

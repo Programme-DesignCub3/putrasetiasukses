@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Rules\Recaptcha;
+use App\Support\SeoMetadataBuilder;
 use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -10,10 +12,18 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function create(): View
+    public function create(SeoMetadataBuilder $metadata): View
     {
+        $site = SiteConfig::current();
+
+        $metadata->build(
+            title: __('contact.title').' - '.$site->company_name,
+            description: $site->tagline,
+            image: 'https://placehold.co/1400x320/1f2937/ffffff?text=Kontak',
+        );
+
         return view('contact', [
-            'site' => SiteConfig::current(),
+            'site' => $site,
         ]);
     }
 
@@ -26,8 +36,9 @@ class ContactController extends Controller
             'email' => ['nullable', 'email', 'max:255'],
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:5000'],
+            'recaptcha_token' => ['required', 'string', new Recaptcha],
         ]));
 
-        return back()->with('status', __('site.contact.success'));
+        return back()->with('status', __('contact.success'));
     }
 }

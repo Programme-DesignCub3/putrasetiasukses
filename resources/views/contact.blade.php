@@ -1,58 +1,79 @@
-<x-layouts.app :title="__('site.contact.title') . ' - ' . $site->company_name" :description="$site->tagline" image="https://placehold.co/1400x320/1f2937/ffffff?text=Kontak">
+<x-layouts.app>
     <div class="min-h-screen overflow-hidden">
         <x-site.header :site="$site" active="contact" />
 
         <main>
-            <x-site.page-hero :title="__('site.contact.title')" image="https://placehold.co/1400x320/1f2937/ffffff?text=Kontak" />
+            <x-site.page-hero :title="__('contact.title')" image="https://placehold.co/1400x320/1f2937/ffffff?text=Kontak" />
 
             <section class="clamp-[py,32px,48px] mx-auto max-w-7xl px-4 sm:px-5 lg:px-8">
-                <h1 class="section-title">{{ __('site.contact.message_title') }}</h1>
+                <h1 class="section-title">{{ __('contact.message_title') }}</h1>
 
                 @if (session('status'))
                     <p class="mt-6 bg-green-600 px-5 py-3 font-bold">{{ session('status') }}</p>
                 @endif
 
-                <form class="mt-6 grid gap-5 sm:grid-cols-3" action="{{ route('contact.store') }}" method="POST">
+                <form class="mt-6 grid gap-5 sm:grid-cols-3" id="contact-form" action="{{ route('contact.store') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="recaptcha_token" id="recaptcha_token">
                     <label class="block text-sm font-bold">
-                        {{ __('site.contact.name') }}
+                        {{ __('contact.name') }}
                         <input class="mt-2 w-full bg-zinc-200 px-4 py-3 text-black" name="name"
                             value="{{ old('name') }}" required>
                     </label>
                     <label class="block text-sm font-bold">
-                        {{ __('site.contact.company') }}
+                        {{ __('contact.company') }}
                         <input class="mt-2 w-full bg-zinc-200 px-4 py-3 text-black" name="company"
                             value="{{ old('company') }}">
                     </label>
                     <label class="block text-sm font-bold">
-                        {{ __('site.contact.phone') }}
+                        {{ __('contact.phone') }}
                         <input class="mt-2 w-full bg-zinc-200 px-4 py-3 text-black" name="phone"
                             value="{{ old('phone') }}" required>
                     </label>
                     <label class="block text-sm font-bold">
-                        {{ __('site.contact.email') }}
+                        {{ __('contact.email') }}
                         <input class="mt-2 w-full bg-zinc-200 px-4 py-3 text-black" type="email" name="email"
                             value="{{ old('email') }}">
                     </label>
                     <label class="block text-sm font-bold sm:col-span-2">
-                        {{ __('site.contact.subject') }}
+                        {{ __('contact.subject') }}
                         <input class="mt-2 w-full bg-zinc-200 px-4 py-3 text-black" name="subject"
                             value="{{ old('subject') }}" required>
                     </label>
                     <label class="block text-sm font-bold sm:col-span-3">
-                        {{ __('site.contact.message') }}
+                        {{ __('contact.message') }}
                         <textarea class="mt-2 w-full bg-zinc-200 px-4 py-3 text-black" name="message" rows="6" required>{{ old('message') }}</textarea>
                     </label>
                     <div class="sm:col-span-3">
-                        <button
+                        <button id="contact-submit"
                             class="bg-brand-red hover:bg-brand-red-dark rounded-full px-12 py-3 text-xl font-black transition"
-                            type="submit">{{ __('site.contact.send') }}</button>
+                            type="submit">{{ __('contact.send') }}</button>
                     </div>
                 </form>
+
+                @push('scripts')
+                    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+                    <script>
+                        document.getElementById('contact-form').addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const form = this;
+                            const submitBtn = document.getElementById('contact-submit');
+                            submitBtn.disabled = true;
+                            submitBtn.textContent = '...';
+
+                            grecaptcha.ready(function () {
+                                grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'submit' }).then(function (token) {
+                                    document.getElementById('recaptcha_token').value = token;
+                                    form.submit();
+                                });
+                            });
+                        });
+                    </script>
+                @endpush
             </section>
 
             <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-5 lg:px-8">
-                <h2 class="section-title">{{ __('site.contact.locations') }}</h2>
+                <h2 class="section-title">{{ __('contact.locations') }}</h2>
 
                 <div class="mt-8 grid gap-6">
                     <div class="flex gap-5">

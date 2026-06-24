@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\SeoMetadataBuilder;
 use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 
 class HomeController extends Controller
 {
-    public function __invoke(): View
+    public function __invoke(SeoMetadataBuilder $metadata): View
     {
+        $site = SiteConfig::current();
+
+        $metadata->build(
+            title: $site->company_name,
+            description: $site->tagline,
+        );
+
         return view('welcome', [
-            'site' => SiteConfig::current(),
+            'site' => $site,
             'advantages' => [
                 ['title' => 'Stockist & Distributor Terpercaya', 'copy' => 'Kami memastikan ketersediaan stok plat selalu terjaga untuk memenuhi kebutuhan pelanggan.', 'icon' => 'warehouse'],
                 ['title' => 'Harga Kompetitif', 'copy' => 'Kami menawarkan harga bersaing dengan kualitas plat terbaik.', 'icon' => 'tag'],

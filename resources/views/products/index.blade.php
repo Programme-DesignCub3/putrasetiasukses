@@ -1,15 +1,15 @@
-<x-layouts.app :title="__('site.products.title').' - '.$site->company_name" :description="__('site.products.intro')" image="https://placehold.co/1400x320/2b2b2b/ffffff?text=Produk" body-class="bg-white font-sans text-brand-ink antialiased">
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased">
         <div class="min-h-screen overflow-hidden">
             <x-site.header :site="$site" active="products" />
 
             <main>
-                <x-site.page-hero :title="__('site.products.title')" image="https://placehold.co/1400x320/2b2b2b/ffffff?text=Produk" />
+                <x-site.page-hero :title="__('products.title')" image="https://placehold.co/1400x320/2b2b2b/ffffff?text=Produk" />
 
                 <section class="mx-auto max-w-7xl px-4 clamp-[py,48px,72px] sm:px-5 lg:px-8">
                     <div class="max-w-3xl">
-                        <h1 class="section-title">{{ __('site.products.title') }}</h1>
+                        <h1 class="section-title">{{ __('products.title') }}</h1>
                         <p class="mt-6 text-base font-semibold leading-relaxed text-zinc-600 sm:text-lg">
-                            {{ __('site.products.intro') }}
+                            {{ __('products.intro') }}
                         </p>
                     </div>
 
@@ -28,7 +28,7 @@
                                     </p>
 
                                     <a href="{{ route('products.show', $product) }}" class="mt-6 inline-flex items-center justify-center rounded-full bg-brand-red px-6 py-3 text-sm font-black uppercase text-white transition hover:bg-brand-red-dark">
-                                        {{ __('site.products.view_detail') }}
+                                        {{ __('products.view_detail') }}
                                     </a>
                                 </div>
                             </article>

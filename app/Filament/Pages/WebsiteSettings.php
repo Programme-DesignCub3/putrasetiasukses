@@ -2,9 +2,10 @@
 
 namespace App\Filament\Pages;
 
+use App\Support\FilamentTranslatableFields;
 use App\Support\SiteConfig;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -34,7 +35,13 @@ class WebsiteSettings extends AbstractPageSettings
      */
     public function getDefaultData(): array
     {
-        return SiteConfig::defaults();
+        $defaults = SiteConfig::defaults();
+
+        $defaults['about']['hero_image'] = null;
+        $defaults['about']['intro_image'] = null;
+        $defaults['about']['gallery_images'] = [];
+
+        return $defaults;
     }
 
     public function form(Schema $schema): Schema
@@ -43,30 +50,15 @@ class WebsiteSettings extends AbstractPageSettings
             ->components([
                 Section::make('Brand')
                     ->schema([
-                        TextInput::make('site.company_name.id')
-                            ->label('Company name (ID)')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('site.company_name.en')
-                            ->label('Company name (EN)')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('site.company_name.zh')
-                            ->label('Company name (ZH)')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('site.tagline.id')
-                            ->label('Tagline (ID)')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('site.tagline.en')
-                            ->label('Tagline (EN)')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('site.tagline.zh')
-                            ->label('Tagline (ZH)')
-                            ->required()
-                            ->maxLength(255),
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::textInput('site.company_name', 'Company name', $locale)
+                                    ->maxLength(255),
+                                FilamentTranslatableFields::textInput('site.tagline', 'Tagline', $locale)
+                                    ->maxLength(255),
+                            ],
+                            label: 'Brand Copy',
+                        ),
                     ])
                     ->columns(3),
 
@@ -102,32 +94,64 @@ class WebsiteSettings extends AbstractPageSettings
 
                 Section::make('Alamat')
                     ->schema([
-                        Textarea::make('contact.head_office_address.id')
-                            ->label('Head Office (ID)')
-                            ->required()
-                            ->rows(3),
-                        Textarea::make('contact.head_office_address.en')
-                            ->label('Head Office (EN)')
-                            ->required()
-                            ->rows(3),
-                        Textarea::make('contact.head_office_address.zh')
-                            ->label('Head Office (ZH)')
-                            ->required()
-                            ->rows(3),
-                        Textarea::make('contact.warehouse_address.id')
-                            ->label('Warehouse (ID)')
-                            ->required()
-                            ->rows(3),
-                        Textarea::make('contact.warehouse_address.en')
-                            ->label('Warehouse (EN)')
-                            ->required()
-                            ->rows(3),
-                        Textarea::make('contact.warehouse_address.zh')
-                            ->label('Warehouse (ZH)')
-                            ->required()
-                            ->rows(3),
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::textarea('contact.head_office_address', 'Head Office', $locale, 3),
+                                FilamentTranslatableFields::textarea('contact.warehouse_address', 'Warehouse', $locale, 3),
+                            ],
+                            label: 'Alamat',
+                        ),
                     ])
                     ->columns(3),
+
+                Section::make('Tentang Kami Media')
+                    ->schema([
+                        FileUpload::make('about.hero_image')
+                            ->label('Hero image')
+                            ->disk('public')
+                            ->directory('about')
+                            ->visibility('public')
+                            ->image()
+                            ->imageCropAspectRatio('16:9')
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('1600')
+                            ->imageResizeTargetHeight('900')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
+                        FileUpload::make('about.intro_image')
+                            ->label('Intro image')
+                            ->disk('public')
+                            ->directory('about')
+                            ->visibility('public')
+                            ->image()
+                            ->imageCropAspectRatio('4:5')
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('960')
+                            ->imageResizeTargetHeight('1200')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
+                        FileUpload::make('about.gallery_images')
+                            ->label('Gallery images')
+                            ->disk('public')
+                            ->directory('about/gallery')
+                            ->visibility('public')
+                            ->multiple()
+                            ->reorderable()
+                            ->image()
+                            ->imageCropAspectRatio('16:10')
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('960')
+                            ->imageResizeTargetHeight('600')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120)
+                            ->columnSpanFull(),
+                        TextInput::make('about.video_url')
+                            ->label('Video URL')
+                            ->url()
+                            ->maxLength(2048)
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2),
 
                 Section::make('Cookie dan Analytics')
                     ->schema([

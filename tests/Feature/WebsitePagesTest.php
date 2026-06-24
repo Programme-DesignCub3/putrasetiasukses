@@ -1,15 +1,18 @@
 <?php
 
-use App\Models\AboutPage;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\Product;
 use App\Support\SiteConfig;
+use App\Support\Sitemap\SitemapBuilder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Inerba\DbConfig\DbConfig;
 
 uses(RefreshDatabase::class);
 
@@ -22,16 +25,36 @@ test('home page renders with shared site content', function () {
         ->assertSee('home-partners-swiper');
 });
 
-test('about page renders managed content', function () {
-    AboutPage::factory()->create();
+test('about page renders hardcoded copy with settings media without using about page records', function () {
+    DbConfig::set(SiteConfig::Group.'.about', [
+        'hero_image' => 'about/hero.jpg',
+        'intro_image' => 'about/intro.jpg',
+        'gallery_images' => [
+            'about/gallery/warehouse.jpg',
+        ],
+        'video_url' => 'https://www.youtube.com/embed/test-video',
+    ]);
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/tentang-kami')
+    expect(DB::table('about_pages')->count())->toBe(0);
+
+    $queries = [];
+    DB::listen(function ($query) use (&$queries): void {
+        $queries[] = $query->sql;
+    });
+
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/tentang-kami')
         ->assertSuccessful()
         ->assertSee('Tentang Kami')
         ->assertSee('Visi')
         ->assertSee('Misi')
         ->assertSee('Galeri')
-        ->assertSee('Video');
+        ->assertSee('Video')
+        ->assertSee('/storage/about/hero.jpg', false)
+        ->assertSee('/storage/about/intro.jpg', false)
+        ->assertSee('/storage/about/gallery/warehouse.jpg', false)
+        ->assertSee('https://www.youtube.com/embed/test-video', false);
+
+    expect(collect($queries)->contains(fn (string $sql): bool => str_contains($sql, 'about_pages')))->toBeFalse();
 });
 
 test('product page renders managed content', function () {
@@ -54,16 +77,34 @@ test('product page renders managed content', function () {
 
 test('article pages render managed content', function () {
     Article::factory()->create();
+    $richArticle = Article::factory()->create([
+        'title' => [
+            'id' => 'Artikel Rich Text',
+            'en' => '',
+            'zh' => '',
+        ],
+        'slug' => 'artikel-rich-text',
+        'body' => [
+            'id' => '<h2>Subjudul Rich Text</h2><p><strong>Isi artikel tebal</strong></p>',
+            'en' => '',
+            'zh' => '',
+        ],
+    ]);
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/artikel')
+    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel')
         ->assertSuccessful()
         ->assertSee('Artikel Terbaru')
         ->assertSee('Perkembangan Industri Baja');
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/artikel/perkembangan-industri-baja-indonesia')
+    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel/perkembangan-industri-baja-indonesia')
         ->assertSuccessful()
         ->assertSee('Heri Pradana')
         ->assertSee('Peluang Masa Depan');
+
+    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel/'.$richArticle->slug)
+        ->assertSuccessful()
+        ->assertSee('<h2>Subjudul Rich Text</h2>', false)
+        ->assertSee('<strong>Isi artikel tebal</strong>', false);
 });
 
 test('public pages render seo metadata', function () {
@@ -74,9 +115,9 @@ test('public pages render seo metadata', function () {
         ->assertSuccessful()
         ->assertSee('<title>'.$site->company_name.'</title>', false)
         ->assertSee('<link rel="canonical" href="'.route('home').'"', false)
-        ->assertSee('rel="alternate" hreflang="en"', false)
-        ->assertSee('rel="alternate" hreflang="zh-CN"', false)
-        ->assertSee('rel="alternate" hreflang="x-default"', false)
+        ->assertSee('property="og:locale" content="id"', false)
+        ->assertSee('property="og:locale:alternate" content="en"', false)
+        ->assertSee('property="og:locale:alternate" content="zh_CN"', false)
         ->assertSee('name="description"', false)
         ->assertSee($site->tagline)
         ->assertSee('property="og:type" content="website"', false);
@@ -179,15 +220,14 @@ test('sitemap exposes localized public urls', function () {
     Product::factory()->create();
     Article::factory()->create();
 
-    $this->get('/sitemap.xml')
-        ->assertSuccessful()
-        ->assertHeader('content-type', 'application/xml')
-        ->assertSee(route('home'), false)
-        ->assertSee(route('products.index'), false)
-        ->assertSee(route('products.show', ['product' => 'plat-hitam']), false)
-        ->assertSee('/en/produk/plat-hitam', false)
-        ->assertSee('/zh/artikel/perkembangan-industri-baja-indonesia', false)
-        ->assertSee('hreflang="x-default"', false);
+    $xml = SitemapBuilder::default()->build()->render();
+
+    expect($xml)
+        ->toContain(route('home'))
+        ->toContain(route('products.index'))
+        ->toContain('/en/produk/plat-hitam')
+        ->toContain('/zh/artikel/perkembangan-industri-baja-indonesia')
+        ->toContain('hreflang="x-default"');
 });
 
 test('sitemap can be generated as a static public file', function () {
@@ -213,15 +253,27 @@ test('sitemap can be generated as a static public file', function () {
     File::delete($path);
 });
 
-test('robots file points crawlers to the sitemap', function () {
-    $this->get('/robots.txt')
-        ->assertSuccessful()
-        ->assertHeader('content-type', 'text/plain; charset=UTF-8')
-        ->assertSee('User-agent: *')
-        ->assertSee(route('sitemap'));
+test('sitemap builder generates valid xml with all static pages', function () {
+    $xml = SitemapBuilder::default()->build()->render();
+
+    expect($xml)
+        ->toContain('<urlset')
+        ->toContain(route('home'))
+        ->toContain(route('about'))
+        ->toContain(route('contact'))
+        ->toContain('hreflang="x-default"');
 });
 
 test('contact form stores messages', function () {
+    config()->set('services.recaptcha.secret_key', 'test-secret');
+
+    Http::fake([
+        'https://www.google.com/recaptcha/api/siteverify' => Http::response([
+            'success' => true,
+            'score' => 0.9,
+        ]),
+    ]);
+
     $this->post('/kontak', [
         'name' => 'Budi',
         'company' => 'PT Contoh',
@@ -229,6 +281,7 @@ test('contact form stores messages', function () {
         'email' => 'budi@example.com',
         'subject' => 'Permintaan Plat',
         'message' => 'Mohon info harga plat hitam.',
+        'recaptcha_token' => 'fake-token',
     ])->assertRedirect();
 
     expect(ContactMessage::query()->where('phone', '08123456789')->exists())->toBeTrue();

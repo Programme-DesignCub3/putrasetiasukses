@@ -9,5 +9,11 @@ return [
         'sitemaps' => [],
         'ai_crawlers' => [],
     ],
-    'persistent_rules' => [],
+    'persistent_rules' => [
+        [
+            'user_agent' => '*',
+            'directive' => 'disallow',
+            'path' => '/admin',
+        ],
+    ],
 ];

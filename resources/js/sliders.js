@@ -2,7 +2,13 @@ import Swiper from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Autoplay, FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
+import {
+    Autoplay,
+    FreeMode,
+    Navigation,
+    Pagination,
+    Thumbs,
+} from "swiper/modules";
 
 export function initHomeSliders() {
     if (document.querySelector(".home-testimonials-swiper")) {
@@ -42,9 +48,9 @@ export function initHomeSliders() {
 }
 
 export function initProductGalleries() {
-    document.querySelectorAll("[data-product-gallery]").forEach((gallery) => {
-        const mainElement = gallery.querySelector(".product-gallery-main");
-        const thumbElement = gallery.querySelector(".product-gallery-thumbs");
+    document.querySelectorAll("[data-gallery]").forEach((gallery) => {
+        const mainElement = gallery.querySelector(".gallery-main");
+        const thumbElement = gallery.querySelector(".gallery-thumbs");
 
         if (!mainElement) {
             return;
@@ -78,7 +84,7 @@ export function initProductGalleries() {
                 prevEl: gallery.querySelector(".slider-nav-prev"),
             },
             pagination: {
-                el: gallery.querySelector(".product-gallery-pagination"),
+                el: gallery.querySelector(".gallery-pagination"),
                 clickable: true,
             },
             thumbs: {

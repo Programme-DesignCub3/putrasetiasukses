@@ -1,3 +1,14 @@
+@php
+    $breadcrumbs = [
+        ['name' => __('Home'), 'url' => route('home')],
+        ['name' => __('Proyek'), 'url' => route('projects.index')],
+    ];
+@endphp
+
+@push('schemas')
+    <x-seo.breadcrumbs :items="$breadcrumbs" />
+@endpush
+
 <x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects" :site="$site">
     <main>
         <x-site.layout.page-hero :title="__('projects.title')" image="https://placehold.co/1400x320/2b2b2b/ffffff?text=Proyek" />

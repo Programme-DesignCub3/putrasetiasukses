@@ -1,10 +1,10 @@
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="home" :site="$site">
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" :site="$site">
     <main>
         <section class="relative -mt-1" id="beranda">
-            <div class="hero-steel clamp-[min-h,360px,520px] min-h-[360px] bg-cover bg-center">
+            <div class="hero-steel clamp-[min-h,360px,520px] bg-cover bg-center">
                 <div class="absolute inset-0 bg-black/25"></div>
                 <div
-                    class="clamp-[min-h,360px,520px] relative mx-auto flex min-h-[360px] max-w-7xl items-center justify-center px-4 text-center sm:px-5">
+                    class="clamp-[min-h,360px,520px] relative mx-auto flex max-w-7xl items-center justify-center px-4 text-center sm:px-5">
                     <div class="text-white drop-shadow-2xl">
                         <p class="text-xs font-black uppercase sm:text-sm">Material Baja Terpercaya</p>
                         <h1 class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
@@ -19,22 +19,14 @@
         <section class="brand-panel clamp-[py,48px,56px] relative z-10 px-4 text-white sm:-mt-16 sm:px-5 lg:px-8">
             <div class="mx-auto grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($advantages as $advantage)
-                    <x-home.advantage-card
-                        :icon="$advantage['icon']"
-                        :title="$advantage['title']"
-                        :copy="$advantage['copy']"
-                    />
+                    <x-home.advantage-card :icon="$advantage['icon']" :title="$advantage['title']" :copy="$advantage['copy']" />
                 @endforeach
             </div>
         </section>
 
         <section class="grid lg:grid-cols-3" id="produk">
             @foreach ($sectors as $sector)
-                <x-home.sector-card
-                    :bg-class="$sector['class']"
-                    :title="$sector['title']"
-                    :copy="$sector['copy']"
-                />
+                <x-home.sector-card :bg-class="$sector['class']" :title="$sector['title']" :copy="$sector['copy']" />
             @endforeach
         </section>
 
@@ -52,7 +44,7 @@
                                     <figcaption class="mt-6 text-sm font-bold">{{ $testimonial['name'] }},
                                         {{ $testimonial['role'] }}</figcaption>
                                     <span
-                                        class="border-t-brand-red absolute -bottom-6 left-8 h-0 w-0 border-l-[28px] border-t-[28px] border-l-transparent"></span>
+                                        class="border-b-30 border-r-30 -bottom-7.5 absolute left-0 z-0 inline-block h-0 w-0 border-l-0 border-t-0 border-solid border-b-transparent border-l-transparent border-r-[#590802] border-t-transparent"></span>
                                 </figure>
                             </div>
                         @endforeach

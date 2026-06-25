@@ -3,7 +3,6 @@
 namespace App\Filament\Pages;
 
 use App\Support\FilamentTranslatableFields;
-use App\Support\SiteConfig;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
@@ -27,7 +26,7 @@ class WebsiteSettings extends AbstractPageSettings
 
     protected function settingName(): string
     {
-        return SiteConfig::Group;
+        return 'website';
     }
 
     /**
@@ -35,13 +34,35 @@ class WebsiteSettings extends AbstractPageSettings
      */
     public function getDefaultData(): array
     {
-        $defaults = SiteConfig::defaults();
-
-        $defaults['about']['hero_image'] = null;
-        $defaults['about']['intro_image'] = null;
-        $defaults['about']['gallery_images'] = [];
-
-        return $defaults;
+        return [
+            'site' => [
+                'company_name' => ['id' => __('site.company_name'), 'en' => __('site.company_name', [], 'en'), 'zh' => __('site.company_name', [], 'zh')],
+                'tagline' => ['id' => __('site.tagline'), 'en' => __('site.tagline', [], 'en'), 'zh' => __('site.tagline', [], 'zh')],
+            ],
+            'contact' => [
+                'website_url' => __('site.website_url'),
+                'email' => __('site.email'),
+                'whatsapp_number' => __('site.whatsapp_number'),
+                'phones' => [
+                    ['label' => 'Sales 1', 'number' => '0812-8438-805'],
+                    ['label' => 'Sales 2', 'number' => '0813-1485-5403'],
+                    ['label' => 'Sales 3', 'number' => '0812-8550-9009'],
+                    ['label' => 'Office', 'number' => '(021) 6667-1597-599'],
+                ],
+                'head_office_address' => ['id' => __('site.head_office_address'), 'en' => __('site.head_office_address', [], 'en'), 'zh' => __('site.head_office_address', [], 'zh')],
+                'warehouse_address' => ['id' => __('site.warehouse_address'), 'en' => __('site.warehouse_address', [], 'en'), 'zh' => __('site.warehouse_address', [], 'zh')],
+            ],
+            'about' => [
+                'hero_image' => null,
+                'intro_image' => null,
+                'gallery_images' => [],
+                'video_url' => null,
+            ],
+            'analytics' => [
+                'cookie_consent_enabled' => true,
+                'google_measurement_id' => config('services.google_analytics.measurement_id'),
+            ],
+        ];
     }
 
     public function form(Schema $schema): Schema

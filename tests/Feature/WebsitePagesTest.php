@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\Product;
 use App\Models\Project;
-use App\Support\SiteConfig;
 use App\Support\Sitemap\SitemapBuilder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -27,7 +26,7 @@ test('home page renders with shared site content', function () {
 });
 
 test('about page renders hardcoded copy with settings media', function () {
-    DbConfig::set(SiteConfig::Group.'.about', [
+    DbConfig::set('website.about', [
         'hero_image' => 'about/hero.jpg',
         'intro_image' => 'about/intro.jpg',
         'gallery_images' => [
@@ -100,7 +99,7 @@ test('article pages render managed content', function () {
 });
 
 test('public pages render seo metadata', function () {
-    $site = SiteConfig::current();
+    $site = site_config();
     $article = Article::factory()->create();
 
     $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/')
@@ -225,15 +224,21 @@ test('sitemap exposes localized public urls', function () {
     $article = Article::factory()->create();
     $project = Project::factory()->create();
 
-    $xml = SitemapBuilder::default()->build()->render();
+    SitemapBuilder::default()->build();
 
-    expect($xml)
-        ->toContain(route('home'))
-        ->toContain(route('products.index'))
-        ->toContain('/en/produk/'.$product->slug)
-        ->toContain('/zh/artikel/'.$article->slug)
-        ->toContain('/en/proyek/'.$project->slug)
-        ->toContain('hreflang="x-default"');
+    $products = File::get(public_path('sitemap_products.xml'));
+    $articles = File::get(public_path('sitemap_articles.xml'));
+    $projects = File::get(public_path('sitemap_projects.xml'));
+    $static = File::get(public_path('sitemap_static.xml'));
+
+    expect($static)->toContain(route('home'));
+    expect($static)->toContain(route('about'));
+    expect($static)->toContain(route('contact'));
+    expect($products)->toContain(route('products.index'));
+    expect($products)->toContain('/en/produk/'.$product->slug);
+    expect($articles)->toContain('/zh/artikel/'.$article->slug);
+    expect($projects)->toContain('/en/proyek/'.$project->slug);
+    expect($static)->toContain('hreflang="x-default"');
 });
 
 test('sitemap can be generated as a static public file', function () {
@@ -241,35 +246,43 @@ test('sitemap can be generated as a static public file', function () {
     $article = Article::factory()->create();
     $project = Project::factory()->create();
 
-    $path = public_path('sitemap-test.xml');
-    File::delete($path);
+    $dir = public_path('sitemap-test');
+    File::deleteDirectory($dir);
 
-    $this->artisan('sitemap:generate', ['--path' => 'sitemap-test.xml'])
+    $this->artisan('sitemap:generate', ['--dir' => 'sitemap-test'])
         ->assertSuccessful();
 
-    expect(File::exists($path))->toBeTrue();
+    expect(File::exists($dir.'/sitemap.xml'))->toBeTrue();
+    expect(File::exists($dir.'/sitemap_products.xml'))->toBeTrue();
+    expect(File::exists($dir.'/sitemap_articles.xml'))->toBeTrue();
+    expect(File::exists($dir.'/sitemap_projects.xml'))->toBeTrue();
+    expect(File::exists($dir.'/sitemap_static.xml'))->toBeTrue();
 
-    $contents = File::get($path);
+    $products = File::get($dir.'/sitemap_products.xml');
+    expect($products)->toContain('/en/produk/'.$product->slug);
 
-    expect($contents)
-        ->toContain(route('home'))
-        ->toContain('/en/produk/'.$product->slug)
-        ->toContain('/zh/artikel/'.$article->slug)
-        ->toContain('/en/proyek/'.$project->slug)
-        ->toContain('hreflang="x-default"');
+    $articles = File::get($dir.'/sitemap_articles.xml');
+    expect($articles)->toContain('/zh/artikel/'.$article->slug);
 
-    File::delete($path);
+    $projects = File::get($dir.'/sitemap_projects.xml');
+    expect($projects)->toContain('/en/proyek/'.$project->slug);
+
+    File::deleteDirectory($dir);
 });
 
 test('sitemap builder generates valid xml with all static pages', function () {
-    $xml = SitemapBuilder::default()->build()->render();
+    SitemapBuilder::default()->build();
 
-    expect($xml)
-        ->toContain('<urlset')
-        ->toContain(route('home'))
-        ->toContain(route('about'))
-        ->toContain(route('contact'))
-        ->toContain('hreflang="x-default"');
+    $static = File::get(public_path('sitemap_static.xml'));
+    $index = File::get(public_path('sitemap.xml'));
+
+    expect($index)->toContain('<sitemapindex');
+    expect($index)->toContain('sitemap_static.xml');
+    expect($static)->toContain('<urlset');
+    expect($static)->toContain(route('home'));
+    expect($static)->toContain(route('about'));
+    expect($static)->toContain(route('contact'));
+    expect($static)->toContain('hreflang="x-default"');
 });
 
 test('contact form stores messages', function () {

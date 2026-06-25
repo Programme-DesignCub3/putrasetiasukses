@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Support\SeoMetadataBuilder;
-use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 
 class ProjectController extends Controller
 {
     public function index(SeoMetadataBuilder $metadata): View
     {
-        $site = SiteConfig::current();
+        $site = site_config();
 
         $metadata->build(
             title: __('seo.projects.title').' - '.$site->company_name,
@@ -38,14 +37,16 @@ class ProjectController extends Controller
         $project->load('media');
         $project->loadMissing('categories');
 
+        $site = site_config();
+
         $metadata->build(
-            title: $project->name.' - '.SiteConfig::current()->company_name,
+            title: $project->name.' - '.$site->company_name,
             description: $project->description,
             image: $project->main_image_url,
         );
 
         return view('projects.show', [
-            'site' => SiteConfig::current(),
+            'site' => $site,
             'project' => $project,
         ]);
     }

@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Support\SeoMetadataBuilder;
-use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 
 class ProductController extends Controller
 {
     public function index(SeoMetadataBuilder $metadata): View
     {
-        $site = SiteConfig::current();
+        $site = site_config();
 
         $metadata->build(
             title: __('seo.products.title').' - '.$site->company_name,
@@ -31,14 +30,16 @@ class ProductController extends Controller
         $product->load('media');
         $product->loadMissing('categories');
 
+        $site = site_config();
+
         $metadata->build(
-            title: $product->name.' - '.SiteConfig::current()->company_name,
+            title: $product->name.' - '.$site->company_name,
             description: $product->description,
             image: $product->main_image_url,
         );
 
         return view('products.show', [
-            'site' => SiteConfig::current(),
+            'site' => $site,
             'product' => $product,
         ]);
     }

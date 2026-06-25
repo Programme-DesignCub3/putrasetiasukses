@@ -9,24 +9,46 @@
         ->filter(fn(array $image): bool => filled($image['url'] ?? null))
         ->unique('url')
         ->values();
+
+    $breadcrumbs = [
+        ['name' => __('Home'), 'url' => route('home')],
+        ['name' => __('Produk'), 'url' => route('products.index')],
+        ['name' => $product->name, 'url' => route('products.show', $product)],
+    ];
 @endphp
+
+@push('schemas')
+    <x-seo.breadcrumbs :items="$breadcrumbs" />
+
+    @php
+        $productSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $product->name,
+            'description' => $product->description,
+            'image' => $product->main_image_url,
+            'category' => $product->category_names,
+        ];
+    @endphp
+    <script type="application/ld+json">{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}</script>
+@endpush
 
 <x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products" :site="$site">
     <main class="clamp-[py,48px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
-        <section data-product-gallery>
+        <section data-gallery>
             <div class="gallery-main swiper">
                 <div class="swiper-wrapper">
                     @foreach ($productImages as $image)
                         <div class="swiper-slide">
-                            <img class="aspect-[4/3] w-full object-cover" src="{{ $image['url'] }}"
+                            <img class="aspect-4/3 w-full object-cover" src="{{ $image['url'] }}"
                                 alt="{{ $image['alt'] ?? $product->name }}">
                         </div>
                     @endforeach
                 </div>
 
                 @if ($productImages->count() > 1)
-                    <x-site.slider-nav direction="prev" class="slider-nav-prev" />
-                    <x-site.slider-nav direction="next" class="slider-nav-next" />
+                    <x-site.slider-nav class="slider-nav-prev" direction="prev" />
+                    <x-site.slider-nav class="slider-nav-next" direction="next" />
                     <div class="gallery-pagination"></div>
                 @endif
             </div>
@@ -37,7 +59,7 @@
                         @foreach ($productImages as $image)
                             <div class="swiper-slide">
                                 <button class="gallery-thumb" type="button">
-                                    <img class="aspect-[16/9] w-full object-cover" src="{{ $image['url'] }}"
+                                    <img class="aspect-video w-full object-cover" src="{{ $image['url'] }}"
                                         alt="{{ $image['alt'] ?? $product->name }}">
                                 </button>
                             </div>
@@ -46,7 +68,7 @@
                 </div>
             @else
                 @foreach ($productImages as $image)
-                    <img class="mt-5 aspect-[16/9] w-full max-w-48 object-cover" src="{{ $image['url'] }}"
+                    <img class="mt-5 aspect-video w-full max-w-48 object-cover" src="{{ $image['url'] }}"
                         alt="{{ $image['alt'] ?? $product->name }}">
                 @endforeach
             @endif
@@ -58,8 +80,7 @@
 
             <div class="mt-12">
                 <h2 class="section-title">{{ __('products.description') }}</h2>
-                <div
-                    class="mt-6 max-h-[460px] overflow-y-auto pr-4 text-lg font-medium leading-relaxed text-zinc-700">
+                <div class="max-h-115 mt-6 overflow-y-auto pr-4 text-lg font-medium leading-relaxed text-zinc-700">
                     @foreach (preg_split('/\R+/', $product->description) as $paragraph)
                         <p class="mb-6 last:mb-0">{{ $paragraph }}</p>
                     @endforeach

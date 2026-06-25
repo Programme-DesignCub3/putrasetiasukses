@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     @php
-        $analyticsSettings = safe_db_config(\App\Support\SiteConfig::Group.'.analytics', [
+        $analyticsSettings = safe_db_config('website.analytics', [
             'cookie_consent_enabled' => config('services.cookie_consent.enabled', true),
             'google_measurement_id' => config('services.google_analytics.measurement_id'),
         ]);
@@ -20,6 +20,10 @@
 
     @metadata
 
+    <x-seo.organization />
+
+    @stack('schemas')
+
     <script>
         window.siteAnalytics = {{ Illuminate\Support\Js::from($siteAnalytics) }};
     </script>
@@ -31,7 +35,7 @@
 
 <body class="{{ $bodyClass }}">
     <div class="min-h-screen overflow-hidden">
-        <x-site.layout.header :site="$site" :active="$activeSection" />
+        <x-site.layout.header :site="$site" />
 
         {{ $slot }}
 

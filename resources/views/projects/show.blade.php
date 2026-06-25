@@ -6,27 +6,37 @@
         ],
     ])
         ->merge($project->gallery_images ?? [])
-        ->filter(fn (array $image): bool => filled($image['url'] ?? null))
+        ->filter(fn(array $image): bool => filled($image['url'] ?? null))
         ->unique('url')
         ->values();
+
+    $breadcrumbs = [
+        ['name' => __('Home'), 'url' => route('home')],
+        ['name' => __('Proyek'), 'url' => route('projects.index')],
+        ['name' => $project->name, 'url' => route('projects.show', $project)],
+    ];
 @endphp
+
+@push('schemas')
+    <x-seo.breadcrumbs :items="$breadcrumbs" />
+@endpush
 
 <x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects" :site="$site">
     <main class="clamp-[py,48px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
-        <section data-product-gallery>
+        <section data-gallery>
             <div class="gallery-main swiper">
                 <div class="swiper-wrapper">
                     @foreach ($projectImages as $image)
                         <div class="swiper-slide">
-                            <img class="aspect-[4/3] w-full object-cover" src="{{ $image['url'] }}"
+                            <img class="aspect-4/3 w-full object-cover" src="{{ $image['url'] }}"
                                 alt="{{ $image['alt'] ?? $project->name }}">
                         </div>
                     @endforeach
                 </div>
 
                 @if ($projectImages->count() > 1)
-                    <x-site.slider-nav direction="prev" class="slider-nav-prev" />
-                    <x-site.slider-nav direction="next" class="slider-nav-next" />
+                    <x-site.slider-nav class="slider-nav-prev" direction="prev" />
+                    <x-site.slider-nav class="slider-nav-next" direction="next" />
                     <div class="gallery-pagination"></div>
                 @endif
             </div>
@@ -37,7 +47,7 @@
                         @foreach ($projectImages as $image)
                             <div class="swiper-slide">
                                 <button class="gallery-thumb" type="button">
-                                    <img class="aspect-[16/9] w-full object-cover" src="{{ $image['url'] }}"
+                                    <img class="aspect-video w-full object-cover" src="{{ $image['url'] }}"
                                         alt="{{ $image['alt'] ?? $project->name }}">
                                 </button>
                             </div>
@@ -46,7 +56,7 @@
                 </div>
             @else
                 @foreach ($projectImages as $image)
-                    <img class="mt-5 aspect-[16/9] w-full max-w-48 object-cover" src="{{ $image['url'] }}"
+                    <img class="mt-5 aspect-video w-full max-w-48 object-cover" src="{{ $image['url'] }}"
                         alt="{{ $image['alt'] ?? $project->name }}">
                 @endforeach
             @endif
@@ -64,13 +74,14 @@
                     <p><span class="font-black text-black">Lokasi:</span> {{ $project->location }}</p>
                 @endif
                 @if ($project->completion_date)
-                    <p><span class="font-black text-black">Selesai:</span> {{ $project->completion_date->isoFormat('MMMM Y') }}</p>
+                    <p><span class="font-black text-black">Selesai:</span>
+                        {{ $project->completion_date->isoFormat('MMMM Y') }}</p>
                 @endif
             </div>
 
             <div class="mt-8">
                 <h2 class="section-title">{{ __('projects.description') }}</h2>
-                <div class="mt-6 max-h-[460px] overflow-y-auto pr-4 text-lg font-medium leading-relaxed text-zinc-700">
+                <div class="max-h-115 mt-6 overflow-y-auto pr-4 text-lg font-medium leading-relaxed text-zinc-700">
                     @foreach (preg_split('/\R+/', $project->description) as $paragraph)
                         <p class="mb-6 last:mb-0">{{ $paragraph }}</p>
                     @endforeach

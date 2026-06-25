@@ -1,3 +1,14 @@
+@php
+    $breadcrumbs = [
+        ['name' => __('Home'), 'url' => route('home')],
+        ['name' => __('Kontak'), 'url' => route('contact')],
+    ];
+@endphp
+
+@push('schemas')
+    <x-seo.breadcrumbs :items="$breadcrumbs" />
+@endpush
+
 <x-layouts.app active-section="contact" :site="$site">
     <main>
         <x-site.layout.page-hero :title="__('contact.title')" image="https://placehold.co/1400x320/1f2937/ffffff?text=Kontak" />

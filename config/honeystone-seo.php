@@ -22,7 +22,7 @@ return [
             ],
             'canonicalEnabled' => true,
             'canonical' => null, // null to use current url
-            'robots' => [],
+            'robots' => ['index', 'follow'],
             'custom' => [
                 // [
                 //     'greeting' => 'Hey, thanks for checking out the source code of our website. '.

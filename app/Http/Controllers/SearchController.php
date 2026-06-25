@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Support\SeoMetadataBuilder;
-use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 
 class SearchController extends Controller
 {
     public function __invoke(SeoMetadataBuilder $metadata): View
     {
-        $site = SiteConfig::current();
+        $site = site_config();
 
         $metadata->build(
             title: __('seo.search.title').' - '.$site->company_name,

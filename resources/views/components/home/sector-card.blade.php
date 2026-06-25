@@ -4,10 +4,12 @@
     'copy' => '',
 ])
 
-<article class="{{ $bgClass }} min-h-[260px] bg-cover bg-center sm:min-h-[320px]">
-    <div class="flex min-h-[260px] items-center justify-center bg-black/35 px-5 py-10 text-center text-white sm:min-h-[320px] sm:px-8">
+<article class="{{ $bgClass }} min-h-65 bg-cover bg-center sm:min-h-80">
+    <div
+        class="min-h-65 flex items-center justify-center bg-black/35 px-5 py-10 text-center text-white sm:min-h-80 sm:px-8">
         <div class="max-w-sm">
-            <svg class="mx-auto h-14 w-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <svg class="mx-auto h-14 w-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                aria-hidden="true">
                 <path d="M4 21V9l5-3v15" />
                 <path d="M9 21V4l7 4v13" />
                 <path d="M16 21v-8l4 2v6" />

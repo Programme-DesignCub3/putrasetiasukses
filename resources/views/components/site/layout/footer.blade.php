@@ -9,9 +9,12 @@
 
         <div>
             <h2 class="text-2xl font-black sm:text-3xl">{{ __('site.cta.contact_us') }}</h2>
-            <div class="mt-6 grid gap-5 break-words text-sm font-semibold sm:grid-cols-2">
+            <div class="wrap-break-word mt-6 grid gap-5 text-sm font-semibold sm:grid-cols-2">
                 @foreach ($site->phones ?? [] as $phone)
-                    <p>{{ $phone['number'] ?? '' }} @if (! empty($phone['label']))({{ $phone['label'] }})@endif</p>
+                    <p>{{ $phone['number'] ?? '' }} @if (!empty($phone['label']))
+                            ({{ $phone['label'] }})
+                        @endif
+                    </p>
                 @endforeach
 
                 @if ($site->website_url)

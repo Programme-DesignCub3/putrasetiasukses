@@ -1,5 +1,5 @@
-import "./bootstrap";
 import Alpine from "alpinejs";
+import "./bootstrap";
 
 const COOKIE_CONSENT_KEY = "pssb_cookie_consent_v1";
 
@@ -37,7 +37,10 @@ Alpine.data("cookieConsent", () => ({
     loadGoogleAnalytics() {
         const measurementId = window.siteAnalytics?.googleMeasurementId;
 
-        if (!measurementId || document.querySelector("[data-google-analytics-script]")) {
+        if (
+            !measurementId ||
+            document.querySelector("[data-google-analytics-script]")
+        ) {
             return;
         }
 
@@ -86,23 +89,29 @@ const needsSliders = () =>
         [
             ".home-testimonials-swiper",
             ".home-partners-swiper",
-            "[data-product-gallery]",
+            "[data-gallery]",
             "[data-featured-articles]",
         ].join(","),
     );
 
 if (needsSliders()) {
-    import("./sliders").then(({ initHomeSliders, initProductGalleries, initFeaturedArticlesSlider }) => {
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", () => {
+    import("./sliders").then(
+        ({
+            initHomeSliders,
+            initProductGalleries,
+            initFeaturedArticlesSlider,
+        }) => {
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", () => {
+                    initHomeSliders();
+                    initProductGalleries();
+                    initFeaturedArticlesSlider();
+                });
+            } else {
                 initHomeSliders();
                 initProductGalleries();
                 initFeaturedArticlesSlider();
-            });
-        } else {
-            initHomeSliders();
-            initProductGalleries();
-            initFeaturedArticlesSlider();
-        }
-    });
+            }
+        },
+    );
 }

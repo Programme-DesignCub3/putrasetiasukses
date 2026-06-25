@@ -21,51 +21,17 @@ class AboutPageContent
 
     public static function current(): self
     {
-        $defaults = SiteConfig::defaults();
-        $about = safe_db_config(SiteConfig::Group.'.about', $defaults['about']);
+        $about = safe_db_config('website.about', []);
 
         return new self(
-            intro_text: SiteConfig::translated(self::introText()),
-            vision_body: SiteConfig::translated(self::visionBody()),
-            mission_body: SiteConfig::translated(self::missionBody()),
-            hero_image_url: self::imageUrl($about['hero_image'] ?? $defaults['about']['hero_image']),
-            intro_image_url: self::imageUrl($about['intro_image'] ?? $defaults['about']['intro_image']),
-            gallery_images: self::galleryImages($about['gallery_images'] ?? $defaults['about']['gallery_images']),
+            intro_text: __('site.intro_text'),
+            vision_body: __('site.vision_body'),
+            mission_body: __('site.mission_body'),
+            hero_image_url: self::imageUrl($about['hero_image'] ?? null),
+            intro_image_url: self::imageUrl($about['intro_image'] ?? null),
+            gallery_images: self::galleryImages($about['gallery_images'] ?? null),
             video_url: filled($about['video_url'] ?? null) ? (string) $about['video_url'] : null,
         );
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private static function introText(): array
-    {
-        return [
-            'id' => 'PT Putra Setia Sukses Bersama adalah stockist dan distributor material besi dan baja yang melayani kebutuhan konstruksi, manufaktur, pergudangan, dan proyek industri.',
-            'en' => 'PT Putra Setia Sukses Bersama is a stockist and distributor of iron and steel materials serving construction, manufacturing, warehousing, and industrial project needs.',
-        ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private static function visionBody(): array
-    {
-        return [
-            'id' => 'Menjadi mitra penyedia material besi dan baja yang terpercaya, konsisten, dan responsif bagi pelanggan di seluruh Indonesia.',
-            'en' => 'To become a trusted, consistent, and responsive iron and steel material partner for customers across Indonesia.',
-        ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private static function missionBody(): array
-    {
-        return [
-            'id' => 'Menjaga ketersediaan stok, memberikan kualitas material terbaik, menawarkan harga kompetitif, dan mengirim pesanan tepat waktu sesuai kebutuhan pelanggan.',
-            'en' => 'Maintain stock availability, provide the best material quality, offer competitive pricing, and deliver orders on time according to customer needs.',
-        ];
     }
 
     private static function imageUrl(mixed $value): string

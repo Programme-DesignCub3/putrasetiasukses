@@ -4,36 +4,24 @@ namespace App\Console\Commands;
 
 use App\Support\Sitemap\SitemapBuilder;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class GenerateSitemap extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'sitemap:generate {--path=sitemap.xml : Path relative to the public directory}';
+    protected $signature = 'sitemap:generate {--dir= : Output directory relative to public}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generate a static sitemap XML file for all configured locales';
+    protected $description = 'Generate sitemap index + sub-sitemaps for all configured locales';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
-        $relativePath = trim((string) $this->option('path'), '/\\');
-        $path = public_path($relativePath);
+        $dir = $this->option('dir');
 
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, SitemapBuilder::default()->build()->render());
+        if ($dir !== null) {
+            $dir = public_path(trim($dir, '/\\'));
+        }
 
-        $this->components->info("Sitemap generated at [{$path}].");
+        SitemapBuilder::default()->build($dir);
+
+        $this->components->info('Sitemap index and sub-sitemaps generated.');
 
         return self::SUCCESS;
     }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ContactMessage;
 use App\Rules\Recaptcha;
 use App\Support\SeoMetadataBuilder;
-use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,7 +13,7 @@ class ContactController extends Controller
 {
     public function create(SeoMetadataBuilder $metadata): View
     {
-        $site = SiteConfig::current();
+        $site = site_config();
 
         $metadata->build(
             title: __('seo.contact.title').' - '.$site->company_name,

@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Support\SeoMetadataBuilder;
-use App\Support\SiteConfig;
 use Illuminate\Contracts\View\View;
 
 class ArticleController extends Controller
 {
     public function index(SeoMetadataBuilder $metadata): View
     {
-        $site = SiteConfig::current();
+        $site = site_config();
 
         $metadata->build(
             title: __('seo.articles.title').' - '.$site->company_name,
@@ -40,7 +39,7 @@ class ArticleController extends Controller
         $article->load('media');
         $article->loadMissing('categories');
 
-        $site = SiteConfig::current();
+        $site = site_config();
 
         $metadata->build(
             title: $article->title.' - '.$site->company_name,

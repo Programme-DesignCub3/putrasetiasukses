@@ -45,11 +45,14 @@ class SeoMetadataBuilder
             ->canonical($canonicalUrl)
             ->openGraphType($this->openGraphType($type, $publishedAt, $modifiedAt, $author, $section, $tags))
             ->openGraphAlternateLocales($this->openGraphAlternateLocales())
+            ->twitterTitle($title)
+            ->twitterDescription($description)
             ->jsonLdType($type === 'article' ? 'Article' : 'WebPage')
             ->jsonLdProperty('inLanguage', app()->getLocale());
 
         if ($image) {
             seo()->images($image);
+            seo()->twitterImage($image);
         }
 
         $this->addArticleStructuredData($type, $publishedAt, $modifiedAt, $author, $section, $tags);

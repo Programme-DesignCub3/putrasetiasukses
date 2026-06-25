@@ -1,11 +1,21 @@
-<x-layouts.app active-section="about" :site="$site">
+@php
+    $breadcrumbs = [
+        ['name' => __('Home'), 'url' => route('home')],
+        ['name' => __('Tentang Kami'), 'url' => route('about')],
+    ];
+@endphp
+
+@push('schemas')
+    <x-seo.breadcrumbs :items="$breadcrumbs" />
+@endpush
+
+<x-layouts.app :site="$site">
     <main>
         <x-site.layout.page-hero :title="__('about.title')" :image="$aboutPage->hero_image_url" />
 
         <x-site.layout.container class="clamp-[py,56px,64px] grid gap-8 lg:grid-cols-[360px_1fr]">
-            <img class="aspect-[4/5] w-full max-w-md object-cover lg:max-w-none"
-                src="{{ $aboutPage->intro_image_url }}" alt="Material baja {{ $site->company_name }}"
-                loading="eager" decoding="async" fetchpriority="high">
+            <img class="aspect-4/5 w-full max-w-md object-cover lg:max-w-none" src="{{ $aboutPage->intro_image_url }}"
+                alt="Material baja {{ $site->company_name }}" loading="eager" decoding="async" fetchpriority="high">
 
             <div class="flex flex-col justify-center">
                 <x-site.brand class="opacity-25" :site="$site" />
@@ -18,7 +28,7 @@
             </div>
         </x-site.layout.container>
 
-        <x-site.layout.container class="clamp-[py,48px,64px] grid gap-10 max-w-6xl md:grid-cols-[1fr_auto_1fr]">
+        <x-site.layout.container class="clamp-[py,48px,64px] grid max-w-6xl gap-10 md:grid-cols-[1fr_auto_1fr]">
             <article class="text-center">
                 <h2 class="text-brand-red text-3xl font-black uppercase">{{ __('about.vision') }}</h2>
                 <p class="mt-6 text-sm font-semibold leading-relaxed sm:text-base">
@@ -38,7 +48,7 @@
             <x-site.section-heading :label="__('about.gallery')" :prominent="true" />
             <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($aboutPage->gallery_images ?? [] as $image)
-                    <img class="aspect-[16/10] w-full object-cover" src="{{ $image['url'] ?? '' }}"
+                    <img class="aspect-16/10 w-full object-cover" src="{{ $image['url'] ?? '' }}"
                         alt="{{ $image['alt'] ?? 'Galeri material baja' }}" loading="lazy" decoding="async">
                 @endforeach
             </div>

@@ -9,7 +9,7 @@ class SitemapController extends Controller
 {
     public function __invoke(): Response
     {
-        return response(SitemapBuilder::default()->build()->render(), 200, [
+        return response(SitemapBuilder::default()->render(), 200, [
             'Content-Type' => 'application/xml',
         ]);
     }

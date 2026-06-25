@@ -9,15 +9,12 @@ class HomeController extends Controller
 {
     public function __invoke(SeoMetadataBuilder $metadata): View
     {
-        $site = site_config();
-
         $metadata->build(
             title: __('seo.home.title'),
             description: __('seo.home.description'),
         );
 
         return view('home', [
-            'site' => $site,
             'advantages' => $this->advantages(),
             'sectors' => $this->sectors(),
             'testimonials' => $this->testimonials(),

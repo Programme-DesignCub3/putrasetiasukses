@@ -10,7 +10,7 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles" :site="$site">
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles">
     <main class="clamp-[py,48px,72px] mx-auto max-w-6xl px-4 sm:px-5 lg:px-8">
         <img class="aspect-[16/7] w-full object-cover" src="{{ $article->image_url }}" alt="{{ $article->title }}">
 

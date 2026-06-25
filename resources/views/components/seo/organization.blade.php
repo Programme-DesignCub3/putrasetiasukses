@@ -1,30 +1,26 @@
 @php
-    try {
-        $config = site_config();
-    } catch (\Throwable) {
-        return;
-    }
-
-    $phones = array_map(fn (array $phone): string => $phone['number'], $config->phones);
-    $telephone = $phones[0] ?? $config->whatsapp_number;
+    $companyName = __('site.company_name');
+    $email = __('site.email');
+    $whatsappNumber = __('site.whatsapp_number');
+    $headOfficeAddress = __('site.head_office_address');
 
     $data = [
         '@context' => 'https://schema.org',
         '@type' => 'Organization',
-        'name' => $config->company_name,
+        'name' => $companyName,
         'url' => url('/'),
-        'email' => $config->email,
-        'telephone' => $telephone,
+        'email' => $email,
+        'telephone' => $whatsappNumber,
         'contactPoint' => [
             [
                 '@type' => 'ContactPoint',
-                'telephone' => $telephone,
+                'telephone' => $whatsappNumber,
                 'contactType' => 'sales',
             ],
         ],
         'address' => [
             '@type' => 'PostalAddress',
-            'streetAddress' => $config->head_office_address,
+            'streetAddress' => $headOfficeAddress,
             'addressCountry' => 'ID',
         ],
     ];

@@ -13,17 +13,13 @@ class ContactController extends Controller
 {
     public function create(SeoMetadataBuilder $metadata): View
     {
-        $site = site_config();
-
         $metadata->build(
-            title: __('seo.contact.title').' - '.$site->company_name,
+            title: __('seo.contact.title').' - '.__('site.company_name'),
             description: __('seo.contact.description'),
             image: 'https://placehold.co/1400x320/1f2937/ffffff?text=Kontak',
         );
 
-        return view('contact', [
-            'site' => $site,
-        ]);
+        return view('contact');
     }
 
     public function store(Request $request): RedirectResponse

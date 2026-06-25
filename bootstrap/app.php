@@ -10,14 +10,6 @@ use NielsNumbers\LaravelLocalizer\Middleware\SetLocale;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-$resolveSite = function (): array {
-    try {
-        return safe_db_config('website.site', []);
-    } catch (Throwable) {
-        return [];
-    }
-};
-
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -35,13 +27,13 @@ return Application::configure(basePath: dirname(__DIR__))
             SubstituteBindings::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) use ($resolveSite): void {
-        $exceptions->render(function (NotFoundHttpException $e, Request $request) use ($resolveSite) {
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->expectsJson() || $request->is('admin/*')) {
                 return;
             }
 
-            $site = $resolveSite();
+            $site = [];
 
             return response()->view('errors.404', [
                 'site' => $site,
@@ -50,7 +42,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 404);
         });
 
-        $exceptions->render(function (HttpException $e, Request $request) use ($resolveSite) {
+        $exceptions->render(function (HttpException $e, Request $request) {
             $statusCode = $e->getStatusCode();
 
             if ($request->expectsJson() || $request->is('admin/*')) {
@@ -61,7 +53,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 return;
             }
 
-            $site = $resolveSite();
+            $site = [];
 
             return response()->view("errors.{$statusCode}", [
                 'site' => $site,

@@ -1,4 +1,4 @@
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" :site="$site">
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased">
     <main>
         <section class="relative -mt-1" id="beranda">
             <div class="hero-steel clamp-[min-h,360px,520px] bg-cover bg-center">

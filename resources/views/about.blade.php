@@ -9,16 +9,16 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-layouts.app :site="$site">
+<x-layouts.app>
     <main>
         <x-site.layout.page-hero :title="__('about.title')" :image="$aboutPage->hero_image_url" />
 
         <x-site.layout.container class="clamp-[py,56px,64px] grid gap-8 lg:grid-cols-[360px_1fr]">
             <img class="aspect-4/5 w-full max-w-md object-cover lg:max-w-none" src="{{ $aboutPage->intro_image_url }}"
-                alt="Material baja {{ $site->company_name }}" loading="eager" decoding="async" fetchpriority="high">
+                alt="Material baja {{ __('site.company_name') }}" loading="eager" decoding="async" fetchpriority="high">
 
             <div class="flex flex-col justify-center">
-                <x-site.brand class="opacity-25" :site="$site" />
+                <x-site.brand class="opacity-25" />
 
                 @if ($aboutPage->intro_text)
                     <p class="mt-8 max-w-2xl text-base font-semibold leading-relaxed">

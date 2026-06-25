@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('Terjadi Kesalahan') }} - {{ translated($site['company_name'] ?? null) ?: config('app.name') }}</title>
+    <title>{{ __('Terjadi Kesalahan') }} - {{ __('site.company_name') ?: config('app.name') }}</title>
     <meta name="robots" content="noindex, nofollow">
     @vite(['resources/css/app.css'])
 </head>

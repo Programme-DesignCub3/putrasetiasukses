@@ -33,7 +33,7 @@
     <script type="application/ld+json">{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}</script>
 @endpush
 
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products" :site="$site">
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
     <main class="clamp-[py,48px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
         <section data-gallery>
             <div class="gallery-main swiper">

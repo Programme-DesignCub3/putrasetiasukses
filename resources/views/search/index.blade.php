@@ -1,4 +1,4 @@
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="search" :site="$site">
+<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="search">
     <main>
         <x-site.layout.page-hero :title="__('search.title')" image="https://placehold.co/1400x320/4b5563/ffffff?text=Cari" />
 

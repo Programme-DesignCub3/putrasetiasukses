@@ -10,10 +10,8 @@ class ProjectController extends Controller
 {
     public function index(SeoMetadataBuilder $metadata): View
     {
-        $site = site_config();
-
         $metadata->build(
-            title: __('seo.projects.title').' - '.$site->company_name,
+            title: __('seo.projects.title').' - '.__('site.company_name'),
             description: __('seo.projects.description'),
             image: 'https://placehold.co/1400x320/2b2b2b/ffffff?text=Proyek',
         );
@@ -25,7 +23,6 @@ class ProjectController extends Controller
             ->get();
 
         return view('projects.index', [
-            'site' => $site,
             'projects' => $projects,
         ]);
     }
@@ -37,16 +34,13 @@ class ProjectController extends Controller
         $project->load('media');
         $project->loadMissing('categories');
 
-        $site = site_config();
-
         $metadata->build(
-            title: $project->name.' - '.$site->company_name,
+            title: $project->name.' - '.__('site.company_name'),
             description: $project->description,
             image: $project->main_image_url,
         );
 
         return view('projects.show', [
-            'site' => $site,
             'project' => $project,
         ]);
     }

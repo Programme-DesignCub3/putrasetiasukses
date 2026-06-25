@@ -99,7 +99,6 @@ test('article pages render managed content', function () {
 });
 
 test('public pages render seo metadata', function () {
-    $site = site_config();
     $article = Article::factory()->create();
 
     $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/')
@@ -110,12 +109,12 @@ test('public pages render seo metadata', function () {
         ->assertSee('property="og:locale:alternate" content="en"', false)
         ->assertSee('property="og:locale:alternate" content="zh_CN"', false)
         ->assertSee('name="description"', false)
-        ->assertSee($site->tagline)
+        ->assertSee(__('site.tagline'))
         ->assertSee('property="og:type" content="website"', false);
 
     $this->withHeaders(['Accept-Language' => 'id'])->get('/artikel/'.$article->slug)
         ->assertSuccessful()
-        ->assertSee('<title>'.$article->title.' - '.$site->company_name.'</title>', false)
+        ->assertSee('<title>'.$article->title.' - '.__('site.company_name').'</title>', false)
         ->assertSee('property="og:type" content="article"', false)
         ->assertSee('property="article:published_time"', false)
         ->assertSee('"datePublished"', false)

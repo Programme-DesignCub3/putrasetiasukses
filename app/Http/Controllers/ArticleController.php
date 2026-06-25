@@ -10,10 +10,8 @@ class ArticleController extends Controller
 {
     public function index(SeoMetadataBuilder $metadata): View
     {
-        $site = site_config();
-
         $metadata->build(
-            title: __('seo.articles.title').' - '.$site->company_name,
+            title: __('seo.articles.title').' - '.__('site.company_name'),
             description: __('seo.articles.description'),
             image: 'https://placehold.co/1400x320/4b5563/ffffff?text=Artikel',
         );
@@ -27,7 +25,6 @@ class ArticleController extends Controller
             ->get();
 
         return view('articles.index', [
-            'site' => $site,
             'featuredArticles' => $featuredArticles,
         ]);
     }
@@ -39,10 +36,8 @@ class ArticleController extends Controller
         $article->load('media');
         $article->loadMissing('categories');
 
-        $site = site_config();
-
         $metadata->build(
-            title: $article->title.' - '.$site->company_name,
+            title: $article->title.' - '.__('site.company_name'),
             description: $article->excerpt,
             image: $article->image_url,
             type: 'article',
@@ -54,7 +49,6 @@ class ArticleController extends Controller
         );
 
         return view('articles.show', [
-            'site' => $site,
             'article' => $article,
         ]);
     }

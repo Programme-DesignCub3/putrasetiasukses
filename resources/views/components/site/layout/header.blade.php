@@ -1,4 +1,4 @@
-@props(['site', 'active' => 'home'])
+@props(['active' => 'home'])
 
 @php
     $navigation = [
@@ -16,7 +16,7 @@
     <div
         class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-5 sm:py-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div class="flex items-center justify-between gap-4">
-            <x-site.brand :site="$site" />
+            <x-site.brand />
 
             <div class="md:hidden" x-data="{ open: false }" @keydown.escape.window="open = false">
                 <button
@@ -53,7 +53,7 @@
 
         <div class="flex flex-col gap-3 lg:items-end">
             <p class="text-brand-ink max-w-xl text-sm font-extrabold leading-snug lg:text-right">
-                {{ $site->tagline }}
+                {{ __('site.tagline') }}
             </p>
 
             <x-site.language-switcher />

@@ -6,8 +6,10 @@ use App\Enums\CategoryType;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\ContactMessage;
+use App\Models\Partner;
 use App\Models\Product;
 use App\Models\Project;
+use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -68,6 +70,30 @@ class TestSeeder extends Seeder
             'subject' => 'Inquiry about Rebar',
             'message' => 'We need a quote for 500 tons of rebar.',
             'read_at' => now()->subDay(),
+        ]);
+
+        Testimonial::factory()->create([
+            'name' => 'Jonathan Doe',
+            'role' => 'Pemilik Rumah',
+            'content' => 'PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan.',
+        ]);
+
+        Testimonial::factory()->create([
+            'name' => 'Andi Pratama',
+            'role' => 'Kontraktor',
+            'content' => 'Pelayanan responsif dan stok material sangat membantu kebutuhan proyek kami.',
+        ]);
+
+        Partner::factory()->create([
+            'initial' => 'K',
+            'name' => 'Krakatau Steel',
+            'color' => '#0284c7',
+        ]);
+
+        Partner::factory()->create([
+            'initial' => 'S',
+            'name' => 'PT. Sahabat Baja Sejahtera',
+            'color' => '#0891b2',
         ]);
     }
 }

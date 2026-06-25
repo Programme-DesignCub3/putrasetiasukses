@@ -39,7 +39,7 @@
                             <div class="swiper-slide">
                                 <figure class="bg-brand-red relative p-6 text-white shadow-lg sm:p-8">
                                     <blockquote class="text-sm font-bold italic leading-relaxed sm:text-base">
-                                        "{{ $testimonial['quote'] }}"
+                                        "{{ $testimonial['content'] }}"
                                     </blockquote>
                                     <figcaption class="mt-6 text-sm font-bold">{{ $testimonial['name'] }},
                                         {{ $testimonial['role'] }}</figcaption>

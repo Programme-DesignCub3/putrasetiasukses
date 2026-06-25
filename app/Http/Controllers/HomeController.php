@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Partner;
+use App\Models\Testimonial;
 use App\Support\SeoMetadataBuilder;
 use Illuminate\Contracts\View\View;
 
@@ -17,8 +19,14 @@ class HomeController extends Controller
         return view('home', [
             'advantages' => $this->advantages(),
             'sectors' => $this->sectors(),
-            'testimonials' => $this->testimonials(),
-            'partners' => $this->partners(),
+            'testimonials' => Testimonial::query()
+                ->where('is_active', true)
+                ->ordered()
+                ->get(),
+            'partners' => Partner::query()
+                ->where('is_active', true)
+                ->ordered()
+                ->get(),
         ]);
     }
 
@@ -44,54 +52,6 @@ class HomeController extends Controller
             ['title' => 'Building Construction', 'copy' => 'Baja menjadi salah satu bahan utama dalam konstruksi dan pembangunan gedung, selain untuk pondasi juga digunakan pada atap.', 'class' => 'sector-construction'],
             ['title' => 'Automotive Industry', 'copy' => 'Material plat baja untuk kebutuhan fabrikasi, komponen, dan lini produksi industri otomotif.', 'class' => 'sector-automotive'],
             ['title' => 'Warehouse Supply', 'copy' => 'Dukungan stok material untuk distributor, kontraktor, dan kebutuhan gudang berskala besar.', 'class' => 'sector-warehouse'],
-        ];
-    }
-
-    /**
-     * @return array<int, array{quote: string, name: string, role: string}>
-     */
-    private function testimonials(): array
-    {
-        return [
-            [
-                'quote' => 'PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan, dengan kualitas produk yang konsisten serta pengiriman yang tepat waktu.',
-                'name' => 'Jonathan Doe',
-                'role' => 'Pemilik Rumah',
-            ],
-            [
-                'quote' => 'Pelayanan responsif dan stok material sangat membantu kebutuhan proyek kami saat jadwal sedang padat.',
-                'name' => 'Andi Pratama',
-                'role' => 'Kontraktor',
-            ],
-            [
-                'quote' => 'Kualitas plat sesuai spesifikasi dan proses pengiriman berjalan rapi dari pemesanan sampai barang diterima.',
-                'name' => 'Rina Wijaya',
-                'role' => 'Purchasing',
-            ],
-        ];
-    }
-
-    /**
-     * @return array<int, array{initial: string, name: string, color: string}>
-     */
-    private function partners(): array
-    {
-        return [
-            [
-                'initial' => 'K',
-                'name' => 'Krakatau Steel',
-                'color' => '#0284c7',
-            ],
-            [
-                'initial' => 'S',
-                'name' => 'PT. Sahabat Baja Sejahtera',
-                'color' => '#0891b2',
-            ],
-            [
-                'initial' => 'P',
-                'name' => 'Partner Industri Baja',
-                'color' => '#b90000',
-            ],
         ];
     }
 }

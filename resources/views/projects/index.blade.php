@@ -21,7 +21,7 @@
                 </p>
             </div>
 
-            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" x-data="staggerFade">
                 @foreach ($projects as $project)
                     <x-projects.project-card :project="$project" />
                 @endforeach

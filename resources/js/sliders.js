@@ -13,10 +13,14 @@ import {
 export function initHomeSliders() {
     if (document.querySelector(".home-testimonials-swiper")) {
         new Swiper(".home-testimonials-swiper", {
-            modules: [Pagination],
+            modules: [Pagination, Autoplay],
             loop: true,
             spaceBetween: 10,
             autoHeight: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
             pagination: {
                 el: ".home-testimonials-pagination",
                 clickable: true,

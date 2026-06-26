@@ -16,7 +16,7 @@ class ArticleList extends Component
 
     public string $categoryId = '';
 
-    protected int $perPage = 12;
+    protected int $perPage = 6;
 
     public function mount(): void
     {

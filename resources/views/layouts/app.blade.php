@@ -34,7 +34,7 @@
 </head>
 
 <body class="{{ $bodyClass }}">
-    <div class="min-h-screen overflow-hidden">
+    <div class="min-h-screen overflow-x-clip">
         <x-site.layout.header />
 
         {{ $slot }}

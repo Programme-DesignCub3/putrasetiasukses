@@ -85,6 +85,7 @@ class Category extends Model implements HasMedia, Sortable
         return SlugOptions::create()
             ->generateSlugsFrom(fn (Category $category): string => $category->getTranslation('name', 'id', false) ?: '')
             ->saveSlugsTo('slug')
+            ->extraScope(fn (Builder $builder): Builder => $builder->where('type', $this->type))
             ->doNotGenerateSlugsOnUpdate();
     }
 

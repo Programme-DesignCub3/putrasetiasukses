@@ -20,7 +20,9 @@ class WebsiteSettings extends AbstractPageSettings
 
     protected static ?string $navigationLabel = 'Website Settings';
 
-    protected static ?int $navigationSort = 90;
+    protected static ?string $navigationGroup = 'Pengaturan';
+
+    protected static ?int $navigationSort = 1;
 
     protected function settingName(): string
     {

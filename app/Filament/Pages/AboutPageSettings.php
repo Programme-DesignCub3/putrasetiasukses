@@ -16,13 +16,15 @@ class AboutPageSettings extends AbstractPageSettings
      */
     public ?array $data = [];
 
-    protected static ?string $title = 'About Page';
+    protected static ?string $title = 'Tentang Kami';
 
-    // protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-wrench-screwdriver'; // Uncomment if you want to set a custom navigation icon
+    protected static ?string $navigationLabel = 'Tentang Kami';
 
-    // protected ?string $subheading = ''; // Uncomment if you want to set a custom subheading
+    protected static ?string $navigationGroup = 'Pengaturan';
 
-    // protected static ?string $slug = 'about-page-settings'; // Uncomment if you want to set a custom slug
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-wrench-screwdriver';
+
+    protected static ?int $navigationSort = 2;
 
     protected function settingName(): string
     {

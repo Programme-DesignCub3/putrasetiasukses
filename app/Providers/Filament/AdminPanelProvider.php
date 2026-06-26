@@ -41,6 +41,13 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
             ])
+            ->navigationGroups([
+                'Website',
+                'Produk',
+                'Project',
+                'Artikel',
+                'Pengaturan',
+            ])
             ->plugins([
                 BotlyPlugin::make(),
                 BenriadhFilamentTranslationManagerPlugin::make(),

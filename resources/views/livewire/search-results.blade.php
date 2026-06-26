@@ -44,9 +44,11 @@
                             {{ __('search.view_all') }}
                         </a>
                     </div>
-                    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" x-data="staggerList">
                         @foreach ($products as $product)
-                            <x-products.product-card :product="$product" />
+                            <div wire:key="search-product-{{ $product->id }}">
+                                <x-products.product-card :product="$product" />
+                            </div>
                         @endforeach
                     </div>
                 </section>
@@ -60,9 +62,11 @@
                             {{ __('search.view_all') }}
                         </a>
                     </div>
-                    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" x-data="staggerList">
                         @foreach ($articles as $article)
-                            <x-articles.article-card :article="$article" />
+                            <div wire:key="search-article-{{ $article->id }}">
+                                <x-articles.article-card :article="$article" />
+                            </div>
                         @endforeach
                     </div>
                 </section>
@@ -76,9 +80,11 @@
                             {{ __('search.view_all') }}
                         </a>
                     </div>
-                    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" x-data="staggerList">
                         @foreach ($projects as $project)
-                            <x-projects.project-card :project="$project" />
+                            <div wire:key="search-project-{{ $project->id }}">
+                                <x-projects.project-card :project="$project" />
+                            </div>
                         @endforeach
                     </div>
                 </section>

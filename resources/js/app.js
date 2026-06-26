@@ -1,4 +1,5 @@
 import Alpine from "alpinejs";
+import { animate, inView, scroll, stagger, hover, press } from "motion";
 import "./bootstrap";
 
 const COOKIE_CONSENT_KEY = "pssb_cookie_consent_v1";
@@ -78,6 +79,88 @@ Alpine.data("cookieConsent", () => ({
         this.setConsent("rejected");
         this.applyConsent("rejected");
         this.visible = false;
+    },
+}));
+
+window.Motion = { animate, inView, scroll, stagger, hover, press };
+
+Alpine.magic("motion", () => window.Motion);
+
+Alpine.magic("animate", () => (el, keyframes, options) =>
+    animate(el, keyframes, options),
+);
+
+Alpine.data("scrollReveal", (options = {}) => ({
+    init() {
+        inView(
+            this.$el,
+            () => {
+                animate(
+                    this.$el,
+                    { opacity: [0, 1], y: [24, 0] },
+                    { duration: 0.5, easing: "ease-out", ...options },
+                );
+            },
+            { amount: 0.2 },
+        );
+    },
+}));
+
+Alpine.data("staggerFade", (options = {}) => ({
+    init() {
+        inView(
+            this.$el,
+            () => {
+                animate(
+                    this.$el.children,
+                    { opacity: [0, 1], y: [16, 0] },
+                    {
+                        duration: 0.4,
+                        easing: "ease-out",
+                        delay: stagger(0.06),
+                        ...options,
+                    },
+                );
+            },
+            { amount: 0.15 },
+        );
+    },
+}));
+
+Alpine.data("staggerList", (options = {}) => ({
+    observer: null,
+    animated: false,
+
+    init() {
+        const animateChildren = (force = false) => {
+            if (!force && this.animated) return;
+
+            const children = [...this.$el.children];
+
+            if (children.length === 0) return;
+
+            animate(
+                children,
+                { opacity: [0, 1], y: [16, 0] },
+                {
+                    duration: 0.4,
+                    easing: "ease-out",
+                    delay: stagger(0.06),
+                    ...options,
+                },
+            );
+
+            this.animated = true;
+        };
+
+        inView(this.$el, () => animateChildren(), { amount: 0.15 });
+
+        this.observer = new MutationObserver(() => animateChildren(true));
+        this.observer.observe(this.$el, { childList: true });
+    },
+
+    destroy() {
+        this.observer?.disconnect();
     },
 }));
 

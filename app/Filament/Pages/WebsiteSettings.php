@@ -8,6 +8,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Inerba\DbConfig\AbstractPageSettings;
+use UnitEnum;
 
 class WebsiteSettings extends AbstractPageSettings
 {
@@ -20,7 +21,7 @@ class WebsiteSettings extends AbstractPageSettings
 
     protected static ?string $navigationLabel = 'Website Settings';
 
-    protected static ?string $navigationGroup = 'Pengaturan';
+    protected static string|UnitEnum|null $navigationGroup = 'Pengaturan';
 
     protected static ?int $navigationSort = 1;
 

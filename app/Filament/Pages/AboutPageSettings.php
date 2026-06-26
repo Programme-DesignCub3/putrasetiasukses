@@ -8,6 +8,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
 use Inerba\DbConfig\AbstractPageSettings;
+use UnitEnum;
 
 class AboutPageSettings extends AbstractPageSettings
 {
@@ -20,7 +21,7 @@ class AboutPageSettings extends AbstractPageSettings
 
     protected static ?string $navigationLabel = 'Tentang Kami';
 
-    protected static ?string $navigationGroup = 'Pengaturan';
+    protected static string|UnitEnum|null $navigationGroup = 'Pengaturan';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-wrench-screwdriver';
 

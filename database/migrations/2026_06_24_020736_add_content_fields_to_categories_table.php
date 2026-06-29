@@ -6,29 +6,35 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->json('description')->nullable()->after('name');
-            $table->string('image_url')->nullable()->after('slug');
-            $table->json('gallery_images')->nullable()->after('image_url');
-        });
+        foreach (['article_categories', 'product_categories', 'project_categories'] as $table) {
+            if (! Schema::hasTable($table)) {
+                continue;
+            }
+
+            Schema::table($table, function (Blueprint $table): void {
+                $table->json('description')->nullable()->after('name');
+                $table->string('image_url')->nullable()->after('slug');
+                $table->json('gallery_images')->nullable()->after('image_url');
+            });
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn([
-                'description',
-                'image_url',
-                'gallery_images',
-            ]);
-        });
+        foreach (['article_categories', 'product_categories', 'project_categories'] as $table) {
+            if (! Schema::hasTable($table)) {
+                continue;
+            }
+
+            Schema::table($table, function (Blueprint $table): void {
+                $table->dropColumn([
+                    'description',
+                    'image_url',
+                    'gallery_images',
+                ]);
+            });
+        }
     }
 };

@@ -2,29 +2,27 @@
 
 namespace App\Models;
 
-use App\Enums\CategoryType;
-use Illuminate\Database\Eloquent\Builder;
+use Database\Factories\ArticleCategoryFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class ArticleCategory extends Category
 {
-    protected $table = 'categories';
+    /** @use HasFactory<ArticleCategoryFactory> */
+    use HasFactory;
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope(
-            'article-category',
-            fn (Builder $builder) => $builder->where('type', CategoryType::Article),
-        );
-
-        static::creating(function (ArticleCategory $category): void {
-            $category->type = CategoryType::Article;
-        });
-    }
+    protected $table = 'article_categories';
 
     public static function findOrCreate(array|string $name): self
     {
-        return self::findOrCreateForType(CategoryType::Article, $name);
+        $translations = is_array($name) ? $name : static::translations($name);
+        $slug = Str::slug($translations['id'] ?? $translations['en'] ?? $translations['zh'] ?? '');
+
+        return static::query()->firstOrCreate(
+            ['slug' => $slug],
+            ['name' => $translations, 'is_active' => true],
+        );
     }
 
     /**
@@ -32,6 +30,6 @@ class ArticleCategory extends Category
      */
     public function articles(): BelongsToMany
     {
-        return $this->belongsToMany(Article::class, 'article_category', 'category_id', 'article_id');
+        return $this->belongsToMany(Article::class, 'article_article_category', 'article_category_id', 'article_id');
     }
 }

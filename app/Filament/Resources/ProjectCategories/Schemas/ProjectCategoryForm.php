@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\ProjectCategories\Schemas;
 
-use App\Models\Category;
+use App\Models\ProjectCategory;
 use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
@@ -42,14 +42,14 @@ class ProjectCategoryForm
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('category_image')
                             ->label('Gambar utama')
-                            ->collection(Category::ImageCollection)
+                            ->collection(ProjectCategory::ImageCollection)
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120)
                             ->columnSpan(1),
                         SpatieMediaLibraryFileUpload::make('category_gallery')
                             ->label('Galeri kategori')
-                            ->collection(Category::GalleryCollection)
+                            ->collection(ProjectCategory::GalleryCollection)
                             ->multiple()
                             ->reorderable()
                             ->image()

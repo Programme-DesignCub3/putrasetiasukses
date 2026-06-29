@@ -1,9 +1,7 @@
 <?php
 
-use App\Enums\CategoryType;
 use App\Models\Article;
 use App\Models\ArticleCategory;
-use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Project;
@@ -12,16 +10,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('product and article category models are scoped to their own type', function (): void {
-    $productCategory = ProductCategory::findOrCreate(Category::translations('Steel Plate'));
-    $articleCategory = ArticleCategory::findOrCreate(Category::translations('News'));
+test('product and article category models use their own tables', function (): void {
+    $productCategory = ProductCategory::findOrCreate(['id' => 'Steel Plate', 'en' => 'Steel Plate', 'zh' => '钢板']);
+    $articleCategory = ArticleCategory::findOrCreate(['id' => 'News', 'en' => 'News', 'zh' => '新闻']);
 
     expect($productCategory)
         ->toBeInstanceOf(ProductCategory::class)
-        ->type->toBe(CategoryType::Product)
         ->and($articleCategory)
         ->toBeInstanceOf(ArticleCategory::class)
-        ->type->toBe(CategoryType::Article)
         ->and(ProductCategory::query()->pluck('id')->all())
         ->toBe([$productCategory->id])
         ->and(ArticleCategory::query()->pluck('id')->all())
@@ -29,9 +25,9 @@ test('product and article category models are scoped to their own type', functio
 });
 
 test('product categories are sorted separately from article categories', function (): void {
-    $firstProductCategory = ProductCategory::findOrCreate(Category::translations('Plate'));
-    $secondProductCategory = ProductCategory::findOrCreate(Category::translations('Pipe'));
-    $articleCategory = ArticleCategory::findOrCreate(Category::translations('Industry'));
+    $firstProductCategory = ProductCategory::findOrCreate(['id' => 'Plate', 'en' => 'Plate', 'zh' => '板']);
+    $secondProductCategory = ProductCategory::findOrCreate(['id' => 'Pipe', 'en' => 'Pipe', 'zh' => '管']);
+    $articleCategory = ArticleCategory::findOrCreate(['id' => 'Industry', 'en' => 'Industry', 'zh' => '工业']);
 
     $secondProductCategory->moveToStart();
 
@@ -44,14 +40,14 @@ test('product categories are sorted separately from article categories', functio
 test('product and article relations use the separated category models', function (): void {
     $product = Product::factory()->create([
         'slug' => 'black-plate-test',
-        'name' => Category::translations('Black Plate Test'),
-        'category' => Category::translations('Plate'),
+        'name' => ['id' => 'Black Plate Test', 'en' => 'Black Plate Test', 'zh' => '黑钢板测试'],
+        'category' => ['id' => 'Plate', 'en' => 'Plate', 'zh' => '板'],
     ]);
 
     $article = Article::factory()->create([
         'slug' => 'steel-news-test',
-        'title' => Category::translations('Steel News Test'),
-        'category' => Category::translations('News'),
+        'title' => ['id' => 'Steel News Test', 'en' => 'Steel News Test', 'zh' => '钢铁新闻测试'],
+        'category' => ['id' => 'News', 'en' => 'News', 'zh' => '新闻'],
     ]);
 
     expect($product->fresh()->load('categories')->categories->first())
@@ -61,19 +57,18 @@ test('product and article relations use the separated category models', function
 });
 
 test('project category model is scoped to project type', function (): void {
-    $projectCategory = ProjectCategory::findOrCreate(Category::translations('Building Construction'));
+    $projectCategory = ProjectCategory::findOrCreate(['id' => 'Building Construction', 'en' => 'Building Construction', 'zh' => '建筑施工']);
 
     expect($projectCategory)
         ->toBeInstanceOf(ProjectCategory::class)
-        ->type->toBe(CategoryType::Project)
         ->and(ProjectCategory::query()->pluck('id')->all())
         ->toBe([$projectCategory->id]);
 });
 
 test('project categories are sorted separately from other categories', function (): void {
-    $productCategory = ProductCategory::findOrCreate(Category::translations('Pipe'));
-    $firstProjectCategory = ProjectCategory::findOrCreate(Category::translations('Infrastructure'));
-    $secondProjectCategory = ProjectCategory::findOrCreate(Category::translations('Warehouse'));
+    $productCategory = ProductCategory::findOrCreate(['id' => 'Pipe', 'en' => 'Pipe', 'zh' => '管']);
+    $firstProjectCategory = ProjectCategory::findOrCreate(['id' => 'Infrastructure', 'en' => 'Infrastructure', 'zh' => '基础设施']);
+    $secondProjectCategory = ProjectCategory::findOrCreate(['id' => 'Warehouse', 'en' => 'Warehouse', 'zh' => '仓库']);
 
     $secondProjectCategory->moveToStart();
 
@@ -85,7 +80,7 @@ test('project categories are sorted separately from other categories', function 
 
 test('project relations use the project category model', function (): void {
     $project = Project::factory()->create();
-    $category = ProjectCategory::findOrCreate(Category::translations('Renovation'));
+    $category = ProjectCategory::findOrCreate(['id' => 'Renovation', 'en' => 'Renovation', 'zh' => '翻新']);
 
     $project->categories()->sync([$category->id]);
 

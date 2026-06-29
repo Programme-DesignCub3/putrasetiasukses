@@ -6,24 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('category_project', function (Blueprint $table) {
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+        if (Schema::hasTable('project_project_category')) {
+            return;
+        }
 
-            $table->primary(['category_id', 'project_id']);
+        Schema::create('project_project_category', function (Blueprint $table) {
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('project_category_id')->constrained('project_categories')->cascadeOnDelete();
+
+            $table->primary(['project_id', 'project_category_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('category_project');
+        Schema::dropIfExists('project_project_category');
     }
 };

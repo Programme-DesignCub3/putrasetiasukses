@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\ArticleCategories\Schemas;
 
-use App\Models\Category;
+use App\Models\ArticleCategory;
 use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
@@ -42,14 +42,14 @@ class ArticleCategoryForm
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('category_image')
                             ->label('Gambar utama')
-                            ->collection(Category::ImageCollection)
+                            ->collection(ArticleCategory::ImageCollection)
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120)
                             ->columnSpan(1),
                         SpatieMediaLibraryFileUpload::make('category_gallery')
                             ->label('Galeri kategori')
-                            ->collection(Category::GalleryCollection)
+                            ->collection(ArticleCategory::GalleryCollection)
                             ->multiple()
                             ->reorderable()
                             ->image()

@@ -1,18 +1,26 @@
 <x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased">
     <main>
         <section class="relative -mt-1" id="beranda">
-            <div class="hero-steel clamp-[min-h,360px,520px] bg-cover bg-center">
-                <div class="absolute inset-0 bg-black/25"></div>
-                <div
-                    class="clamp-[min-h,360px,520px] relative mx-auto flex max-w-7xl items-center justify-center px-4 text-center sm:px-5">
-                    <div class="text-white drop-shadow-2xl">
-                        <p class="text-xs font-black uppercase sm:text-sm">Material Baja Terpercaya</p>
-                        <h1 class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
-                            {{ __('home.hero_title') }}</h1>
-                        <p class="mt-3 text-sm font-black uppercase sm:text-lg">{{ __('home.hero_subtitle') }}
-                        </p>
-                    </div>
+            <div class="home-hero swiper">
+                <div class="swiper-wrapper">
+                    @foreach ($heroSlides as $slide)
+                        <div class="swiper-slide">
+                            <div class="home-hero-slide clamp-[min-h,360px,520px] flex items-center justify-center bg-cover bg-center px-4 text-center sm:px-5"
+                                style="background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),url('{{ $slide['image'] }}')">
+                                <div class="text-white drop-shadow-2xl">
+                                    <p class="hero-slide-label text-xs font-black uppercase sm:text-sm">
+                                        {{ $slide['label'] }}</p>
+                                    <h1 class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
+                                        {{ $slide['title'] }}</h1>
+                                    <p class="mt-3 text-sm font-black uppercase sm:text-lg">{{ $slide['subtitle'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
+                <button class="home-hero-button-prev" type="button" aria-label="Sebelumnya"></button>
+                <button class="home-hero-button-next" type="button" aria-label="Selanjutnya"></button>
+                <div class="home-hero-pagination"></div>
             </div>
         </section>
 

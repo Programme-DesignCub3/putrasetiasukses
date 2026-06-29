@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\ProductCategories\Tables;
 
-use App\Models\Category;
+use App\Models\ProductCategory;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -20,7 +20,7 @@ class ProductCategoriesTable
             ->columns([
                 SpatieMediaLibraryImageColumn::make('category_image')
                     ->label('Gambar')
-                    ->collection(Category::ImageCollection),
+                    ->collection(ProductCategory::ImageCollection),
                 TextColumn::make('name')
                     ->label('Nama')
                     ->searchable()

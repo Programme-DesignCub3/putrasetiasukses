@@ -85,7 +85,7 @@ class Product extends Model implements HasMedia, Sortable
      */
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(ProductCategory::class, 'category_product', 'product_id', 'category_id')
+        return $this->belongsToMany(ProductCategory::class, 'product_product_category', 'product_id', 'product_category_id')
             ->orderBy('order_column');
     }
 

@@ -53,7 +53,7 @@ class ProductList extends Component
         }
 
         if ($this->categoryId) {
-            $products->whereHas('categories', fn ($q) => $q->where('categories.id', $this->categoryId));
+            $products->whereHas('categories', fn ($q) => $q->where('product_categories.id', $this->categoryId));
         }
 
         return view('livewire.product-list', [

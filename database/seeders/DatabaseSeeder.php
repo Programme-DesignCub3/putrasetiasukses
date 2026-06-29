@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            HeroSlideSeeder::class,
             ProductSeeder::class,
             ArticleSeeder::class,
             TestimonialSeeder::class,
@@ -22,7 +23,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::query()->updateOrCreate(
-            ['email' => 'test@example.com'],
+            ['email' => 'admin@admin.com'],
             [
                 'name' => 'Test User',
                 'password' => 'password',

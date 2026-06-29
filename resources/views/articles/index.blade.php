@@ -9,7 +9,7 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles">
+<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles">
     <main>
         <x-site.layout.page-hero :title="__('articles.title')" image="https://placehold.co/1400x320/4b5563/ffffff?text=Artikel" />
 
@@ -27,8 +27,8 @@
                     </div>
                 </div>
 
-                <x-site.slider-nav direction="prev" class="slider-nav-prev" />
-                <x-site.slider-nav direction="next" class="slider-nav-next" />
+                <x-site.slider-nav class="slider-nav-prev" direction="prev" />
+                <x-site.slider-nav class="slider-nav-next" direction="next" />
             </div>
         </x-site.layout.container>
 
@@ -38,4 +38,4 @@
             <livewire:article-list />
         </x-site.layout.container>
     </main>
-</x-layouts.app>
+</x-app>

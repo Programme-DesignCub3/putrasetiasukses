@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\ArticleCategories\Tables;
+namespace App\Filament\Resources\HeroSlides\Tables;
 
-use App\Models\ArticleCategory;
+use App\Models\HeroSlide;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -12,43 +12,37 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
-class ArticleCategoriesTable
+class HeroSlidesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                SpatieMediaLibraryImageColumn::make('category_image')
+                SpatieMediaLibraryImageColumn::make('hero_image')
                     ->label('Gambar')
-                    ->collection(ArticleCategory::ImageCollection),
-                TextColumn::make('name')
-                    ->label('Nama')
+                    ->collection(HeroSlide::ImageCollection)
+                    ->width(80)
+                    ->height(40),
+                TextColumn::make('label')
+                    ->label('Label')
                     ->searchable()
-                    ->sortable()
-                    ->wrap(),
-                TextColumn::make('slug')
-                    ->searchable()
-                    ->toggleable(),
-                TextColumn::make('articles_count')
-                    ->label('Artikel')
-                    ->counts('articles')
                     ->sortable(),
+                TextColumn::make('title')
+                    ->label('Judul')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('subtitle')
+                    ->label('Subjudul')
+                    ->limit(40)
+                    ->wrap(),
                 IconColumn::make('is_active')
-                    ->label('Active')
+                    ->label('Aktif')
                     ->boolean(),
-                TextColumn::make('updated_at')
-                    ->label('Diubah')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Active')
-                    ->trueLabel('Active')
-                    ->falseLabel('Inactive'),
+                    ->label('Status'),
             ])
-            ->modifyQueryUsing(fn ($query) => $query->withCount('articles'))
             ->defaultSort('order_column')
             ->reorderable('order_column')
             ->recordActions([

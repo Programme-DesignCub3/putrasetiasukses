@@ -2,29 +2,27 @@
 
 namespace App\Models;
 
-use App\Enums\CategoryType;
-use Illuminate\Database\Eloquent\Builder;
+use Database\Factories\ProductCategoryFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class ProductCategory extends Category
 {
-    protected $table = 'categories';
+    /** @use HasFactory<ProductCategoryFactory> */
+    use HasFactory;
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope(
-            'product-category',
-            fn (Builder $builder) => $builder->where('type', CategoryType::Product),
-        );
-
-        static::creating(function (ProductCategory $category): void {
-            $category->type = CategoryType::Product;
-        });
-    }
+    protected $table = 'product_categories';
 
     public static function findOrCreate(array|string $name): self
     {
-        return self::findOrCreateForType(CategoryType::Product, $name);
+        $translations = is_array($name) ? $name : static::translations($name);
+        $slug = Str::slug($translations['id'] ?? $translations['en'] ?? $translations['zh'] ?? '');
+
+        return static::query()->firstOrCreate(
+            ['slug' => $slug],
+            ['name' => $translations, 'is_active' => true],
+        );
     }
 
     /**
@@ -32,6 +30,6 @@ class ProductCategory extends Category
      */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'category_product', 'category_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'product_product_category', 'product_category_id', 'product_id');
     }
 }

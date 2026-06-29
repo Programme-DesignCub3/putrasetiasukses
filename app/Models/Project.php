@@ -90,7 +90,7 @@ class Project extends Model implements HasMedia, Sortable
      */
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(ProjectCategory::class, 'category_project', 'project_id', 'category_id')
+        return $this->belongsToMany(ProjectCategory::class, 'project_project_category', 'project_id', 'project_category_id')
             ->orderBy('order_column');
     }
 

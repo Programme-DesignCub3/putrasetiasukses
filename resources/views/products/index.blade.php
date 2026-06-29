@@ -9,7 +9,7 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
+<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
     <main>
         <x-site.layout.page-hero :title="__('products.title')" image="https://placehold.co/1400x320/2b2b2b/ffffff?text=Produk" />
 
@@ -24,4 +24,4 @@
             <livewire:product-list />
         </x-site.layout.container>
     </main>
-</x-layouts.app>
+</x-app>

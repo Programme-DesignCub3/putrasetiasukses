@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HeroSlide;
 use App\Models\Partner;
 use App\Models\Testimonial;
 use App\Support\SeoMetadataBuilder;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 
 class HomeController extends Controller
 {
@@ -17,6 +19,7 @@ class HomeController extends Controller
         );
 
         return view('home', [
+            'heroSlides' => $this->heroSlides(),
             'advantages' => $this->advantages(),
             'sectors' => $this->sectors(),
             'testimonials' => Testimonial::query()
@@ -28,6 +31,17 @@ class HomeController extends Controller
                 ->ordered()
                 ->get(),
         ]);
+    }
+
+    /**
+     * @return Collection<int, HeroSlide>
+     */
+    private function heroSlides()
+    {
+        return HeroSlide::query()
+            ->where('is_active', true)
+            ->ordered()
+            ->get();
     }
 
     /**

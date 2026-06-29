@@ -2,28 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Enums\CategoryType;
-use App\Models\Category;
+use App\Models\ProjectCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Category>
+ * @extends Factory<ProjectCategory>
  */
-class CategoryFactory extends Factory
+class ProjectCategoryFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = ProjectCategory::class;
+
     public function definition(): array
     {
         return [
-            'type' => $this->faker->randomElement([
-                CategoryType::Product,
-                CategoryType::Article,
-                CategoryType::Project,
-            ]),
             'name' => [
                 'id' => $this->faker->words(2, true),
                 'en' => $this->faker->words(2, true),

@@ -1,9 +1,8 @@
 <?php
 
-use App\Enums\CategoryType;
 use App\Filament\Resources\Articles\Pages\CreateArticle;
 use App\Models\Article;
-use App\Models\Category;
+use App\Models\ArticleCategory;
 use App\Models\User;
 use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
@@ -28,10 +27,9 @@ test('article body rich editor allows public media attachments', function () {
 test('indonesian article translations are required while other locales are optional', function () {
     $this->actingAs(User::factory()->create());
 
-    $category = Category::factory()->create([
-        'type' => CategoryType::Article,
+    $category = ArticleCategory::factory()->create([
         'is_active' => true,
-        'name' => Category::translations('Berita'),
+        'name' => ['id' => 'Berita', 'en' => 'News', 'zh' => '新闻'],
     ]);
 
     Livewire::test(CreateArticle::class)
@@ -72,10 +70,9 @@ test('indonesian article translations are required while other locales are optio
 test('article forms reject missing indonesian translations', function (array $data, array $errors) {
     $this->actingAs(User::factory()->create());
 
-    $category = Category::factory()->create([
-        'type' => CategoryType::Article,
+    $category = ArticleCategory::factory()->create([
         'is_active' => true,
-        'name' => Category::translations('Berita'),
+        'name' => ['id' => 'Berita', 'en' => 'News', 'zh' => '新闻'],
     ]);
 
     $validData = [

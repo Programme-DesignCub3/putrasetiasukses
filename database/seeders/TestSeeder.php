@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Enums\CategoryType;
 use App\Models\Article;
-use App\Models\Category;
+use App\Models\ArticleCategory;
 use App\Models\ContactMessage;
 use App\Models\Partner;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Project;
+use App\Models\ProjectCategory;
 use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -22,28 +23,23 @@ class TestSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
-        Category::factory()->create([
-            'type' => CategoryType::Product,
+        ProductCategory::create([
             'name' => ['id' => 'Plat Baja', 'en' => 'Steel Plate', 'zh' => '钢板'],
         ]);
 
-        Category::factory()->create([
-            'type' => CategoryType::Product,
+        ProductCategory::create([
             'name' => ['id' => 'Besi Beton', 'en' => 'Rebar', 'zh' => '钢筋'],
         ]);
 
-        Category::factory()->create([
-            'type' => CategoryType::Article,
+        ArticleCategory::create([
             'name' => ['id' => 'Industri & Konstruksi', 'en' => 'Industry & Construction', 'zh' => '工业与建筑'],
         ]);
 
-        Category::factory()->create([
-            'type' => CategoryType::Article,
+        ArticleCategory::create([
             'name' => ['id' => 'Tips & Panduan', 'en' => 'Tips & Guides', 'zh' => '提示与指南'],
         ]);
 
-        Category::factory()->create([
-            'type' => CategoryType::Project,
+        ProjectCategory::create([
             'name' => ['id' => 'Konstruksi Gedung', 'en' => 'Building Construction', 'zh' => '建筑施工'],
         ]);
 

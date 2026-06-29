@@ -167,9 +167,10 @@ Alpine.data("staggerList", (options = {}) => ({
 window.Alpine = Alpine;
 Alpine.start();
 
-const needsSliders = () =>
+const hasSliders = () =>
     document.querySelector(
         [
+            ".home-hero",
             ".home-testimonials-swiper",
             ".home-partners-swiper",
             "[data-gallery]",
@@ -177,23 +178,25 @@ const needsSliders = () =>
         ].join(","),
     );
 
-if (needsSliders()) {
+if (hasSliders()) {
     import("./sliders").then(
         ({
+            initHeroSlider,
             initHomeSliders,
             initProductGalleries,
             initFeaturedArticlesSlider,
         }) => {
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", () => {
-                    initHomeSliders();
-                    initProductGalleries();
-                    initFeaturedArticlesSlider();
-                });
-            } else {
+            const run = () => {
+                initHeroSlider();
                 initHomeSliders();
                 initProductGalleries();
                 initFeaturedArticlesSlider();
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", run);
+            } else {
+                run();
             }
         },
     );

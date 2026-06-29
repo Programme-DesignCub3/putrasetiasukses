@@ -4,11 +4,36 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import {
     Autoplay,
+    EffectFade,
     FreeMode,
     Navigation,
     Pagination,
     Thumbs,
 } from "swiper/modules";
+
+export function initHeroSlider() {
+    if (document.querySelector(".home-hero")) {
+        new Swiper(".home-hero", {
+            modules: [Navigation, Pagination, Autoplay, EffectFade],
+            loop: true,
+            // effect: "fade",
+            // fadeEffect: { crossFade: true },
+            speed: 800,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".home-hero-button-next",
+                prevEl: ".home-hero-button-prev",
+            },
+            pagination: {
+                el: ".home-hero-pagination",
+                clickable: true,
+            },
+        });
+    }
+}
 
 export function initHomeSliders() {
     if (document.querySelector(".home-testimonials-swiper")) {

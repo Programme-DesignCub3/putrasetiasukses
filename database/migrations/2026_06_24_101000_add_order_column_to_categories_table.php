@@ -2,47 +2,34 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     public function up(): void
     {
-        if (! Schema::hasTable('categories') || Schema::hasColumn('categories', 'order_column')) {
-            return;
-        }
+        foreach (['article_categories', 'product_categories', 'project_categories'] as $table) {
+            if (! Schema::hasTable($table) || Schema::hasColumn($table, 'order_column')) {
+                continue;
+            }
 
-        Schema::table('categories', function (Blueprint $table): void {
-            $table->unsignedInteger('order_column')->nullable()->after('is_active')->index();
-        });
-
-        DB::table('categories')
-            ->select('type')
-            ->distinct()
-            ->pluck('type')
-            ->each(function (string $type): void {
-                DB::table('categories')
-                    ->where('type', $type)
-                    ->orderBy('id')
-                    ->pluck('id')
-                    ->each(function (int $id, int $index): void {
-                        DB::table('categories')
-                            ->where('id', $id)
-                            ->update(['order_column' => $index + 1]);
-                    });
+            Schema::table($table, function (Blueprint $table): void {
+                $table->unsignedInteger('order_column')->nullable()->after('is_active')->index();
             });
+        }
     }
 
     public function down(): void
     {
-        if (! Schema::hasTable('categories') || ! Schema::hasColumn('categories', 'order_column')) {
-            return;
-        }
+        foreach (['article_categories', 'product_categories', 'project_categories'] as $table) {
+            if (! Schema::hasTable($table) || ! Schema::hasColumn($table, 'order_column')) {
+                continue;
+            }
 
-        Schema::table('categories', function (Blueprint $table): void {
-            $table->dropIndex(['order_column']);
-            $table->dropColumn('order_column');
-        });
+            Schema::table($table, function (Blueprint $table): void {
+                $table->dropIndex(['order_column']);
+                $table->dropColumn('order_column');
+            });
+        }
     }
 };

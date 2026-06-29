@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\CategoryType;
-use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
@@ -18,11 +14,9 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
-class Category extends Model implements HasMedia, Sortable
+abstract class Category extends Model implements HasMedia, Sortable
 {
-    /** @use HasFactory<CategoryFactory> */
     use HasFactory;
-
     use HasSlug;
     use HasTranslations;
     use InteractsWithMedia;
@@ -52,7 +46,6 @@ class Category extends Model implements HasMedia, Sortable
      * @var list<string>
      */
     protected $fillable = [
-        'type',
         'name',
         'description',
         'slug',
@@ -68,7 +61,6 @@ class Category extends Model implements HasMedia, Sortable
     protected function casts(): array
     {
         return [
-            'type' => CategoryType::class,
             'gallery_images' => 'array',
             'is_active' => 'boolean',
             'order_column' => 'integer',
@@ -77,7 +69,7 @@ class Category extends Model implements HasMedia, Sortable
 
     public function buildSortQuery(): Builder
     {
-        return static::query()->where('type', $this->type);
+        return static::query();
     }
 
     public function getSlugOptions(): SlugOptions
@@ -85,32 +77,7 @@ class Category extends Model implements HasMedia, Sortable
         return SlugOptions::create()
             ->generateSlugsFrom(fn (Category $category): string => $category->getTranslation('name', 'id', false) ?: '')
             ->saveSlugsTo('slug')
-            ->extraScope(fn (Builder $builder): Builder => $builder->where('type', $this->type))
             ->doNotGenerateSlugsOnUpdate();
-    }
-
-    /**
-     * @return BelongsToMany<Product, $this>
-     */
-    public function products(): BelongsToMany
-    {
-        return $this->belongsToMany(Product::class);
-    }
-
-    /**
-     * @return BelongsToMany<Article, $this>
-     */
-    public function articles(): BelongsToMany
-    {
-        return $this->belongsToMany(Article::class);
-    }
-
-    /**
-     * @return BelongsToMany<Project, $this>
-     */
-    public function projects(): BelongsToMany
-    {
-        return $this->belongsToMany(Project::class);
     }
 
     public function registerMediaCollections(): void
@@ -141,23 +108,6 @@ class Category extends Model implements HasMedia, Sortable
         }
 
         return json_decode((string) $value, true) ?: [];
-    }
-
-    public static function findOrCreateForType(CategoryType $type, array|string $name): static
-    {
-        $translations = is_array($name) ? $name : static::translations($name);
-        $slug = Str::slug($translations['id'] ?? $translations['en'] ?? $translations['zh'] ?? '');
-
-        return static::query()->firstOrCreate(
-            [
-                'type' => $type,
-                'slug' => $slug,
-            ],
-            [
-                'name' => $translations,
-                'is_active' => true,
-            ],
-        );
     }
 
     /**

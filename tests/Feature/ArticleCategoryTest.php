@@ -1,21 +1,18 @@
 <?php
 
-use App\Enums\CategoryType;
 use App\Models\Article;
-use App\Models\Category;
+use App\Models\ArticleCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 test('articles can belong to multiple editable article categories', function () {
     $article = Article::factory()->create();
-    $industry = Category::factory()->create([
-        'type' => CategoryType::Article,
-        'name' => Category::translations('Industri'),
+    $industry = ArticleCategory::factory()->create([
+        'name' => ['id' => 'Industri', 'en' => 'Industry', 'zh' => '工业'],
     ]);
-    $guide = Category::factory()->create([
-        'type' => CategoryType::Article,
-        'name' => Category::translations('Panduan'),
+    $guide = ArticleCategory::factory()->create([
+        'name' => ['id' => 'Panduan', 'en' => 'Guide', 'zh' => '指南'],
     ]);
 
     $article->categories()->sync([$industry->id, $guide->id]);
@@ -26,7 +23,7 @@ test('articles can belong to multiple editable article categories', function () 
         ->toHaveCount(2)
         ->toContain($industry->id, $guide->id);
 
-    $guide->update(['name' => Category::translations('Tips & Panduan')]);
+    $guide->update(['name' => ['id' => 'Tips & Panduan', 'en' => 'Tips & Guides', 'zh' => '提示与指南']]);
 
     expect($article->fresh()->load('categories')->category_names)
         ->toContain('Industri')

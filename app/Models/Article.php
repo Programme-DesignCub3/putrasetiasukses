@@ -97,7 +97,7 @@ class Article extends Model implements HasMedia, HasRichContent
      */
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(ArticleCategory::class, 'article_category', 'article_id', 'category_id')
+        return $this->belongsToMany(ArticleCategory::class, 'article_article_category', 'article_id', 'article_category_id')
             ->orderBy('order_column');
     }
 

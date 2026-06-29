@@ -1,10 +1,10 @@
 <?php
 
-use App\Enums\CategoryType;
 use App\Models\Article;
-use App\Models\Category;
 use App\Models\ContactMessage;
+use App\Models\HeroSlide;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Project;
 use App\Support\Sitemap\SitemapBuilder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,6 +17,8 @@ use Inerba\DbConfig\DbConfig;
 uses(RefreshDatabase::class);
 
 test('home page renders with shared site content', function () {
+    HeroSlide::factory()->create(['title' => 'Plat Lembaran Baja']);
+
     $this->withHeaders(['Accept-Language' => 'id'])->get('/')
         ->assertSuccessful()
         ->assertSee('PT Putra Setia Sukses Bersama')
@@ -192,8 +194,7 @@ test('media library images override legacy placeholder urls', function () {
 test('categories have their own translatable details and media', function () {
     Storage::fake('public');
 
-    $category = Category::factory()->create([
-        'type' => CategoryType::Product,
+    $category = ProductCategory::factory()->create([
         'description' => [
             'id' => 'Kategori plat baja untuk kebutuhan proyek.',
             'en' => 'Steel plate category for project needs.',
@@ -204,11 +205,11 @@ test('categories have their own translatable details and media', function () {
 
     $category
         ->addMedia(UploadedFile::fake()->image('category-cover.jpg'))
-        ->toMediaCollection(Category::ImageCollection);
+        ->toMediaCollection(ProductCategory::ImageCollection);
 
     $category
         ->addMedia(UploadedFile::fake()->image('category-gallery.jpg'))
-        ->toMediaCollection(Category::GalleryCollection);
+        ->toMediaCollection(ProductCategory::GalleryCollection);
 
     expect($category->fresh()->description)->toBe('Kategori plat baja untuk kebutuhan proyek.')
         ->and($category->fresh()->image_url)->toContain('category-cover.jpg')

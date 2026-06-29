@@ -21,7 +21,7 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects">
+<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects">
     <main class="clamp-[py,48px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
         <section data-gallery>
             <div class="gallery-main swiper">
@@ -98,4 +98,4 @@
             </a>
         </section>
     </main>
-</x-layouts.app>
+</x-app>

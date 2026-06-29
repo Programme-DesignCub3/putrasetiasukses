@@ -2,29 +2,27 @@
 
 namespace App\Models;
 
-use App\Enums\CategoryType;
-use Illuminate\Database\Eloquent\Builder;
+use Database\Factories\ProjectCategoryFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class ProjectCategory extends Category
 {
-    protected $table = 'categories';
+    /** @use HasFactory<ProjectCategoryFactory> */
+    use HasFactory;
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope(
-            'project-category',
-            fn (Builder $builder) => $builder->where('type', CategoryType::Project),
-        );
-
-        static::creating(function (ProjectCategory $category): void {
-            $category->type = CategoryType::Project;
-        });
-    }
+    protected $table = 'project_categories';
 
     public static function findOrCreate(array|string $name): self
     {
-        return self::findOrCreateForType(CategoryType::Project, $name);
+        $translations = is_array($name) ? $name : static::translations($name);
+        $slug = Str::slug($translations['id'] ?? $translations['en'] ?? $translations['zh'] ?? '');
+
+        return static::query()->firstOrCreate(
+            ['slug' => $slug],
+            ['name' => $translations, 'is_active' => true],
+        );
     }
 
     /**
@@ -32,6 +30,6 @@ class ProjectCategory extends Category
      */
     public function projects(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'category_project', 'category_id', 'project_id');
+        return $this->belongsToMany(Project::class, 'project_project_category', 'project_category_id', 'project_id');
     }
 }

@@ -54,7 +54,7 @@ class ArticleList extends Component
         }
 
         if ($this->categoryId) {
-            $articles->whereHas('categories', fn ($q) => $q->where('categories.id', $this->categoryId));
+            $articles->whereHas('categories', fn ($q) => $q->where('article_categories.id', $this->categoryId));
         }
 
         return view('livewire.article-list', [

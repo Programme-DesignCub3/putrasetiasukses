@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\ProjectCategories\Tables;
 
-use App\Models\Category;
+use App\Models\ProjectCategory;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -20,7 +20,7 @@ class ProjectCategoriesTable
             ->columns([
                 SpatieMediaLibraryImageColumn::make('category_image')
                     ->label('Gambar')
-                    ->collection(Category::ImageCollection),
+                    ->collection(ProjectCategory::ImageCollection),
                 TextColumn::make('name')
                     ->label('Nama')
                     ->searchable()

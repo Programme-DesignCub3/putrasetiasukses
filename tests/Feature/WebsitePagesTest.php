@@ -28,14 +28,13 @@ test('home page renders with shared site content', function () {
 });
 
 test('about page renders hardcoded copy with settings media', function () {
-    DbConfig::set('website.about', [
-        'hero_image' => 'about/hero.jpg',
-        'intro_image' => 'about/intro.jpg',
-        'gallery_images' => [
-            'about/gallery/warehouse.jpg',
-        ],
-        'video_url' => 'https://www.youtube.com/embed/test-video',
-    ]);
+    Storage::fake('public');
+
+    UploadedFile::fake()->image('warehouse.jpg')
+        ->storeAs('about/gallery', 'warehouse.jpg', 'public');
+
+    DbConfig::set('about-page.gallery_images', ['about/gallery/warehouse.jpg']);
+    DbConfig::set('about-page.youtube_url', 'https://www.youtube.com/embed/test-video');
 
     $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/tentang-kami')
         ->assertSuccessful()
@@ -44,8 +43,6 @@ test('about page renders hardcoded copy with settings media', function () {
         ->assertSee('Misi')
         ->assertSee('Galeri')
         ->assertSee('Video')
-        ->assertSee('/storage/about/hero.jpg', false)
-        ->assertSee('/storage/about/intro.jpg', false)
         ->assertSee('/storage/about/gallery/warehouse.jpg', false)
         ->assertSee('https://www.youtube.com/embed/test-video', false);
 });

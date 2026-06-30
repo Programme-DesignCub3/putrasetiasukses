@@ -46,8 +46,7 @@
             x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
-            x-transition:leave-end="opacity-0 -translate-y-2" @click.outside="open = false"
-            x-data="staggerFade({ duration: 0.25 })">
+            x-transition:leave-end="opacity-0 -translate-y-2" @click.outside="open = false" x-data="staggerFade({ duration: 0.25 })">
             @foreach ($navigation as $item)
                 <a href="{{ $item['url'] }}" @class([
                     'hover:bg-brand-ink block border-b border-white/10 px-5 py-4 text-sm font-black uppercase text-white transition last:border-b-0',

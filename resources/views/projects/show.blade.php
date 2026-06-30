@@ -23,44 +23,7 @@
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects">
     <main class="clamp-[py,48px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
-        <section data-gallery>
-            <div class="gallery-main swiper">
-                <div class="swiper-wrapper">
-                    @foreach ($projectImages as $image)
-                        <div class="swiper-slide">
-                            <img class="aspect-4/3 w-full object-cover" src="{{ $image['url'] }}"
-                                alt="{{ $image['alt'] ?? $project->name }}">
-                        </div>
-                    @endforeach
-                </div>
-
-                @if ($projectImages->count() > 1)
-                    <x-site.slider-nav class="slider-nav-prev" direction="prev" />
-                    <x-site.slider-nav class="slider-nav-next" direction="next" />
-                    <div class="gallery-pagination"></div>
-                @endif
-            </div>
-
-            @if ($projectImages->count() > 1)
-                <div class="gallery-thumbs swiper mt-5">
-                    <div class="swiper-wrapper">
-                        @foreach ($projectImages as $image)
-                            <div class="swiper-slide">
-                                <button class="gallery-thumb" type="button">
-                                    <img class="aspect-video w-full object-cover" src="{{ $image['url'] }}"
-                                        alt="{{ $image['alt'] ?? $project->name }}">
-                                </button>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @else
-                @foreach ($projectImages as $image)
-                    <img class="mt-5 aspect-video w-full max-w-48 object-cover" src="{{ $image['url'] }}"
-                        alt="{{ $image['alt'] ?? $project->name }}">
-                @endforeach
-            @endif
-        </section>
+        <x-site.gallery-slider :images="$projectImages" :name="$project->name" />
 
         <section class="flex flex-col">
             <p class="text-brand-red-dark text-2xl font-black">{{ $project->category_names }}</p>

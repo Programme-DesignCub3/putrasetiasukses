@@ -3,27 +3,30 @@
 namespace Database\Seeders;
 
 use App\Models\HeroSlide;
+use Database\Seeders\Concerns\SeedsWithAssets;
 use Illuminate\Database\Seeder;
 
 class HeroSlideSeeder extends Seeder
 {
+    use SeedsWithAssets;
+
     public function run(): void
     {
         $slides = [
             [
-                'image' => 'https://placehold.co/1800x720/5f6872/ffffff?text=Plat+Lembaran+Baja',
+                'image' => '120.jpg',
                 'label' => 'Material Baja Terpercaya',
                 'title' => 'Plat Lembaran Baja',
                 'subtitle' => 'Plat Hitam - Plat Putih - Plat Galvanil',
             ],
             [
-                'image' => 'https://placehold.co/1800x720/4b5563/ffffff?text=Distributor+Terpercaya',
+                'image' => '1176.jpg',
                 'label' => 'Supplier & Distributor',
                 'title' => 'Distributor Terpercaya',
                 'subtitle' => 'Pengiriman ke Seluruh Indonesia',
             ],
             [
-                'image' => 'https://placehold.co/1800x720/2b2b2b/ffffff?text=Kualitas+Terbaik',
+                'image' => '3285.jpg',
                 'label' => 'Kualitas Terjamin',
                 'title' => 'Kualitas Terbaik',
                 'subtitle' => 'Standar Mutu Internasional',
@@ -31,7 +34,21 @@ class HeroSlideSeeder extends Seeder
         ];
 
         foreach ($slides as $slide) {
-            HeroSlide::query()->create($slide);
+            $heroSlide = HeroSlide::query()->create([
+                'image' => $slide['image'],
+                'label' => $slide['label'],
+                'title' => $slide['title'],
+                'subtitle' => $slide['subtitle'],
+            ]);
+
+            $path = $this->resolveAssetPath($slide['image']);
+
+            if ($path !== null) {
+                $heroSlide
+                    ->addMedia($path)
+                    ->preservingOriginal()
+                    ->toMediaCollection(HeroSlide::ImageCollection);
+            }
         }
     }
 }

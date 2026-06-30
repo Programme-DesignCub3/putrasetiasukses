@@ -34,45 +34,8 @@
 @endpush
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
-    <main class="clamp-[py,48px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
-        <section data-gallery>
-            <div class="gallery-main swiper">
-                <div class="swiper-wrapper">
-                    @foreach ($productImages as $image)
-                        <div class="swiper-slide">
-                            <img class="aspect-4/3 w-full object-cover" src="{{ $image['url'] }}"
-                                alt="{{ $image['alt'] ?? $product->name }}">
-                        </div>
-                    @endforeach
-                </div>
-
-                @if ($productImages->count() > 1)
-                    <x-site.slider-nav class="slider-nav-prev" direction="prev" />
-                    <x-site.slider-nav class="slider-nav-next" direction="next" />
-                    <div class="gallery-pagination"></div>
-                @endif
-            </div>
-
-            @if ($productImages->count() > 1)
-                <div class="gallery-thumbs swiper mt-5">
-                    <div class="swiper-wrapper">
-                        @foreach ($productImages as $image)
-                            <div class="swiper-slide">
-                                <button class="gallery-thumb" type="button">
-                                    <img class="aspect-video w-full object-cover" src="{{ $image['url'] }}"
-                                        alt="{{ $image['alt'] ?? $product->name }}">
-                                </button>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @else
-                @foreach ($productImages as $image)
-                    <img class="mt-5 aspect-video w-full max-w-48 object-cover" src="{{ $image['url'] }}"
-                        alt="{{ $image['alt'] ?? $product->name }}">
-                @endforeach
-            @endif
-        </section>
+    <main class="clamp-[py,4px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
+        <x-site.gallery-slider class="max-lg:max-w-[95vw]" :images="$productImages" :name="$product->name" />
 
         <section class="flex flex-col">
             <p class="text-brand-red-dark text-2xl font-black">{{ $product->category_names }}</p>

@@ -91,20 +91,20 @@ export function initProductGalleries() {
         if (thumbElement) {
             thumbs = new Swiper(thumbElement, {
                 modules: [FreeMode],
-                slidesPerView: 3,
+                slidesPerView: 3.2,
                 spaceBetween: 12,
                 freeMode: true,
                 watchSlidesProgress: true,
                 breakpoints: {
                     640: {
-                        slidesPerView: 4,
+                        slidesPerView: 4.4,
                         spaceBetween: 14,
                     },
                 },
             });
         }
 
-        new Swiper(mainElement, {
+        const mainSwiper = new Swiper(mainElement, {
             modules: [Navigation, Pagination, Thumbs],
             loop: slideCount > 1,
             spaceBetween: 12,
@@ -120,6 +120,12 @@ export function initProductGalleries() {
                 swiper: thumbs,
             },
         });
+
+        if (thumbs) {
+            mainSwiper.on("slideChange", () => {
+                thumbs.slideTo(mainSwiper.realIndex, 300);
+            });
+        }
     });
 }
 

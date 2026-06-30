@@ -54,6 +54,7 @@ class HeroSlide extends Model implements HasMedia, Sortable
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::ImageCollection)
+            ->useDisk('public')
             ->singleFile();
     }
 

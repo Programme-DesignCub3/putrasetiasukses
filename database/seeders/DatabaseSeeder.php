@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ArticleSeeder::class,
             TestimonialSeeder::class,
             PartnerSeeder::class,
+            ProjectSeeder::class,
         ]);
 
         // User::factory(10)->create();

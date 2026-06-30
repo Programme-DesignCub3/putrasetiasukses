@@ -3,10 +3,10 @@
 namespace App\Filament\Pages;
 
 use BackedEnum;
-use Filament\Schemas\Components;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\HtmlString;
 use Inerba\DbConfig\AbstractPageSettings;
 use UnitEnum;
 
@@ -39,20 +39,45 @@ class AboutPageSettings extends AbstractPageSettings
      */
     public function getDefaultData(): array
     {
-        return [];
+        return [
+            'gallery_images' => [],
+            'youtube_url' => null,
+        ];
     }
 
     public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                // You can delete these statements!
-                Components\Text::make(new HtmlString(
-                    View::make('db-config::filament.pages.settings-help', [
-                        'group' => $this->settingName(),
-                        'pageClass' => class_basename(self::class),
-                    ])->render()
-                )),
+                Section::make('Galeri Gambar')
+                    ->description('Unggah gambar untuk galeri halaman tentang kami.')
+                    ->schema([
+                        FileUpload::make('gallery_images')
+                            ->label('Gambar Galeri')
+                            ->disk('public')
+                            ->directory('about/gallery')
+                            ->visibility('public')
+                            ->multiple()
+                            ->reorderable()
+                            ->panelLayout('grid')
+                            ->image()
+                            ->automaticallyCropImagesToAspectRatio('16:10')
+                            ->automaticallyResizeImagesMode('cover')
+                            ->automaticallyResizeImagesToWidth('960')
+                            ->automaticallyResizeImagesToHeight('600')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
+                    ]),
+
+                Section::make('Video')
+                    ->description('Tautan video YouTube untuk ditampilkan di halaman tentang kami.')
+                    ->schema([
+                        TextInput::make('youtube_url')
+                            ->label('URL YouTube')
+                            ->url()
+                            ->maxLength(2048)
+                            ->columnSpanFull(),
+                    ]),
             ])
             ->statePath('data');
     }

@@ -10,7 +10,7 @@ return [
         'home' => 'Beranda',
         'about' => 'Tentang Kami',
         'products' => 'Produk',
-        'projects' => 'Our Project',
+        'projects' => 'Proyek Kami',
         'articles' => 'Artikel',
         'contact' => 'Kontak',
         'search' => 'Cari',
@@ -18,7 +18,8 @@ return [
     ],
     'cta' => [
         'contact_us' => 'Hubungi Kami',
-        'strip' => 'Silahkan menghubungi kami segera. Kami dengan senang hati akan melayani anda',
+        'strip-1' => 'Silahkan menghubungi kami segera. ',
+        'strip-2' => 'Kami dengan senang hati akan melayani anda',
     ],
     'slider' => [
         'prev' => 'Sebelumnya',

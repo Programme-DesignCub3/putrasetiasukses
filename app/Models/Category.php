@@ -83,9 +83,11 @@ abstract class Category extends Model implements HasMedia, Sortable
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::ImageCollection)
+            ->useDisk('public')
             ->singleFile();
 
-        $this->addMediaCollection(self::GalleryCollection);
+        $this->addMediaCollection(self::GalleryCollection)
+            ->useDisk('public');
     }
 
     public function getImageUrlAttribute(?string $value): string

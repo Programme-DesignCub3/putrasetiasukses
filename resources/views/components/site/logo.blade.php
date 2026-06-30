@@ -7,5 +7,4 @@
     };
 @endphp
 
-<img src="{{ asset($src) }}" alt="{{ __('site.company_name') }} logo"
-    {{ $attributes->merge(['class' => 'h-8 w-auto']) }}>
+<img src="{{ asset($src) }}" alt="{{ __('site.company_name') }} logo" {{ $attributes->merge(['class' => '']) }}>

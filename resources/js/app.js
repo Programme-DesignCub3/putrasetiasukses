@@ -90,15 +90,15 @@ Alpine.magic("animate", () => (el, keyframes, options) =>
     animate(el, keyframes, options),
 );
 
-Alpine.data("scrollReveal", (options = {}) => ({
+Alpine.data("scrollReveal", (keyframes = {}) => ({
     init() {
         inView(
             this.$el,
             () => {
                 animate(
                     this.$el,
-                    { opacity: [0, 1], y: [24, 0] },
-                    { duration: 0.5, easing: "ease-out", ...options },
+                    { opacity: [0, 1], y: [24, 0], ...keyframes },
+                    { duration: 0.5, easing: "ease-out" },
                 );
             },
             { amount: 0.2 },

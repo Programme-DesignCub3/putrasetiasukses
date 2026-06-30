@@ -119,6 +119,10 @@
         content: "";
     }
 
+    .swiper:not(.swiper-initialized) .swiper-slide:not(:first-child) {
+        display: none;
+    }
+
     .home-slider {
         width: 100%;
     }

@@ -7,13 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Partner extends Model implements Sortable
+class Partner extends Model implements HasMedia, Sortable
 {
     /** @use HasFactory<PartnerFactory> */
     use HasFactory;
 
+    use InteractsWithMedia;
     use SortableTrait;
+
+    public const LogoCollection = 'logo';
 
     /**
      * @var array<string, mixed>
@@ -28,8 +33,6 @@ class Partner extends Model implements Sortable
      */
     protected $fillable = [
         'name',
-        'initial',
-        'color',
         'is_active',
         'order_column',
     ];
@@ -43,5 +46,17 @@ class Partner extends Model implements Sortable
             'is_active' => 'boolean',
             'order_column' => 'integer',
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::LogoCollection)
+            ->useDisk('public')
+            ->singleFile();
+    }
+
+    public function getLogoAttribute(): string
+    {
+        return $this->getFirstMediaUrl(self::LogoCollection);
     }
 }

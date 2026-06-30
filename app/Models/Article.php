@@ -70,9 +70,11 @@ class Article extends Model implements HasMedia, HasRichContent
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::ImageCollection)
+            ->useDisk('public')
             ->singleFile();
 
-        $this->addMediaCollection(self::BodyAttachmentCollection);
+        $this->addMediaCollection(self::BodyAttachmentCollection)
+            ->useDisk('public');
     }
 
     protected function setUpRichContent(): void

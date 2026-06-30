@@ -5,7 +5,7 @@
                 <div class="swiper-wrapper">
                     @foreach ($heroSlides as $slide)
                         <div class="swiper-slide">
-                            <div class="home-hero-slide clamp-[min-h,360px,520px] flex items-center justify-center bg-cover bg-center px-4 text-center sm:px-5"
+                            <div class="home-hero-slide clamp-[min-h,240px,800px] flex items-center justify-center bg-cover bg-center px-4 text-center sm:px-5"
                                 style="background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),url('{{ $slide['image'] }}')">
                                 <div class="text-white drop-shadow-2xl">
                                     <p class="hero-slide-label text-xs font-black uppercase sm:text-sm">
@@ -34,7 +34,8 @@
 
         <section class="grid lg:grid-cols-3" id="produk" x-data="staggerFade({ duration: 0.5 })">
             @foreach ($sectors as $sector)
-                <x-home.sector-card :bg-class="$sector['class']" :title="$sector['title']" :copy="$sector['copy']" />
+                <x-home.sector-card style="background-image: url('assets/home/{{ $sector['image'] }}')"
+                    :title="$sector['title']" :copy="$sector['copy']" />
             @endforeach
         </section>
 
@@ -70,8 +71,12 @@
                                 <div class="swiper-slide">
                                     <div
                                         class="flex min-h-44 flex-col items-center justify-center border-zinc-300 p-8 sm:min-h-52">
-                                        <span class="text-4xl font-black sm:text-5xl"
-                                            style="color: {{ $partner['color'] }}">{{ $partner['initial'] }}</span>
+                                        @if ($partner['logo'])
+                                            <img class="max-h-20 max-w-40 object-contain" src="{{ $partner['logo'] }}"
+                                                alt="{{ $partner['name'] }}">
+                                        @else
+                                            <span class="text-4xl font-black text-zinc-400 sm:text-5xl">?</span>
+                                        @endif
                                         <span
                                             class="mt-3 text-center text-xs font-black uppercase text-zinc-700 sm:text-sm">{{ $partner['name'] }}</span>
                                     </div>

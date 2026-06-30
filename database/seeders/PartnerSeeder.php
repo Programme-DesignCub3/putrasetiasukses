@@ -12,21 +12,9 @@ class PartnerSeeder extends Seeder
         Partner::query()->forceDelete();
 
         $items = [
-            [
-                'initial' => 'K',
-                'name' => 'Krakatau Steel',
-                'color' => '#0284c7',
-            ],
-            [
-                'initial' => 'S',
-                'name' => 'PT. Sahabat Baja Sejahtera',
-                'color' => '#0891b2',
-            ],
-            [
-                'initial' => 'P',
-                'name' => 'Partner Industri Baja',
-                'color' => '#b90000',
-            ],
+            ['name' => 'Krakatau Steel'],
+            ['name' => 'PT. Sahabat Baja Sejahtera'],
+            ['name' => 'Partner Industri Baja'],
         ];
 
         foreach ($items as $item) {

@@ -109,9 +109,11 @@ class Project extends Model implements HasMedia, Sortable
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::MainImageCollection)
+            ->useDisk('public')
             ->singleFile();
 
-        $this->addMediaCollection(self::GalleryCollection);
+        $this->addMediaCollection(self::GalleryCollection)
+            ->useDisk('public');
     }
 
     public function getMainImageUrlAttribute(?string $value): string

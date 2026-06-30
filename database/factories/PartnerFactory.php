@@ -14,8 +14,6 @@ class PartnerFactory extends Factory
     {
         return [
             'name' => fake()->company(),
-            'initial' => strtoupper(fake()->randomLetter()),
-            'color' => fake()->hexColor(),
             'is_active' => true,
         ];
     }

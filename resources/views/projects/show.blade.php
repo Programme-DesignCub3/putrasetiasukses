@@ -10,6 +10,11 @@
         ->unique('url')
         ->values();
 
+    $projectGallery = $projectImages->map(fn($img) => [
+        'url' => $img['url'],
+        'alt' => $img['alt'] ?? $project->name,
+    ]);
+
     $breadcrumbs = [
         ['name' => __('Home'), 'url' => route('home')],
         ['name' => __('Proyek'), 'url' => route('projects.index')],
@@ -21,9 +26,19 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects">
-    <main class="clamp-[py,48px,80px] mx-auto grid max-w-7xl gap-10 px-4 sm:px-5 lg:grid-cols-2 lg:px-8">
-        <x-site.gallery-slider :images="$projectImages" :name="$project->name" />
+<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects"
+    x-data="galleryLightbox({ images: {{ Illuminate\Support\Js::from($projectGallery) }} })">
+    <main class="clamp-[py,48px,80px] mx-auto max-w-7xl px-4 sm:px-5 lg:px-8">
+        <a href="{{ route('projects.index') }}"
+            class="mb-6 inline-flex items-center gap-2 text-sm font-bold uppercase text-brand-red hover:text-brand-red-dark transition">
+            <x-lucide-arrow-left class="size-4" stroke-width="3" />
+            {{ __('site.back') }}
+        </a>
+
+        <div class="grid gap-10 lg:grid-cols-2">
+        <x-site.gallery-slider :images="$projectImages" :name="$project->name"
+            firstImageTransitionName="project-image-{{ $project->id }}" />
+        <x-site.gallery-lightbox />
 
         <section class="flex flex-col">
             <p class="text-brand-red-dark text-2xl font-black">{{ $project->category_names }}</p>
@@ -53,12 +68,10 @@
 
             <a class="bg-brand-red hover:bg-brand-red-dark mt-10 inline-flex w-full max-w-xl items-center justify-center gap-4 rounded-full px-8 py-5 text-2xl font-black uppercase text-white transition"
                 href="{{ route('contact') }}">
-                <svg class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path
-                        d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.56 3.58.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.19 2.46.56 3.58a1 1 0 0 1-.25 1.01z" />
-                </svg>
+                <x-lucide-phone class="h-8 w-8" />
                 {{ __('projects.inquiry') }}
             </a>
         </section>
+        </div>
     </main>
 </x-app>

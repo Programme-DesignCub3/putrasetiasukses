@@ -11,7 +11,11 @@
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
     <main>
-        <x-site.layout.page-hero :title="__('products.title')" image="https://placehold.co/1400x320/2b2b2b/ffffff?text=Produk" />
+        <x-site.layout.page-hero :title="__('products.title')" :image="asset('assets/about/about-header.png')" />
+
+        <x-site.layout.container>
+
+        </x-site.layout.container>
 
         <x-site.layout.container class="clamp-[py,48px,72px]">
             <div class="max-w-3xl">
@@ -22,6 +26,13 @@
             </div>
 
             <livewire:product-list />
+        </x-site.layout.container>
+
+        <x-site.layout.container class="clamp-[pb,56px,72px]">
+            <x-site.section-heading :label="__('products.faq_title')" />
+            <div class="mt-10">
+                <x-faq.accordion :faqs="$faqs" />
+            </div>
         </x-site.layout.container>
     </main>
 </x-app>

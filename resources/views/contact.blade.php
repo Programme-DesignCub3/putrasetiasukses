@@ -11,7 +11,7 @@
 
 <x-layouts.app active-section="contact">
     <main>
-        <x-site.layout.page-hero :title="__('contact.title')" image="https://placehold.co/1400x320/1f2937/ffffff?text=Kontak" />
+        <x-site.layout.page-hero :title="__('contact.title')" :image="asset('assets/contact-hero.png')" />
 
         <x-site.layout.container class="clamp-[py,32px,48px]">
             <x-site.section-heading :level="1" :label="__('contact.message_title')" />

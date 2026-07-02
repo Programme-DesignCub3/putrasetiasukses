@@ -1,6 +1,7 @@
 @props([
     'images' => [],
     'name' => '',
+    'firstImageTransitionName' => null,
 ])
 
 <section data-gallery {{ $attributes->merge(['class' => 'max-lg:max-w-[95vw]']) }}>
@@ -8,8 +9,12 @@
         <div class="swiper-wrapper">
             @foreach ($images as $image)
                 <div class="swiper-slide">
-                    <img class="aspect-4/3 w-full object-cover" src="{{ $image['url'] }}"
-                        alt="{{ $image['alt'] ?? $name }}">
+                    <button class="w-full cursor-pointer" type="button"
+                        @click="open($el.firstElementChild, {{ $loop->index }})">
+                        <img class="aspect-4/3 w-full object-cover" src="{{ $image['url'] }}"
+                            alt="{{ $image['alt'] ?? $name }}"
+                            @if ($loop->first && $firstImageTransitionName) style="view-transition-name: {{ $firstImageTransitionName }}" @endif>
+                    </button>
                 </div>
             @endforeach
         </div>

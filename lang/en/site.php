@@ -34,6 +34,7 @@ return [
     'intro_text' => 'PT Putra Setia Sukses Bersama is a stockist and distributor of iron and steel materials serving construction, manufacturing, warehousing, and industrial project needs.',
     'vision_body' => 'To become a trusted, consistent, and responsive iron and steel material partner for customers across Indonesia.',
     'mission_body' => 'Maintain stock availability, provide the best material quality, offer competitive pricing, and deliver orders on time according to customer needs.',
+    'back' => 'Back',
     'cookie' => [
         'title' => 'Privacy and Cookies',
         'description' => 'We use essential cookies to run this website. With your consent, we will also use Google Analytics to understand page performance.',

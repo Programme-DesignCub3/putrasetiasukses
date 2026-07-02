@@ -12,7 +12,14 @@
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles">
     <main class="clamp-[py,48px,72px] mx-auto max-w-6xl px-4 sm:px-5 lg:px-8">
-        <img class="aspect-[16/7] w-full object-cover" src="{{ $article->image_url }}" alt="{{ $article->title }}">
+        <a class="text-brand-red hover:text-brand-red-dark mb-6 inline-flex items-center gap-2 text-sm font-bold uppercase transition"
+            href="{{ route('articles.index') }}">
+            <x-lucide-arrow-left class="size-4" stroke-width="3" />
+            {{ __('site.back') }}
+        </a>
+
+        <img class="aspect-16/7 w-full object-cover" src="{{ $article->image_url }}" alt="{{ $article->title }}"
+            style="view-transition-name: article-image-{{ $article->id }}">
 
         <article class="mt-8">
             <p class="text-brand-red text-2xl font-black">{{ $article->category_names }}</p>

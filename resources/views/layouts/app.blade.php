@@ -33,7 +33,7 @@
     @livewireStyles
 </head>
 
-<body class="{{ $bodyClass }}">
+<body class="{{ $bodyClass }} font-montserrat">
     <div class="min-h-screen overflow-x-clip">
         <x-site.layout.header />
 

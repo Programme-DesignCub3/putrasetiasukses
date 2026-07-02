@@ -35,6 +35,7 @@ return [
     'intro_text' => 'PT Putra Setia Sukses Bersama adalah stockist dan distributor material besi dan baja yang melayani kebutuhan konstruksi, manufaktur, pergudangan, dan proyek industri.',
     'vision_body' => 'Menjadi mitra penyedia material besi dan baja yang terpercaya, konsisten, dan responsif bagi pelanggan di seluruh Indonesia.',
     'mission_body' => 'Menjaga ketersediaan stok, memberikan kualitas material terbaik, menawarkan harga kompetitif, dan mengirim pesanan tepat waktu sesuai kebutuhan pelanggan.',
+    'back' => 'Kembali',
     'cookie' => [
         'title' => 'Privasi dan Cookie',
         'description' => 'Kami menggunakan cookie penting untuk menjalankan situs. Dengan persetujuan Anda, kami juga akan memakai Google Analytics untuk memahami performa halaman.',

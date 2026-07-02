@@ -4,7 +4,7 @@
     <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.35fr]">
         <div>
             <x-site.logo variant="white" />
-            <p class="mt-8 max-w-sm text-lg font-black leading-snug sm:text-xl">{{ __('site.tagline') }}</p>
+            <p class="mt-8 max-w-sm text-lg font-semibold leading-snug sm:text-xl">{{ __('site.tagline') }}</p>
         </div>
 
         <div>

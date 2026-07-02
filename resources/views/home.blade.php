@@ -18,8 +18,12 @@
                         </div>
                     @endforeach
                 </div>
-                <button class="home-hero-button-prev" type="button" aria-label="Sebelumnya"></button>
-                <button class="home-hero-button-next" type="button" aria-label="Selanjutnya"></button>
+                <button class="home-hero-button-prev" type="button" aria-label="Sebelumnya">
+                    <x-lucide-chevron-left class="size-5" />
+                </button>
+                <button class="home-hero-button-next" type="button" aria-label="Selanjutnya">
+                    <x-lucide-chevron-right class="size-5" />
+                </button>
                 <div class="home-hero-pagination"></div>
             </div>
         </section>
@@ -39,10 +43,10 @@
             @endforeach
         </section>
 
-        <x-site.layout.container class="clamp-[py,56px,64px] grid gap-12 lg:grid-cols-2" id="tentang-kami">
-            <div>
+        <x-site.layout.container class="clamp-[py,56px,64px] grid gap-12 overflow-hidden lg:grid-cols-2" id="tentang-kami">
+            <div class="min-w-0">
                 <x-site.section-heading :label="__('home.testimonial_title')" />
-                <div class="home-slider home-testimonials-swiper swiper mt-8">
+                <div class="home-slider home-testimonials-swiper swiper mt-8 overflow-hidden">
                     <div class="swiper-wrapper">
                         @foreach ($testimonials as $testimonial)
                             <div class="swiper-slide">
@@ -62,23 +66,22 @@
                 </div>
             </div>
 
-            <div class="px-8">
+            <div class="min-w-0 lg:px-8">
                 <x-site.section-heading :label="__('home.partners_title')" />
                 <div class="relative mt-8">
-                    <div class="home-slider home-partners-swiper swiper border border-zinc-300">
+                    <div class="home-slider home-partners-swiper swiper overflow-hidden border border-zinc-300">
                         <div class="swiper-wrapper">
                             @foreach ($partners as $partner)
                                 <div class="swiper-slide">
                                     <div
                                         class="flex min-h-44 flex-col items-center justify-center border-zinc-300 p-8 sm:min-h-52">
                                         @if ($partner['logo'])
-                                            <img class="max-h-20 max-w-40 object-contain" src="{{ $partner['logo'] }}"
+                                            <img class="object-contain" src="{{ $partner['logo'] }}"
                                                 alt="{{ $partner['name'] }}">
                                         @else
-                                            <span class="text-4xl font-black text-zinc-400 sm:text-5xl">?</span>
+                                            <span
+                                                class="mt-3 text-center text-xs font-black uppercase text-zinc-700 sm:text-sm">{{ $partner['name'] }}</span>
                                         @endif
-                                        <span
-                                            class="mt-3 text-center text-xs font-black uppercase text-zinc-700 sm:text-sm">{{ $partner['name'] }}</span>
                                     </div>
                                 </div>
                             @endforeach

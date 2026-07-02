@@ -1,171 +1,280 @@
-import Alpine from "alpinejs";
-import { animate, inView, scroll, stagger, hover, press } from "motion";
+import { animate, animateView, inView, stagger, spring } from "motion";
 import "./bootstrap";
 
 const COOKIE_CONSENT_KEY = "pssb_cookie_consent_v1";
 
-Alpine.data("cookieConsent", () => ({
-    visible: false,
-    init() {
-        const current = this.getConsent();
+document.addEventListener("alpine:init", () => {
+    Alpine.data("cookieConsent", () => ({
+        visible: false,
+        init() {
+            const current = this.getConsent();
 
-        if (current) {
-            this.applyConsent(current);
-            return;
-        }
+            if (current) {
+                this.applyConsent(current);
+                return;
+            }
 
-        this.applyConsent(null);
-        this.visible = true;
-    },
-    getConsent() {
-        try {
-            return window.localStorage.getItem(COOKIE_CONSENT_KEY);
-        } catch {
-            return null;
-        }
-    },
-    setConsent(value) {
-        try {
-            window.localStorage.setItem(COOKIE_CONSENT_KEY, value);
-        } catch {
-            //
-        }
-    },
-    gtag(...args) {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push(args);
-    },
-    loadGoogleAnalytics() {
-        const measurementId = window.siteAnalytics?.googleMeasurementId;
+            this.applyConsent(null);
+            this.visible = true;
+        },
+        getConsent() {
+            try {
+                return window.localStorage.getItem(COOKIE_CONSENT_KEY);
+            } catch {
+                return null;
+            }
+        },
+        setConsent(value) {
+            try {
+                window.localStorage.setItem(COOKIE_CONSENT_KEY, value);
+            } catch {
+                //
+            }
+        },
+        gtag(...args) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(args);
+        },
+        loadGoogleAnalytics() {
+            const measurementId = window.siteAnalytics?.googleMeasurementId;
 
-        if (
-            !measurementId ||
-            document.querySelector("[data-google-analytics-script]")
-        ) {
-            return;
-        }
+            if (
+                !measurementId ||
+                document.querySelector("[data-google-analytics-script]")
+            ) {
+                return;
+            }
 
-        const script = document.createElement("script");
-        script.async = true;
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
-        script.dataset.googleAnalyticsScript = "true";
-        document.head.appendChild(script);
+            const script = document.createElement("script");
+            script.async = true;
+            script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+            script.dataset.googleAnalyticsScript = "true";
+            document.head.appendChild(script);
 
-        window.dataLayer = window.dataLayer || [];
-        this.gtag("js", new Date());
-        this.gtag("config", measurementId);
-    },
-    applyConsent(consent) {
-        this.gtag("consent", "default", {
-            analytics_storage: "denied",
-            ad_storage: "denied",
-            ad_user_data: "denied",
-            ad_personalization: "denied",
-        });
-
-        if (consent === "accepted") {
-            this.gtag("consent", "update", {
-                analytics_storage: "granted",
+            window.dataLayer = window.dataLayer || [];
+            this.gtag("js", new Date());
+            this.gtag("config", measurementId);
+        },
+        applyConsent(consent) {
+            this.gtag("consent", "default", {
+                analytics_storage: "denied",
+                ad_storage: "denied",
+                ad_user_data: "denied",
+                ad_personalization: "denied",
             });
-            this.loadGoogleAnalytics();
-        }
-    },
-    accept() {
-        this.setConsent("accepted");
-        this.applyConsent("accepted");
-        this.visible = false;
-    },
-    reject() {
-        this.setConsent("rejected");
-        this.applyConsent("rejected");
-        this.visible = false;
-    },
-}));
 
-window.Motion = { animate, inView, scroll, stagger, hover, press };
+            if (consent === "accepted") {
+                this.gtag("consent", "update", {
+                    analytics_storage: "granted",
+                });
+                this.loadGoogleAnalytics();
+            }
+        },
+        accept() {
+            this.setConsent("accepted");
+            this.applyConsent("accepted");
+            this.visible = false;
+        },
+        reject() {
+            this.setConsent("rejected");
+            this.applyConsent("rejected");
+            this.visible = false;
+        },
+    }));
 
-Alpine.magic("motion", () => window.Motion);
+    Alpine.data("scrollReveal", (keyframes = {}) => ({
+        init() {
+            const fromY = keyframes.y?.[0] ?? 24;
+            const rect = this.$el.getBoundingClientRect();
+            const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
 
-Alpine.magic("animate", () => (el, keyframes, options) =>
-    animate(el, keyframes, options),
-);
+            if (isInViewport) {
+                return;
+            }
 
-Alpine.data("scrollReveal", (keyframes = {}) => ({
-    init() {
-        inView(
-            this.$el,
-            () => {
+            this.$el.style.opacity = "0";
+            this.$el.style.transform = `translateY(${fromY}px)`;
+            this.$el.style.willChange = "opacity, transform";
+
+            inView(
+                this.$el,
+                () => {
+                    animate(
+                        this.$el,
+                        { opacity: [0, 1], y: [fromY, 0], ...keyframes },
+                        { duration: 0.5, easing: "ease-out" },
+                    );
+                },
+                { amount: 0.2 },
+            );
+        },
+    }));
+
+    Alpine.data("staggerFade", (options = {}) => ({
+        init() {
+            inView(
+                this.$el,
+                () => {
+                    const children = [...this.$el.children];
+
+                    if (children.every((child) => parseFloat(getComputedStyle(child).opacity) > 0.9)) {
+                        return;
+                    }
+
+                    animate(
+                        children,
+                        { opacity: [0, 1], y: [50, 0] },
+                        {
+                            delay: stagger(0.10, { ease: "easeIn" }),
+                            ...options,
+                        },
+                    );
+                },
+                { amount: 0.15 },
+            );
+        },
+    }));
+
+    Alpine.data("galleryLightbox", (options = {}) => ({
+        isOpen: false,
+        images: options.images ?? [],
+        currentIndex: 0,
+        activeThumb: null,
+
+        get currentImage() {
+            return this.images[this.currentIndex];
+        },
+
+        open(thumbEl, index) {
+            this.activeThumb = thumbEl;
+            this.currentIndex = index;
+
+            animateView(() => {
+                this.isOpen = true;
+            }, { type: spring, duration: 0.5, bounce: 0.15 }).add(thumbEl, ".lightbox-image");
+        },
+
+        close() {
+            const thumb = this.activeThumb;
+
+            animateView(() => {
+                this.isOpen = false;
+            }, { type: spring, duration: 0.5, bounce: 0.15 }).add(".lightbox-image", thumb);
+        },
+
+        next() {
+            this.currentIndex = (this.currentIndex + 1) % this.images.length;
+        },
+
+        prev() {
+            this.currentIndex =
+                (this.currentIndex - 1 + this.images.length) % this.images.length;
+        },
+    }));
+
+    Alpine.data("aboutGallery", (options = {}) => ({
+        isOpen: false,
+        images: options.images ?? [],
+        currentIndex: 0,
+        activeThumb: null,
+        thumbs: [],
+
+        init() {
+            this.thumbs = [...this.$el.querySelectorAll("button > img")];
+        },
+
+        get currentImage() {
+            return this.images[this.currentIndex];
+        },
+
+        open(thumbEl, index) {
+            this.currentIndex = index;
+            this.activeThumb = thumbEl;
+
+            const overlay = document.querySelector(".about-lb-overlay");
+            const img = overlay.querySelector(".about-lb-image");
+            img.src = this.currentImage.url;
+            img.alt = this.currentImage.alt;
+
+            animateView(() => {
+                overlay.classList.add("is-open");
+                this.isOpen = true;
+            }, { type: spring, duration: 0.5, bounce: 0.15 }).add(thumbEl, ".about-lb-image");
+        },
+
+        close() {
+            const thumb = this.thumbs[this.currentIndex] ?? this.activeThumb;
+            const overlay = document.querySelector(".about-lb-overlay");
+
+            animateView(() => {
+                overlay.classList.remove("is-open");
+                this.isOpen = false;
+            }, { type: spring, duration: 0.5, bounce: 0.15 }).add(".about-lb-image", thumb);
+        },
+
+        next() {
+            this.currentIndex = (this.currentIndex + 1) % this.images.length;
+            this.activeThumb = this.thumbs[this.currentIndex] ?? this.activeThumb;
+
+            const overlay = document.querySelector(".about-lb-overlay");
+            const img = overlay.querySelector(".about-lb-image");
+            img.src = this.currentImage.url;
+            img.alt = this.currentImage.alt;
+        },
+
+        prev() {
+            this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+            this.activeThumb = this.thumbs[this.currentIndex] ?? this.activeThumb;
+
+            const overlay = document.querySelector(".about-lb-overlay");
+            const img = overlay.querySelector(".about-lb-image");
+            img.src = this.currentImage.url;
+            img.alt = this.currentImage.alt;
+        },
+
+        goTo(index) {
+            this.currentIndex = index;
+            this.activeThumb = this.thumbs[index] ?? this.activeThumb;
+
+            const overlay = document.querySelector(".about-lb-overlay");
+            const img = overlay.querySelector(".about-lb-image");
+            img.src = this.currentImage.url;
+            img.alt = this.currentImage.alt;
+            img.src = this.currentImage.url;
+            img.alt = this.currentImage.alt;
+        },
+    }));
+
+    Alpine.data("staggerList", (options = {}) => ({
+        observer: null,
+        ready: false,
+
+        init() {
+            inView(this.$el, () => { this.ready = true; }, { amount: 0.15 });
+
+            this.observer = new MutationObserver(() => {
+                if (!this.ready) return;
+
+                const children = [...this.$el.children];
+                if (children.length === 0) return;
+
                 animate(
-                    this.$el,
-                    { opacity: [0, 1], y: [24, 0], ...keyframes },
-                    { duration: 0.5, easing: "ease-out" },
-                );
-            },
-            { amount: 0.2 },
-        );
-    },
-}));
-
-Alpine.data("staggerFade", (options = {}) => ({
-    init() {
-        inView(
-            this.$el,
-            () => {
-                animate(
-                    this.$el.children,
-                    { opacity: [0, 1], y: [16, 0] },
+                    children,
+                    { opacity: [0, 1], y: [50, 0] },
                     {
-                        duration: 0.4,
-                        easing: "ease-out",
-                        delay: stagger(0.06),
+                        delay: stagger(0.10, { ease: "easeIn" }),
                         ...options,
                     },
                 );
-            },
-            { amount: 0.15 },
-        );
-    },
-}));
+            });
+            this.observer.observe(this.$el, { childList: true });
+        },
 
-Alpine.data("staggerList", (options = {}) => ({
-    observer: null,
-    animated: false,
-
-    init() {
-        const animateChildren = (force = false) => {
-            if (!force && this.animated) return;
-
-            const children = [...this.$el.children];
-
-            if (children.length === 0) return;
-
-            animate(
-                children,
-                { opacity: [0, 1], y: [16, 0] },
-                {
-                    duration: 0.4,
-                    easing: "ease-out",
-                    delay: stagger(0.06),
-                    ...options,
-                },
-            );
-
-            this.animated = true;
-        };
-
-        inView(this.$el, () => animateChildren(), { amount: 0.15 });
-
-        this.observer = new MutationObserver(() => animateChildren(true));
-        this.observer.observe(this.$el, { childList: true });
-    },
-
-    destroy() {
-        this.observer?.disconnect();
-    },
-}));
-
-window.Alpine = Alpine;
-Alpine.start();
+        destroy() {
+            this.observer?.disconnect();
+        },
+    }));
+});
 
 const hasSliders = () =>
     document.querySelector(

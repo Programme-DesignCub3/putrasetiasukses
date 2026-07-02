@@ -34,6 +34,7 @@ return [
     'intro_text' => 'PT Putra Setia Sukses Bersama 是一家各类钢铁材料库存商与经销商，服务于建筑、制造、仓储及工业项目需求。',
     'vision_body' => '成为全印度尼西亚客户值得信赖、稳定且响应及时的钢铁材料供应合作伙伴。',
     'mission_body' => '保持库存充足，提供最佳材料质量，提供有竞争力的价格，并根据客户需求按时交付订单。',
+    'back' => '返回',
     'cookie' => [
         'title' => '隐私和 Cookie',
         'description' => '我们使用必要 Cookie 来运行网站。经您同意后，我们也会使用 Google Analytics 来了解页面表现。',

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @plugin 'tailwind-clamp';
 
@@ -11,10 +12,23 @@
         "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
+    --font-montserrat: "Montserrat", sans-serif;
     --color-brand-red: #a60000;
     --color-brand-red-dark: #870000;
     --color-brand-ink: #171717;
     --color-brand-steel: #5f6872;
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+.about-lb-overlay {
+    display: none;
+}
+
+.about-lb-overlay.is-open {
+    display: flex;
 }
 
 @layer base {
@@ -24,23 +38,6 @@
 }
 
 @layer components {
-    .brand-mark {
-        display: inline-flex;
-        height: 2.6rem;
-        width: 2.6rem;
-        flex: none;
-        align-items: center;
-        justify-content: center;
-        border: 4px solid var(--color-brand-red-dark);
-        border-radius: 9999px;
-        color: var(--color-brand-red-dark);
-        font-size: 1.45rem;
-        font-weight: 900;
-        font-style: italic;
-        line-height: 1;
-        box-shadow: inset 0 0 0 2px #ffffff;
-    }
-
     .brand-icon {
         display: flex;
         height: 8rem;
@@ -71,20 +68,6 @@
                 rgb(255 255 255 / 0.06) 43px 45px
             ),
             #141414;
-    }
-
-    .sector-construction {
-        background-image:
-            linear-gradient(rgb(185 0 0 / 0.72), rgb(185 0 0 / 0.72)),
-            url("https://placehold.co/900x520/2b2b2b/ffffff?text=Building+Construction");
-    }
-
-    .sector-automotive {
-        background-image: url("https://placehold.co/900x520/6f767d/ffffff?text=Automotive+Industry");
-    }
-
-    .sector-warehouse {
-        background-image: url("https://placehold.co/900x520/4b5563/ffffff?text=Warehouse+Supply");
     }
 
     .cta-strip {
@@ -125,6 +108,7 @@
 
     .home-slider {
         width: 100%;
+        overflow: hidden;
     }
 
     .home-swiper-pagination {
@@ -146,46 +130,6 @@
 
     .home-swiper-pagination .swiper-pagination-bullet-active {
         background: var(--color-brand-red);
-    }
-
-    .home-swiper-button {
-        position: relative;
-        display: inline-flex;
-        height: 2.4rem;
-        width: 2.4rem;
-        flex: none;
-        align-items: center;
-        justify-content: center;
-        border-radius: 0.5rem;
-        background: var(--color-brand-red);
-        color: #ffffff;
-        transition:
-            background-color 160ms ease,
-            transform 160ms ease;
-    }
-
-    .home-swiper-button:hover {
-        background: var(--color-brand-red-dark);
-        transform: translateY(-1px);
-    }
-
-    .home-swiper-button::before {
-        display: block;
-        width: 0.65rem;
-        height: 0.65rem;
-        border-color: currentColor;
-        border-style: solid;
-        content: "";
-    }
-
-    .home-partners-prev::before {
-        border-width: 0 0 3px 3px;
-        transform: rotate(45deg) translate(1px, -1px);
-    }
-
-    .home-partners-next::before {
-        border-width: 3px 3px 0 0;
-        transform: rotate(45deg) translate(-1px, 1px);
     }
 
     .home-hero-button-prev,
@@ -222,25 +166,7 @@
         border-color: rgb(166 0 0 / 0.85);
     }
 
-    .home-hero-button-prev::before,
-    .home-hero-button-next::before {
-        display: block;
-        width: 0.6rem;
-        height: 0.6rem;
-        border-color: currentColor;
-        border-style: solid;
-        content: "";
-    }
 
-    .home-hero-button-prev::before {
-        border-width: 0 0 2.5px 2.5px;
-        transform: rotate(45deg) translate(1px, -1px);
-    }
-
-    .home-hero-button-next::before {
-        border-width: 2.5px 2.5px 0 0;
-        transform: rotate(45deg) translate(-1px, 1px);
-    }
 
     .home-partners-swiper .swiper-slide {
         height: auto;
@@ -332,13 +258,6 @@
     }
 
     @media (max-width: 480px) {
-        .brand-mark {
-            height: 2.25rem;
-            width: 2.25rem;
-            border-width: 3px;
-            font-size: 1.2rem;
-        }
-
         .brand-icon {
             height: 6.75rem;
             width: 6.75rem;

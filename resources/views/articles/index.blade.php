@@ -19,9 +19,9 @@
             <div class="relative mt-8" data-featured-articles>
                 <div class="featured-articles-swiper swiper">
                     <div class="swiper-wrapper">
-                        @foreach ($featuredArticles as $article)
+                        @foreach ($latestArticles as $article)
                             <div class="swiper-slide">
-                                <x-articles.article-card :article="$article" :large="$loop->first" />
+                                <x-articles.article-card :article="$article" />
                             </div>
                         @endforeach
                     </div>
@@ -35,7 +35,7 @@
         <x-site.layout.container class="pb-16">
             <x-site.section-heading :label="__('articles.all')" />
 
-            <livewire:article-list />
+            <livewire:article-list :excluded-ids="$latestArticleIds" />
         </x-site.layout.container>
     </main>
 </x-app>

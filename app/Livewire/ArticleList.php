@@ -16,6 +16,9 @@ class ArticleList extends Component
 
     public string $categoryId = '';
 
+    /** @var array<int> */
+    public array $excludedIds = [];
+
     protected int $perPage = 6;
 
     public function mount(): void
@@ -43,7 +46,7 @@ class ArticleList extends Component
         $articles = Article::query()
             ->with(['categories', 'media'])
             ->where('is_published', true)
-            ->where('is_featured', false);
+            ->when($this->excludedIds, fn ($q) => $q->whereNotIn('id', $this->excludedIds));
 
         if ($this->search) {
             $search = mb_strtolower($this->search);

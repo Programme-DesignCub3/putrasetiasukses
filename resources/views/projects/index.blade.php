@@ -11,7 +11,7 @@
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects">
     <main>
-        <x-site.layout.page-hero :title="__('projects.title')" image="https://placehold.co/1400x320/2b2b2b/ffffff?text=Proyek" />
+        <x-site.layout.page-hero :title="__('projects.title')" :image="asset('assets/contact-hero.png')" />
 
         <x-site.layout.container class="clamp-[py,48px,72px]">
             <div class="max-w-3xl">

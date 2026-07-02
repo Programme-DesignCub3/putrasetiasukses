@@ -46,7 +46,7 @@
         </x-site.layout.container>
 
         @php
-            $aboutGallery = collect($aboutPage['gallery_images'])
+            $aboutGallery = collect($aboutPage['gallery_images'] ?? [])
                 ->map(fn($url) => ['url' => Storage::url($url), 'alt' => 'Galeri material baja'])
                 ->values();
 

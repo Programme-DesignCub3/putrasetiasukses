@@ -2,19 +2,18 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Storage;
 use Inerba\DbConfig\AbstractPageSettings;
+use Inerba\DbConfig\DbConfig;
 use UnitEnum;
 
 class WebsiteSettings extends AbstractPageSettings
 {
-    /**
-     * @var array<string, mixed>|null
-     */
     public ?array $data = [];
 
     protected static ?string $title = 'Website Settings';
@@ -30,9 +29,6 @@ class WebsiteSettings extends AbstractPageSettings
         return 'website';
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function getDefaultData(): array
     {
         return [
@@ -49,59 +45,64 @@ class WebsiteSettings extends AbstractPageSettings
         ];
     }
 
+    public function save(): void
+    {
+        $oldData = DbConfig::getGroup($this->settingName()) ?? [];
+        $state = $this->form->getState();
+
+        collect($state)->each(function ($setting, $key) {
+            DbConfig::set($this->settingName().'.'.$key, $setting);
+        });
+
+        $this->cleanRemovedFiles($oldData, $state);
+
+        Notification::make()
+            ->success()
+            ->title(__('db-config::db-config.saved_title'))
+            ->body(__('db-config::db-config.saved_body'))
+            ->send();
+    }
+
+    protected function cleanRemovedFiles(array $old, array $new): void
+    {
+        $disk = 'public';
+
+        $oldAbout = $old['about'] ?? [];
+        $newAbout = $new['about'] ?? [];
+
+        $this->deleteIfChanged($oldAbout['hero_image'] ?? null, $newAbout['hero_image'] ?? null, $disk);
+        $this->deleteIfChanged($oldAbout['intro_image'] ?? null, $newAbout['intro_image'] ?? null, $disk);
+
+        $oldGallery = $this->normalizeFiles($oldAbout['gallery_images'] ?? []);
+        $newGallery = $this->normalizeFiles($newAbout['gallery_images'] ?? []);
+
+        foreach ($oldGallery as $file) {
+            if (! in_array($file, $newGallery)) {
+                Storage::disk($disk)->delete($file);
+            }
+        }
+    }
+
+    protected function deleteIfChanged(?string $old, ?string $new, string $disk): void
+    {
+        if ($old && $old !== $new && Storage::disk($disk)->exists($old)) {
+            Storage::disk($disk)->delete($old);
+        }
+    }
+
+    protected function normalizeFiles(mixed $files): array
+    {
+        if (is_string($files)) {
+            return json_decode($files, true) ?? [];
+        }
+
+        return $files ?? [];
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Section::make('Tentang Kami Media')
-                    ->schema([
-                        FileUpload::make('about.hero_image')
-                            ->label('Hero image')
-                            ->disk('public')
-                            ->directory('about')
-                            ->visibility('public')
-                            ->image()
-                            ->automaticallyCropImagesToAspectRatio('16:9')
-                            ->automaticallyResizeImagesMode('cover')
-                            ->automaticallyResizeImagesToWidth('1600')
-                            ->automaticallyResizeImagesToHeight('900')
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120),
-                        FileUpload::make('about.intro_image')
-                            ->label('Intro image')
-                            ->disk('public')
-                            ->directory('about')
-                            ->visibility('public')
-                            ->image()
-                            ->automaticallyCropImagesToAspectRatio('4:5')
-                            ->automaticallyResizeImagesMode('cover')
-                            ->automaticallyResizeImagesToWidth('960')
-                            ->automaticallyResizeImagesToHeight('1200')
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120),
-                        FileUpload::make('about.gallery_images')
-                            ->label('Gallery images')
-                            ->disk('public')
-                            ->directory('about/gallery')
-                            ->visibility('public')
-                            ->multiple()
-                            ->reorderable()
-                            ->image()
-                            ->automaticallyCropImagesToAspectRatio('16:10')
-                            ->automaticallyResizeImagesMode('cover')
-                            ->automaticallyResizeImagesToWidth('960')
-                            ->automaticallyResizeImagesToHeight('600')
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120)
-                            ->columnSpanFull(),
-                        TextInput::make('about.video_url')
-                            ->label('Video URL')
-                            ->url()
-                            ->maxLength(2048)
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(2),
-
                 Section::make('Cookie dan Analytics')
                     ->schema([
                         Toggle::make('analytics.cookie_consent_enabled')

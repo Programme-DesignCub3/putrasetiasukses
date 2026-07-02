@@ -54,8 +54,7 @@
                                     <blockquote class="text-sm font-bold italic leading-relaxed sm:text-base">
                                         "{{ $testimonial['content'] }}"
                                     </blockquote>
-                                    <figcaption class="mt-6 text-sm font-bold">{{ $testimonial['name'] }},
-                                        {{ $testimonial['role'] }}</figcaption>
+                                    <figcaption class="mt-6 text-sm font-bold">{{ $testimonial['name'] }}</figcaption>
                                     <span
                                         class="-bottom-7.5 border-b-30 border-r-30 absolute left-0 z-0 inline-block h-0 w-0 border-l-0 border-t-0 border-solid border-b-transparent border-l-transparent border-r-[#590802] border-t-transparent"></span>
                                 </figure>

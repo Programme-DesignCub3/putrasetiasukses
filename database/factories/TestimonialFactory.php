@@ -14,13 +14,6 @@ class TestimonialFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'role' => fake()->randomElement([
-                'Pemilik Rumah',
-                'Kontraktor',
-                'Purchasing',
-                'Project Manager',
-                'Direktur',
-            ]),
             'content' => fake()->randomElement([
                 'PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan, dengan kualitas produk yang konsisten serta pengiriman yang tepat waktu.',
                 'Pelayanan responsif dan stok material sangat membantu kebutuhan proyek kami saat jadwal sedang padat.',

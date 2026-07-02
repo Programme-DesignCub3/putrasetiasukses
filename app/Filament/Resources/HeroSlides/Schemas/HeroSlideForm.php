@@ -16,20 +16,12 @@ class HeroSlideForm
     {
         return $schema
             ->components([
-                Section::make('Hero Slide')
+                Section::make('Informasi Slide')
+                    ->description('Atur konten dan status hero slide.')
                     ->schema([
-                        SpatieMediaLibraryFileUpload::make('hero_image')
-                            ->label('Upload Gambar')
-                            ->collection(HeroSlide::ImageCollection)
-                            ->image()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120)
-                            ->columnSpan(1),
-                        TextInput::make('image')
-                            ->label('URL Gambar (fallback)')
-                            ->helperText('Isi jika tidak upload gambar. Akan terpakai jika tidak ada gambar yang diupload.')
-                            ->maxLength(255)
-                            ->columnSpan(1),
+                        Toggle::make('is_active')
+                            ->label('Aktif')
+                            ->default(true),
                         TextInput::make('label')
                             ->label('Label')
                             ->required()
@@ -43,9 +35,22 @@ class HeroSlideForm
                             ->required()
                             ->rows(3)
                             ->columnSpanFull(),
-                        Toggle::make('is_active')
-                            ->label('Aktif')
-                            ->default(true),
+                    ])
+                    ->columns(2),
+
+                Section::make('Gambar')
+                    ->description('Upload gambar atau isi URL fallback.')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('hero_image')
+                            ->label('Upload Gambar')
+                            ->collection(HeroSlide::ImageCollection)
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
+                        TextInput::make('image')
+                            ->label('URL Gambar (fallback)')
+                            ->helperText('Terpakai jika tidak ada gambar yang diupload.')
+                            ->maxLength(255),
                     ])
                     ->columns(2),
             ]);

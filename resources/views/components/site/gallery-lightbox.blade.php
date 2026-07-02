@@ -12,11 +12,28 @@
             <x-lucide-x class="size-5" stroke-width="3" />
         </button>
 
-        <div class="relative z-[1] flex max-h-[90vh] max-w-[95vw] items-center justify-center">
-            <img class="lightbox-image max-h-[90vh] max-w-[95vw] rounded object-contain drop-shadow-2xl"
+        <div
+            class="relative z-[1] flex max-h-[90vh] max-w-[95vw] items-center justify-center overflow-hidden"
+            x-on:wheel.prevent="handleWheel"
+            x-on:dblclick="toggleZoom"
+            style="cursor: zoom-in"
+            x-bind:style="scale > 1 ? 'cursor: grab' : 'cursor: zoom-in'">
+            <img class="max-h-[90vh] max-w-[95vw] rounded object-contain drop-shadow-2xl transition-transform duration-200 ease-out"
                 x-bind:src="currentImage.url"
-                x-bind:alt="currentImage.alt">
+                x-bind:alt="currentImage.alt"
+                x-bind:style="transformStyle ? `transform: ${transformStyle}` : ''"
+                @click="toggleZoom">
         </div>
+
+        <template x-if="scale > 1">
+            <div class="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-full bg-black/60 px-3 py-1.5 text-sm text-white">
+                <span x-text="zoomPercent + '%'"></span>
+                <button class="ml-1 flex size-6 items-center justify-center rounded-full bg-white/20 hover:bg-white/40"
+                    type="button" @click="scale = 1; panX = 0; panY = 0" aria-label="Reset zoom">
+                    <x-lucide-x class="size-3.5" stroke-width="3" />
+                </button>
+            </div>
+        </template>
 
         <template x-if="images.length > 1">
             <div class="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
@@ -25,7 +42,7 @@
                         class="size-2.5 rounded-full transition"
                         x-bind:class="i === currentIndex ? 'bg-white' : 'bg-white/40'"
                         type="button"
-                        @click="currentIndex = i">
+                        @click="currentIndex = i; scale = 1; panX = 0; panY = 0">
                     </button>
                 </template>
             </div>

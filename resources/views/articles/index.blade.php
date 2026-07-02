@@ -11,7 +11,7 @@
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles">
     <main>
-        <x-site.layout.page-hero :title="__('articles.title')" image="https://placehold.co/1400x320/4b5563/ffffff?text=Artikel" />
+        <x-site.layout.page-hero :title="__('articles.title')" :image="asset('assets/home/sector-2.png')" />
 
         <x-site.layout.container class="clamp-[py,40px,56px]">
             <x-site.section-heading :level="1" :label="__('articles.latest')" />

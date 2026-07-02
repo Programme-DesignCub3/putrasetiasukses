@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('role');
             $table->text('content');
             $table->boolean('is_active')->default(true);
             $table->unsignedInteger('order_column')->nullable()->index();

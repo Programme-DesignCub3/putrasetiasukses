@@ -11,6 +11,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 class ArticleForm
@@ -19,8 +20,8 @@ class ArticleForm
     {
         return $schema
             ->components([
-                Section::make('Artikel')
-                    ->description('Atur relasi, status publikasi, dan media utama artikel.')
+                Section::make('Informasi Artikel')
+                    ->description('Atur kategori, penulis, dan status publikasi.')
                     ->schema([
                         Select::make('categories')
                             ->label('Kategori')
@@ -34,55 +35,73 @@ class ArticleForm
                             ->preload()
                             ->searchable()
                             ->required()
-                            ->columnSpan(2),
+                            ->columnSpanFull(),
+                        Toggle::make('is_published')
+                            ->label('Published')
+                            ->default(true),
+                        Toggle::make('is_featured')
+                            ->label('Artikel unggulan')
+                            ->default(false),
                         TextInput::make('author')
                             ->label('Penulis')
                             ->required()
                             ->maxLength(255),
                         DateTimePicker::make('published_at')
                             ->label('Tanggal publikasi'),
-                        Toggle::make('is_featured')
-                            ->label('Artikel unggulan')
-                            ->default(false),
-                        Toggle::make('is_published')
-                            ->label('Published')
-                            ->default(true),
-                        SpatieMediaLibraryFileUpload::make('article_image')
-                            ->label('Gambar utama')
-                            ->collection(Article::ImageCollection)
-                            ->image()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120)
+                        TextInput::make('slug')
+                            ->visible(fn (string $operation): bool => $operation === 'edit')
+                            ->disabled(fn (Get $get): bool => !$get('edit_slug'))
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->helperText('Aktifkan "Edit slug" untuk mengubah.')
                             ->columnSpanFull(),
+                        Toggle::make('edit_slug')
+                            ->label('Edit slug')
+                            ->default(false)
+                            ->live()
+                            ->dehydrated(false)
+                            ->visible(fn (string $operation): bool => $operation === 'edit'),
                     ])
-                    ->columns(3),
+                    ->columns(2),
 
                 Section::make('Konten Artikel')
                     ->description('Bahasa Indonesia wajib diisi; bahasa lain boleh kosong.')
                     ->schema([
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
-                                FilamentTranslatableFields::textInput('title', 'Title', $locale)
+                                FilamentTranslatableFields::textInput('title', 'Judul', $locale)
                                     ->maxLength(255),
                             ],
-                            label: 'Konten Terjemahan',
+                            label: 'Judul Artikel',
+                            columns: 1,
                         ),
-                        TextInput::make('slug')
-                            ->maxLength(255)
-                            ->unique(ignoreRecord: true)
-                            ->helperText('Kosongkan saat membuat artikel agar slug dibuat otomatis.')
-                            ->columnSpanFull(),
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
-                                FilamentTranslatableFields::textarea('excerpt', 'Excerpt', $locale, 3)
+                                FilamentTranslatableFields::textarea('excerpt', 'Ringkasan', $locale, 3)
                                     ->columnSpanFull(),
-                                FilamentTranslatableFields::richEditor('body', 'Body', $locale)
+                            ],
+                            label: 'Ringkasan',
+                            columns: 1,
+                        ),
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::richEditor('body', 'Isi', $locale)
                                     ->columnSpanFull(),
                             ],
                             label: 'Isi Artikel',
+                            columns: 1,
                         ),
-                    ])
-                    ->columns(3),
+                    ]),
+
+                Section::make('Media')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('article_image')
+                            ->label('Gambar utama')
+                            ->collection(Article::ImageCollection)
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
+                    ]),
             ]);
     }
 }

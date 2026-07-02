@@ -14,26 +14,26 @@ class TestimonialForm
     {
         return $schema
             ->components([
-                Section::make('Testimonial')
+                Section::make('Informasi Testimonial')
                     ->schema([
+                        Toggle::make('is_active')
+                            ->label('Aktif')
+                            ->default(true),
                         TextInput::make('name')
                             ->label('Nama')
                             ->required()
                             ->maxLength(255),
-                        TextInput::make('role')
-                            ->label('Jabatan')
-                            ->required()
-                            ->maxLength(255),
+                    ])
+                    ->columns(2),
+
+                Section::make('Isi Testimonial')
+                    ->schema([
                         Textarea::make('content')
-                            ->label('Isi Testimonial')
+                            ->label('Testimonial')
                             ->required()
                             ->rows(5)
                             ->columnSpanFull(),
-                        Toggle::make('is_active')
-                            ->label('Aktif')
-                            ->default(true),
-                    ])
-                    ->columns(2),
+                    ]),
             ]);
     }
 }

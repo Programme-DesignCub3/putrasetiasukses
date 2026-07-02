@@ -28,7 +28,6 @@ class Testimonial extends Model implements Sortable
      */
     protected $fillable = [
         'name',
-        'role',
         'content',
         'is_active',
         'order_column',

@@ -1,7 +1,7 @@
 @props([])
 
 @if (__('site.whatsapp_number'))
-    <div class="clamp-[bottom,10,16] clamp-[pr,4,8] sticky z-30 flex translate-y-6 justify-end">
+    <div class="clamp-[pr,4,8] sticky bottom-0 z-30 -mb-14 flex -translate-y-6 justify-end">
         <a class="inline-flex max-w-[calc(100vw-2rem)] items-center gap-2 rounded-full bg-green-500 px-4 py-3 text-sm font-black uppercase text-white shadow-2xl shadow-green-900/30 transition hover:bg-green-600 sm:gap-3 sm:px-5 sm:text-lg"
             href="https://wa.me/{{ __('site.whatsapp_number') }}">
             <svg class="h-7 w-7 flex-none sm:h-8 sm:w-8" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

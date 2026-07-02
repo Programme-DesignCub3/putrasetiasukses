@@ -14,17 +14,14 @@ class TestimonialSeeder extends Seeder
         $items = [
             [
                 'name' => 'Jonathan Doe',
-                'role' => 'Pemilik Rumah',
                 'content' => 'PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan, dengan kualitas produk yang konsisten serta pengiriman yang tepat waktu.',
             ],
             [
                 'name' => 'Andi Pratama',
-                'role' => 'Kontraktor',
                 'content' => 'Pelayanan responsif dan stok material sangat membantu kebutuhan proyek kami saat jadwal sedang padat.',
             ],
             [
                 'name' => 'Rina Wijaya',
-                'role' => 'Purchasing',
                 'content' => 'Kualitas plat sesuai spesifikasi dan proses pengiriman berjalan rapi dari pemesanan sampai barang diterima.',
             ],
         ];

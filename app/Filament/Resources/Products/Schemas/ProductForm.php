@@ -10,6 +10,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 class ProductForm
@@ -19,7 +20,7 @@ class ProductForm
         return $schema
             ->components([
                 Section::make('Informasi Produk')
-                    ->description('Atur kategori, status, dan slug produk.')
+                    ->description('Atur kategori, status publikasi, dan slug produk.')
                     ->schema([
                         Select::make('categories')
                             ->label('Kategori')
@@ -33,60 +34,66 @@ class ProductForm
                             ->preload()
                             ->searchable()
                             ->required()
-                            ->columnSpan(2),
-                        TextInput::make('slug')
-                            ->maxLength(255)
-                            ->unique(ignoreRecord: true)
-                            ->helperText('Kosongkan saat membuat produk agar slug dibuat otomatis.'),
+                            ->columnSpanFull(),
                         Toggle::make('is_published')
                             ->label('Published')
                             ->default(true),
+                        TextInput::make('slug')
+                            ->visible(fn (string $operation): bool => $operation === 'edit')
+                            ->disabled(fn (Get $get): bool => !$get('edit_slug'))
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->helperText('Aktifkan "Edit slug" untuk mengubah.'),
+                        Toggle::make('edit_slug')
+                            ->label('Edit slug')
+                            ->default(false)
+                            ->live()
+                            ->dehydrated(false)
+                            ->visible(fn (string $operation): bool => $operation === 'edit'),
                     ])
-                    ->columns(3),
+                    ->columns(2),
 
                 Section::make('Konten Produk')
                     ->description('Bahasa Indonesia wajib diisi; bahasa lain boleh kosong.')
                     ->schema([
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
-                                FilamentTranslatableFields::textInput('name', 'Name', $locale)
+                                FilamentTranslatableFields::textInput('name', 'Nama', $locale)
                                     ->maxLength(255),
                             ],
                             label: 'Nama Produk',
+                            columns: 1,
                         ),
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
-                                FilamentTranslatableFields::textarea('description', 'Description', $locale, 8)
+                                FilamentTranslatableFields::textarea('description', 'Deskripsi', $locale, 8)
                                     ->columnSpanFull(),
                             ],
                             label: 'Deskripsi Produk',
+                            columns: 1,
                         ),
-                    ])
-                    ->columns(3),
+                    ]),
 
                 Section::make('Media Produk')
-                    ->description('Gunakan gambar WebP/JPEG/PNG teroptimasi untuk halaman publik.')
+                    ->description('Gunakan gambar WebP/JPEG/PNG teroptimasi.')
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('main_image')
                             ->label('Gambar utama')
                             ->collection(Product::MainImageCollection)
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120)
-                            ->columnSpan(1),
+                            ->maxSize(5120),
                         SpatieMediaLibraryFileUpload::make('gallery_media')
                             ->label('Galeri produk')
                             ->collection(Product::GalleryCollection)
                             ->multiple()
                             ->reorderable()
                             ->panelLayout('grid')
-                            ->reorderable()
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120)
-                            ->columnSpan(2),
+                            ->maxSize(5120),
                     ])
-                    ->columns(3),
+                    ->columns(2),
             ]);
     }
 }

@@ -11,7 +11,7 @@
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
     <main>
-        <x-site.layout.page-hero :title="__('products.title')" :image="asset('assets/about/about-header.png')" />
+        <x-site.layout.page-hero :title="__('products.title')" :image="asset('assets/product-hero.png')" />
 
         <x-site.layout.container>
 

@@ -140,9 +140,21 @@ document.addEventListener("alpine:init", () => {
         images: options.images ?? [],
         currentIndex: 0,
         activeThumb: null,
+        scale: 1,
+        panX: 0,
+        panY: 0,
 
         get currentImage() {
             return this.images[this.currentIndex];
+        },
+
+        get transformStyle() {
+            if (this.scale === 1) return "";
+            return `scale(${this.scale}) translate(${this.panX}px, ${this.panY}px)`;
+        },
+
+        get zoomPercent() {
+            return Math.round(this.scale * 100);
         },
 
         open(thumbEl, index) {
@@ -156,6 +168,9 @@ document.addEventListener("alpine:init", () => {
 
         close() {
             const thumb = this.activeThumb;
+            this.scale = 1;
+            this.panX = 0;
+            this.panY = 0;
 
             animateView(() => {
                 this.isOpen = false;
@@ -164,11 +179,60 @@ document.addEventListener("alpine:init", () => {
 
         next() {
             this.currentIndex = (this.currentIndex + 1) % this.images.length;
+            this.scale = 1;
+            this.panX = 0;
+            this.panY = 0;
         },
 
         prev() {
             this.currentIndex =
                 (this.currentIndex - 1 + this.images.length) % this.images.length;
+            this.scale = 1;
+            this.panX = 0;
+            this.panY = 0;
+        },
+
+        toggleZoom(event) {
+            if (this.scale > 1) {
+                this.scale = 1;
+                this.panX = 0;
+                this.panY = 0;
+            } else {
+                this.zoomIn(event);
+            }
+        },
+
+        zoomIn(event) {
+            this.scale = 2.5;
+
+            if (event) {
+                const rect = event.currentTarget.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+                this.panX = -x * 100;
+                this.panY = -y * 100;
+            } else {
+                this.panX = 0;
+                this.panY = 0;
+            }
+        },
+
+        handleWheel(event) {
+            event.preventDefault();
+
+            const delta = event.deltaY > 0 ? -0.25 : 0.25;
+            const newScale = Math.min(Math.max(this.scale + delta, 1), 5);
+
+            if (newScale !== this.scale) {
+                const rect = event.currentTarget.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+                const ratio = newScale / this.scale;
+                this.panX = x * 100 * (1 - ratio) + this.panX * ratio;
+                this.panY = y * 100 * (1 - ratio) + this.panY * ratio;
+                this.scale = newScale;
+            }
         },
     }));
 

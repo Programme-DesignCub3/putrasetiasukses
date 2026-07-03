@@ -4,16 +4,14 @@
     $navigation = [
         ['label' => __('site.navigation.home'), 'key' => 'home', 'url' => route('home')],
         ['label' => __('site.navigation.about'), 'key' => 'about', 'url' => route('about')],
-        ['label' => __('site.navigation.products'), 'key' => 'products', 'url' => route('products.index')],
-        ['label' => __('site.navigation.projects'), 'key' => 'projects', 'url' => route('projects.index')],
-        ['label' => __('site.navigation.articles'), 'key' => 'articles', 'url' => route('articles.index')],
+        ['label' => __('site.navigation.products'), 'key' => 'products.*', 'url' => route('products.index')],
+        ['label' => __('site.navigation.projects'), 'key' => 'projects.*', 'url' => route('projects.index')],
+        ['label' => __('site.navigation.articles'), 'key' => 'articles.*', 'url' => route('articles.index')],
         ['label' => __('site.navigation.contact'), 'key' => 'contact', 'url' => route('contact')],
         ['label' => __('site.navigation.search'), 'key' => 'search', 'url' => route('search')],
     ];
 @endphp
 
-{{-- @dd(request()->route()->getName()); --}}
-{{-- @dd(request()->routeIs('*.products.*')); --}}
 <header class="z-20 bg-white">
     <div
         class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-5 sm:py-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
@@ -50,7 +48,7 @@
                         @foreach ($navigation as $item)
                             <a href="{{ $item['url'] }}" @class([
                                 'hover:bg-brand-ink block border-b border-white/10 px-5 py-4 text-sm font-black uppercase text-white transition last:border-b-0',
-                                'bg-brand-ink' => request()->routeIs('*.' . $item['key'] . '.*'),
+                                'bg-brand-ink' => request()->routeIs('*.' . $item['key']),
                             ]) @click="open = false">
                                 {{ $item['label'] }}
 
@@ -71,7 +69,7 @@
             @foreach ($navigation as $item)
                 <a @class([
                     'hover:bg-brand-ink flex-1 px-3 py-5 text-center text-xs font-black uppercase text-white transition lg:px-5',
-                    'bg-brand-ink' => request()->routeIs('*.' . $item['key'] . '.*'),
+                    'bg-brand-ink' => request()->routeIs('*.' . $item['key']),
                 ]) href="{{ $item['url'] }}">
 
                     {{ $item['label'] }}

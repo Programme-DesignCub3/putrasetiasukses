@@ -11,35 +11,45 @@
             <h2 class="text-2xl font-black sm:text-3xl">{{ __('site.cta.contact_us') }}</h2>
             <div class="wrap-break-word mt-6 grid gap-5 text-sm font-semibold sm:grid-cols-2">
                 @php
-                    $phones = [
-                        ['label' => 'Sales 1', 'number' => '0812-8438-805'],
-                        ['label' => 'Sales 2', 'number' => '0813-1485-5403'],
-                        ['label' => 'Sales 3', 'number' => '0812-8550-9009'],
-                        ['label' => 'Office', 'number' => '(021) 6667-1597-599'],
-                    ];
+                    $phones = safe_db_config('website.footer_phones', []);
                 @endphp
 
                 @foreach ($phones as $phone)
-                    <p>{{ $phone['number'] }} @if ($phone['label'])
-                            ({{ $phone['label'] }})
-                        @endif
+                    <p class="flex items-center gap-2">
+                        <x-lucide-phone class="size-4 shrink-0" />
+                        <span>{{ $phone['number'] }} @if ($phone['label'])
+                                ({{ $phone['label'] }})
+                            @endif
+                        </span>
                     </p>
                 @endforeach
 
                 @if (__('site.website_url'))
-                    <p>{{ __('site.website_url') }}</p>
+                    <p class="flex items-center gap-2">
+                        <x-lucide-globe class="size-4 shrink-0" />
+                        <span>{{ __('site.website_url') }}</span>
+                    </p>
                 @endif
 
                 @if (__('site.email'))
-                    <p>{{ __('site.email') }}</p>
+                    <p class="flex items-center gap-2">
+                        <x-lucide-mail class="size-4 shrink-0" />
+                        <span>{{ __('site.email') }}</span>
+                    </p>
                 @endif
 
                 @if (__('site.head_office_address'))
-                    <p>Head Office<br>{{ __('site.head_office_address') }}</p>
+                    <p class="flex items-center gap-2">
+                        <x-lucide-building class="size-4 shrink-0" />
+                        <span>Head Office<br>{{ __('site.head_office_address') }}</span>
+                    </p>
                 @endif
 
                 @if (__('site.warehouse_address'))
-                    <p>Warehouse<br>{{ __('site.warehouse_address') }}</p>
+                    <p class="flex items-center gap-2">
+                        <x-lucide-warehouse class="size-4 shrink-0" />
+                        <span>Warehouse<br>{{ __('site.warehouse_address') }}</span>
+                    </p>
                 @endif
             </div>
         </div>

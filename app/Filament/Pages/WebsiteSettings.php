@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
@@ -42,6 +43,8 @@ class WebsiteSettings extends AbstractPageSettings
                 'cookie_consent_enabled' => true,
                 'google_measurement_id' => config('services.google_analytics.measurement_id'),
             ],
+            'footer_phones' => [],
+            'whatsapp' => null,
         ];
     }
 
@@ -103,6 +106,34 @@ class WebsiteSettings extends AbstractPageSettings
     {
         return $schema
             ->components([
+                Section::make('Kontak')
+                    ->schema([
+                        Repeater::make('footer_phones')
+                            ->label('Nomor Telepon Footer')
+                            ->schema([
+                                TextInput::make('label')
+                                    ->label('Label')
+                                    ->placeholder('Sales 1')
+                                    ->maxLength(100)
+                                    ->required(),
+                                TextInput::make('number')
+                                    ->label('Nomor')
+                                    ->placeholder('0812-8438-805')
+                                    ->maxLength(50)
+                                    ->required(),
+                            ])
+                            ->columns(2)
+                            ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
+                            ->addActionLabel('Tambah nomor telepon')
+                            ->defaultItems(0)
+                            ->collapsible(),
+                        TextInput::make('whatsapp')
+                            ->label('Nomor WhatsApp')
+                            ->placeholder('628128438805')
+                            ->helperText('Nomor WhatsApp tanpa tanda +, digunakan untuk tombol WhatsApp di website.')
+                            ->maxLength(50)
+                            ->prefix('+'),
+                    ]),
                 Section::make('Cookie dan Analytics')
                     ->schema([
                         Toggle::make('analytics.cookie_consent_enabled')

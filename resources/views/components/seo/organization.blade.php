@@ -1,7 +1,7 @@
 @php
     $companyName = __('site.company_name');
     $email = __('site.email');
-    $whatsappNumber = __('site.whatsapp_number');
+    $whatsappNumber = safe_db_config('website.whatsapp') ?? __('site.whatsapp_number');
     $headOfficeAddress = __('site.head_office_address');
 
     $data = [

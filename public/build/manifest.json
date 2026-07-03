@@ -1,12 +1,16 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-BBiQ44dP.css",
+    "file": "assets/app-DDLC0Pj9.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
     "names": [
       "app.css"
     ]
+  },
+  "resources/css/assets/cta-bg.jpg": {
+    "file": "assets/cta-bg-DpzpAI4t.jpg",
+    "src": "resources/css/assets/cta-bg.jpg"
   },
   "resources/css/filament/admin/theme.css": {
     "file": "assets/theme-Cel8s2Hz.css",

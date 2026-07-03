@@ -1,0 +1,38 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-BBiQ44dP.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/filament/admin/theme.css": {
+    "file": "assets/theme-Cel8s2Hz.css",
+    "src": "resources/css/filament/admin/theme.css",
+    "isEntry": true,
+    "name": "theme",
+    "names": [
+      "theme.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-Dx5cozpn.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/sliders.js"
+    ]
+  },
+  "resources/js/sliders.js": {
+    "file": "assets/sliders-CXQCeNOP.js",
+    "name": "sliders",
+    "src": "resources/js/sliders.js",
+    "isDynamicEntry": true,
+    "css": [
+      "assets/sliders-BVYAVZZL.css"
+    ]
+  }
+}

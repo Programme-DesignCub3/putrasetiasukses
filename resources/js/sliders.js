@@ -27,10 +27,10 @@ export function initHeroSlider() {
                 nextEl: ".home-hero-button-next",
                 prevEl: ".home-hero-button-prev",
             },
-            pagination: {
-                el: ".home-hero-pagination",
-                clickable: true,
-            },
+            // pagination: {
+            //     el: ".home-hero-pagination",
+            //     clickable: true,
+            // },
         });
     }
 }

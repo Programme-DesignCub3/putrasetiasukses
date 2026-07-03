@@ -24,15 +24,12 @@ class HeroSlideForm
                             ->default(true),
                         TextInput::make('label')
                             ->label('Label')
-                            ->required()
                             ->maxLength(255),
                         TextInput::make('title')
                             ->label('Judul')
-                            ->required()
                             ->maxLength(255),
                         Textarea::make('subtitle')
                             ->label('Subjudul')
-                            ->required()
                             ->rows(3)
                             ->columnSpanFull(),
                     ])

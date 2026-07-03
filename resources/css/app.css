@@ -160,6 +160,24 @@
         right: 4rem;
     }
 
+    @media (max-width: 639px) {
+        .home-hero-button-prev {
+            left: 0.5rem;
+        }
+        .home-hero-button-next {
+            right: 0.5rem;
+        }
+    }
+
+    @media (min-width: 640px) and (max-width: 1023px) {
+        .home-hero-button-prev {
+            left: 1.5rem;
+        }
+        .home-hero-button-next {
+            right: 1.5rem;
+        }
+    }
+
     .home-hero-button-prev:hover,
     .home-hero-button-next:hover {
         background: rgb(166 0 0 / 0.85);

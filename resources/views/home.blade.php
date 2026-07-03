@@ -13,11 +13,12 @@
                                             {{ $slide['label'] }}</p>
                                     @endif
                                     @if ($slide['title'])
-                                        <h1 class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
-                                            {{ $slide['title'] }}</h1>
+                                        <p class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
+                                            {{ $slide['title'] }}</p>
                                     @endif
                                     @if ($slide['subtitle'])
-                                        <p class="mt-3 text-sm font-black uppercase sm:text-lg">{{ $slide['subtitle'] }}</p>
+                                        <p class="mt-3 text-sm font-black uppercase sm:text-lg">{{ $slide['subtitle'] }}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -49,7 +50,8 @@
             @endforeach
         </section>
 
-        <x-site.layout.container class="clamp-[py,56px,64px] grid gap-12 overflow-hidden lg:grid-cols-2" id="tentang-kami">
+        <x-site.layout.container class="clamp-[py,56px,64px] grid gap-12 overflow-hidden lg:grid-cols-2"
+            id="tentang-kami">
             <div class="min-w-0">
                 <x-site.section-heading :label="__('home.testimonial_title')" />
                 <div class="home-slider home-testimonials-swiper swiper mt-8 overflow-hidden">

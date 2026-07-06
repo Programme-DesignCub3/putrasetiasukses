@@ -9,7 +9,7 @@
     </a>
 
     <div
-        class="lg:bg-linear-to-b duration lg:max-h-4/5 bottom-0 flex flex-1 flex-col gap-2 p-3 transition-[translate,opacity] duration-700 ease-in-out lg:absolute lg:translate-y-full lg:to-white lg:px-5 lg:py-0 lg:opacity-0">
+        class="lg:bg-linear-to-b duration lg:max-h-4/5 bottom-0 flex w-full flex-1 flex-col gap-2 p-3 transition-[translate,opacity] duration-700 ease-in-out lg:absolute lg:translate-y-full lg:to-white lg:px-5 lg:py-0 lg:opacity-0">
         <div class="flex flex-col gap-2">
             <p class="text-brand-red-dark text-xs font-black uppercase sm:text-sm">{{ $product->category_names }}</p>
             <h2 class="text-base font-black leading-tight text-black sm:mt-2 sm:text-xl lg:text-2xl">

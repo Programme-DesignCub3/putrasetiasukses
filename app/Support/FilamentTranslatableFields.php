@@ -157,9 +157,9 @@ class FilamentTranslatableFields
     public static function localeLabels(): array
     {
         return [
-            'id' => 'Indonesia',
-            'en' => 'English',
-            'zh' => 'Chinese',
+            'id' => __('admin.locale.id'),
+            'en' => __('admin.locale.en'),
+            'zh' => __('admin.locale.zh'),
         ];
     }
 }

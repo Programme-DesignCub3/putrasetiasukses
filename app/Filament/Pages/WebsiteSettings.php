@@ -11,19 +11,24 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
 use Inerba\DbConfig\AbstractPageSettings;
 use Inerba\DbConfig\DbConfig;
-use UnitEnum;
 
 class WebsiteSettings extends AbstractPageSettings
 {
     public ?array $data = [];
 
-    protected static ?string $title = 'Website Settings';
-
-    protected static ?string $navigationLabel = 'Website Settings';
-
-    protected static string|UnitEnum|null $navigationGroup = 'Pengaturan';
-
     protected static ?int $navigationSort = 1;
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Pengaturan';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.page.website_settings.navigation_label');
+    }
+
+    public function getTitle(): string
+    {
+        return __('admin.page.website_settings.title');
+    }
 
     protected function settingName(): string
     {
@@ -106,44 +111,44 @@ class WebsiteSettings extends AbstractPageSettings
     {
         return $schema
             ->components([
-                Section::make('Kontak')
+                Section::make(__('admin.form.website_settings.section_contact'))
                     ->schema([
                         Repeater::make('footer_phones')
-                            ->label('Nomor Telepon Footer')
+                            ->label(__('admin.form.website_settings.footer_phones'))
                             ->schema([
                                 TextInput::make('label')
-                                    ->label('Label')
+                                    ->label(__('admin.form.website_settings.label'))
                                     ->placeholder('Sales 1')
                                     ->maxLength(100)
                                     ->required(),
                                 TextInput::make('number')
-                                    ->label('Nomor')
+                                    ->label(__('admin.form.website_settings.number'))
                                     ->placeholder('0812-8438-805')
                                     ->maxLength(50)
                                     ->required(),
                             ])
                             ->columns(2)
                             ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
-                            ->addActionLabel('Tambah nomor telepon')
+                            ->addActionLabel(__('admin.form.website_settings.add_phone'))
                             ->defaultItems(0)
                             ->collapsible(),
                         TextInput::make('whatsapp')
-                            ->label('Nomor WhatsApp')
+                            ->label(__('admin.form.website_settings.whatsapp'))
                             ->placeholder('628128438805')
-                            ->helperText('Nomor WhatsApp tanpa tanda +, digunakan untuk tombol WhatsApp di website.')
+                            ->helperText(__('admin.form.website_settings.whatsapp_helper'))
                             ->maxLength(50)
                             ->prefix('+'),
                     ]),
-                Section::make('Cookie dan Analytics')
+                Section::make(__('admin.form.website_settings.section_cookie'))
                     ->schema([
                         Toggle::make('analytics.cookie_consent_enabled')
-                            ->label('Tampilkan cookie consent')
+                            ->label(__('admin.form.website_settings.cookie_consent'))
                             ->default(true),
                         TextInput::make('analytics.google_measurement_id')
-                            ->label('Google Analytics Measurement ID')
+                            ->label(__('admin.form.website_settings.google_analytics_id'))
                             ->placeholder('G-XXXXXXXXXX')
                             ->maxLength(50)
-                            ->helperText('Script Google Analytics hanya dimuat setelah pengunjung menyetujui analitik.'),
+                            ->helperText(__('admin.form.website_settings.analytics_helper')),
                     ])
                     ->columns(2),
             ])

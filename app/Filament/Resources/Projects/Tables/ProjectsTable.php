@@ -19,38 +19,38 @@ class ProjectsTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('main_image')
-                    ->label('Gambar')
+                    ->label(__('admin.table.project.image'))
                     ->collection(Project::MainImageCollection),
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.project.name'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('client')
-                    ->label('Klien')
+                    ->label(__('admin.table.project.client'))
                     ->searchable()
                     ->toggleable(),
                 TextColumn::make('category_names')
-                    ->label('Kategori')
+                    ->label(__('admin.table.project.category'))
                     ->badge()
                     ->searchable(),
                 TextColumn::make('completion_date')
-                    ->label('Selesai')
+                    ->label(__('admin.table.project.completed'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
                 IconColumn::make('is_published')
-                    ->label('Published')
+                    ->label(__('admin.table.project.published'))
                     ->boolean(),
                 TextColumn::make('updated_at')
-                    ->label('Diubah')
+                    ->label(__('admin.table.project.updated'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
                 TernaryFilter::make('is_published')
-                    ->label('Published'),
+                    ->label(__('admin.table.filters.published')),
             ])
             ->defaultSort('order_column')
             ->reorderable('order_column')

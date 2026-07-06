@@ -11,21 +11,26 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
 use Inerba\DbConfig\AbstractPageSettings;
 use Inerba\DbConfig\DbConfig;
-use UnitEnum;
 
 class AboutPageSettings extends AbstractPageSettings
 {
     public ?array $data = [];
 
-    protected static ?string $title = 'Tentang Kami';
-
-    protected static ?string $navigationLabel = 'Tentang Kami';
-
-    protected static string|UnitEnum|null $navigationGroup = 'Pengaturan';
-
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-wrench-screwdriver';
 
     protected static ?int $navigationSort = 2;
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Pengaturan';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.page.about_page_settings.navigation_label');
+    }
+
+    public function getTitle(): string
+    {
+        return __('admin.page.about_page_settings.title');
+    }
 
     protected function settingName(): string
     {
@@ -85,11 +90,11 @@ class AboutPageSettings extends AbstractPageSettings
     {
         return $schema
             ->components([
-                Section::make('Galeri Gambar')
-                    ->description('Unggah gambar untuk galeri halaman tentang kami.')
+                Section::make(__('admin.form.about_settings.section_gallery'))
+                    ->description(__('admin.form.about_settings.section_gallery_desc'))
                     ->schema([
                         FileUpload::make('gallery_images')
-                            ->label('Gambar Galeri')
+                            ->label(__('admin.form.about_settings.gallery_images'))
                             ->disk('public')
                             ->directory('about/gallery')
                             ->visibility('public')
@@ -105,11 +110,11 @@ class AboutPageSettings extends AbstractPageSettings
                             ->maxSize(5120),
                     ]),
 
-                Section::make('Video')
-                    ->description('Tautan video YouTube untuk ditampilkan di halaman tentang kami.')
+                Section::make(__('admin.form.about_settings.section_video'))
+                    ->description(__('admin.form.about_settings.section_video_desc'))
                     ->schema([
                         TextInput::make('youtube_url')
-                            ->label('URL YouTube')
+                            ->label(__('admin.form.about_settings.youtube_url'))
                             ->url()
                             ->maxLength(2048)
                             ->columnSpanFull(),

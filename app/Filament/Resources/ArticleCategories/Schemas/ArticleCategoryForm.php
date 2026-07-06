@@ -17,20 +17,20 @@ class ArticleCategoryForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Kategori')
-                    ->description('Atur nama, slug, dan status kategori artikel.')
+                Section::make(__('admin.form.article_category.section_info'))
+                    ->description(__('admin.form.article_category.section_info_desc'))
                     ->schema([
                         Toggle::make('is_active')
-                            ->label('Active')
+                            ->label(__('admin.form.article_category.active'))
                             ->default(true),
                         TextInput::make('slug')
                             ->visible(fn (string $operation): bool => $operation === 'edit')
                             ->disabled(fn (Get $get): bool => ! $get('edit_slug'))
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
-                            ->helperText('Aktifkan "Edit slug" untuk mengubah.'),
+                            ->helperText(__('admin.form.article_category.slug_helper')),
                         Toggle::make('edit_slug')
-                            ->label('Edit slug')
+                            ->label(__('admin.form.article_category.edit_slug'))
                             ->default(false)
                             ->live()
                             ->dehydrated(false)
@@ -38,15 +38,15 @@ class ArticleCategoryForm
                     ])
                     ->columns(2),
 
-                Section::make('Konten')
-                    ->description('Bahasa Indonesia wajib diisi.')
+                Section::make(__('admin.form.article_category.section_content'))
+                    ->description(__('admin.form.article_category.section_content_desc'))
                     ->schema([
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
                                 FilamentTranslatableFields::textInput('name', 'Nama', $locale)
                                     ->maxLength(255),
                             ],
-                            label: 'Nama Kategori',
+                            label: __('admin.form.article_category.name_label'),
                             columns: 1,
                         ),
                         FilamentTranslatableFields::translate(
@@ -54,23 +54,23 @@ class ArticleCategoryForm
                                 FilamentTranslatableFields::textarea('description', 'Deskripsi', $locale, 5, required: false)
                                     ->columnSpanFull(),
                             ],
-                            label: 'Deskripsi',
+                            label: __('admin.form.article_category.description'),
                             columns: 1,
                         ),
                     ]),
 
-                Section::make('Media')
-                    ->description('Gambar untuk kartu kategori di halaman publik.')
+                Section::make(__('admin.form.article_category.section_media'))
+                    ->description(__('admin.form.article_category.section_media_desc'))
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('category_image')
-                            ->label('Gambar utama')
+                            ->label(__('admin.form.article_category.image'))
                             ->collection(ArticleCategory::ImageCollection)
                             ->required()
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120),
                         SpatieMediaLibraryFileUpload::make('category_gallery')
-                            ->label('Galeri')
+                            ->label(__('admin.form.article_category.gallery'))
                             ->collection(ArticleCategory::GalleryCollection)
                             ->multiple()
                             ->reorderable()

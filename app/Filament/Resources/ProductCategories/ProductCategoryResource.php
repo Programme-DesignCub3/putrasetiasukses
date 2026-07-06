@@ -20,15 +20,24 @@ class ProductCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::RectangleGroup;
 
-    protected static ?string $navigationLabel = 'Kategori Produk';
+    protected static ?int $navigationSort = 1;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.product_category.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Produk';
 
-    protected static ?int $navigationSort = 1;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.product_category.label');
+    }
 
-    protected static ?string $modelLabel = 'Kategori Produk';
-
-    protected static ?string $pluralModelLabel = 'Kategori Produk';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.product_category.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

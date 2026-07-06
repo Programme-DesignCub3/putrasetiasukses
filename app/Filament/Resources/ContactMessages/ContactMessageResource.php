@@ -20,15 +20,24 @@ class ContactMessageResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Envelope;
 
-    protected static ?string $navigationLabel = 'Pesan Kontak';
+    protected static ?int $navigationSort = 2;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.contact_message.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
-    protected static ?int $navigationSort = 2;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.contact_message.label');
+    }
 
-    protected static ?string $modelLabel = 'Pesan Kontak';
-
-    protected static ?string $pluralModelLabel = 'Pesan Kontak';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.contact_message.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

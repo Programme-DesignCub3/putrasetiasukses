@@ -17,21 +17,21 @@ class TestimonialsTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.testimonial.name'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('content')
-                    ->label('Testimonial')
+                    ->label(__('admin.table.testimonial.content'))
                     ->limit(60)
                     ->wrap(),
                 IconColumn::make('is_active')
-                    ->label('Aktif')
+                    ->label(__('admin.table.testimonial.active'))
                     ->boolean(),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Status'),
+                    ->label(__('admin.table.testimonial.status')),
             ])
             ->defaultSort('order_column')
             ->reorderable('order_column')

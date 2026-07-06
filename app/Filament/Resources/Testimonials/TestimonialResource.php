@@ -20,15 +20,24 @@ class TestimonialResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ChatBubbleLeftRight;
 
-    protected static ?string $navigationLabel = 'Testimonial';
+    protected static ?int $navigationSort = 3;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.testimonial.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
-    protected static ?int $navigationSort = 3;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.testimonial.label');
+    }
 
-    protected static ?string $modelLabel = 'Testimonial';
-
-    protected static ?string $pluralModelLabel = 'Testimonial';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.testimonial.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

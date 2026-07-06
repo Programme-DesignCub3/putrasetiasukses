@@ -23,19 +23,19 @@ class ProjectsRelationManager extends RelationManager
             ->recordTitle(fn (Project $record): string => $record->name)
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.relation_manager.project.name'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('client')
-                    ->label('Klien')
+                    ->label(__('admin.table.relation_manager.project.client'))
                     ->searchable(),
                 TextColumn::make('completion_date')
-                    ->label('Selesai')
+                    ->label(__('admin.table.relation_manager.project.completed'))
                     ->dateTime()
                     ->sortable(),
                 IconColumn::make('is_published')
-                    ->label('Published')
+                    ->label(__('admin.table.relation_manager.project.published_short'))
                     ->boolean(),
             ])
             ->headerActions([

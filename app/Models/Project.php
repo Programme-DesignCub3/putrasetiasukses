@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\FallbackSpatieFileAttachmentProvider;
 use Database\Factories\ProjectFactory;
-use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,6 +43,7 @@ class Project extends Model implements HasMedia, HasRichContent, Sortable
         'name',
         'description',
         'location',
+        'content',
     ];
 
     /**
@@ -61,6 +62,7 @@ class Project extends Model implements HasMedia, HasRichContent, Sortable
         'name',
         'slug',
         'description',
+        'content',
         'client',
         'location',
         'main_image_url',
@@ -81,6 +83,16 @@ class Project extends Model implements HasMedia, HasRichContent, Sortable
             'completion_date' => 'date',
             'order_column' => 'integer',
         ];
+    }
+
+    protected function setUpRichContent(): void
+    {
+        $this->registerRichContent('content')
+            ->fileAttachmentsDisk('public')
+            ->fileAttachmentProvider(
+                FallbackSpatieFileAttachmentProvider::make()
+                    ->collection(self::BodyAttachmentCollection),
+            );
     }
 
     public function getSlugOptions(): SlugOptions
@@ -110,15 +122,6 @@ class Project extends Model implements HasMedia, HasRichContent, Sortable
         }
 
         return (string) $this->category;
-    }
-
-    protected function setUpRichContent(): void
-    {
-        $this->registerRichContent('description')
-            ->fileAttachmentProvider(
-                SpatieMediaLibraryFileAttachmentProvider::make()
-                    ->collection(self::BodyAttachmentCollection),
-            );
     }
 
     public function registerMediaCollections(): void

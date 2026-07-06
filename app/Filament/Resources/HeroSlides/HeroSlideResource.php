@@ -20,15 +20,24 @@ class HeroSlideResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $navigationLabel = 'Hero Slide';
+    protected static ?int $navigationSort = 1;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.hero_slide.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
-    protected static ?int $navigationSort = 1;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.hero_slide.label');
+    }
 
-    protected static ?string $modelLabel = 'Hero Slide';
-
-    protected static ?string $pluralModelLabel = 'Hero Slide';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.hero_slide.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

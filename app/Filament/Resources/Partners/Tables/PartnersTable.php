@@ -19,22 +19,22 @@ class PartnersTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('logo')
-                    ->label('Logo')
+                    ->label(__('admin.table.partner.logo'))
                     ->collection(Partner::LogoCollection)
                     ->square()
                     ->width(64)
                     ->height(64),
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.partner.name'))
                     ->searchable()
                     ->sortable(),
                 IconColumn::make('is_active')
-                    ->label('Aktif')
+                    ->label(__('admin.table.partner.active'))
                     ->boolean(),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Status'),
+                    ->label(__('admin.table.partner.status')),
             ])
             ->defaultSort('order_column')
             ->reorderable('order_column')
@@ -46,6 +46,6 @@ class PartnersTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->searchPlaceholder('Cari partner...');
+            ->searchPlaceholder(__('admin.table.partner.search'));
     }
 }

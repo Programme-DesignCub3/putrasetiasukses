@@ -20,15 +20,24 @@ class ArticleResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Newspaper;
 
-    protected static ?string $navigationLabel = 'Artikel';
+    protected static ?int $navigationSort = 2;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.article.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Artikel';
 
-    protected static ?int $navigationSort = 2;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.article.label');
+    }
 
-    protected static ?string $modelLabel = 'Artikel';
-
-    protected static ?string $pluralModelLabel = 'Artikel';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.article.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

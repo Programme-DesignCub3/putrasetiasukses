@@ -20,15 +20,24 @@ class PartnerResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingOffice2;
 
-    protected static ?string $navigationLabel = 'Partner';
+    protected static ?int $navigationSort = 4;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.partner.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
-    protected static ?int $navigationSort = 4;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.partner.label');
+    }
 
-    protected static ?string $modelLabel = 'Partner';
-
-    protected static ?string $pluralModelLabel = 'Partner';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.partner.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

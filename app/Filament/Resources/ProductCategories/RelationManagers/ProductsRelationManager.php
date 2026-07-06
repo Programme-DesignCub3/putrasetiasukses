@@ -23,7 +23,7 @@ class ProductsRelationManager extends RelationManager
             ->recordTitle(fn (Product $record): string => $record->name)
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.relation_manager.product.name'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
@@ -31,7 +31,7 @@ class ProductsRelationManager extends RelationManager
                     ->searchable()
                     ->toggleable(),
                 IconColumn::make('is_published')
-                    ->label('Published')
+                    ->label(__('admin.table.relation_manager.product.published_short'))
                     ->boolean(),
             ])
             ->headerActions([

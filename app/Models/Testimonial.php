@@ -9,14 +9,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 
-class Testimonial extends Model implements HasRichContent, Sortable
+class Testimonial extends Model implements HasMedia, HasRichContent, Sortable
 {
     /** @use HasFactory<TestimonialFactory> */
     use HasFactory;
 
     use HasTranslations;
+    use InteractsWithMedia;
     use InteractsWithRichContent;
     use SortableTrait;
 
@@ -38,7 +41,12 @@ class Testimonial extends Model implements HasRichContent, Sortable
 
     protected function setUpRichContent(): void
     {
-        $this->registerRichContent('content');
+        //
+    }
+
+    public function registerMediaCollections(): void
+    {
+        //
     }
 
     /**

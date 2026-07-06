@@ -15,25 +15,25 @@ class PartnerForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Partner')
-                    ->description('Data perusahaan mitra yang ditampilkan di halaman utama.')
+                Section::make(__('admin.form.partner.section_info'))
+                    ->description(__('admin.form.partner.section_info_desc'))
                     ->schema([
                         Toggle::make('is_active')
-                            ->label('Aktif')
+                            ->label(__('admin.form.partner.active'))
                             ->default(true),
                         TextInput::make('name')
-                            ->label('Nama Perusahaan')
+                            ->label(__('admin.form.partner.company_name'))
                             ->required()
                             ->maxLength(255)
-                            ->placeholder('PT. Contoh Perusahaan'),
+                            ->placeholder(__('admin.form.partner.company_placeholder')),
                     ])
                     ->columns(2),
 
-                Section::make('Logo')
-                    ->description('Format: JPG, PNG, WebP. Maks: 5MB. Ukuran ideal: 500x500px.')
+                Section::make(__('admin.form.partner.section_logo'))
+                    ->description(__('admin.form.partner.section_logo_desc'))
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('logo')
-                            ->label('Logo Perusahaan')
+                            ->label(__('admin.form.partner.logo'))
                             ->collection(Partner::LogoCollection)
                             ->required()
                             ->image()

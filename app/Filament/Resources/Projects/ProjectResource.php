@@ -20,15 +20,24 @@ class ProjectResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocumentList;
 
-    protected static ?string $navigationLabel = 'Project';
+    protected static ?int $navigationSort = 2;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.project.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Project';
 
-    protected static ?int $navigationSort = 2;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.project.label');
+    }
 
-    protected static ?string $modelLabel = 'Project';
-
-    protected static ?string $pluralModelLabel = 'Project';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.project.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

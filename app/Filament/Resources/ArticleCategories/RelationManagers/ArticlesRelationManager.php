@@ -23,19 +23,19 @@ class ArticlesRelationManager extends RelationManager
             ->recordTitle(fn (Article $record): string => $record->title)
             ->columns([
                 TextColumn::make('title')
-                    ->label('Judul')
+                    ->label(__('admin.table.relation_manager.article.title'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('author')
-                    ->label('Penulis')
+                    ->label(__('admin.table.relation_manager.article.author'))
                     ->searchable(),
                 TextColumn::make('published_at')
-                    ->label('Publikasi')
+                    ->label(__('admin.table.relation_manager.article.published'))
                     ->dateTime()
                     ->sortable(),
                 IconColumn::make('is_published')
-                    ->label('Published')
+                    ->label(__('admin.table.relation_manager.article.published_short'))
                     ->boolean(),
             ])
             ->headerActions([

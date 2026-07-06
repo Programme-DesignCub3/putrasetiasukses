@@ -13,26 +13,26 @@ class TestimonialForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Testimonial')
-                    ->description('Bahasa Indonesia wajib diisi; bahasa lain boleh kosong.')
+                Section::make(__('admin.form.testimonial.section_info'))
+                    ->description(__('admin.form.testimonial.section_info_desc'))
                     ->schema([
                         Toggle::make('is_active')
-                            ->label('Aktif')
+                            ->label(__('admin.form.testimonial.active'))
                             ->default(true),
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
                                 FilamentTranslatableFields::textInput('name', 'Nama', $locale)
                                     ->maxLength(255),
                             ],
-                            label: 'Nama',
+                            label: __('admin.form.testimonial.name'),
                             columns: 1,
                         ),
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
-                                FilamentTranslatableFields::richEditor('content', 'Testimonial', $locale)
+                                FilamentTranslatableFields::textarea('content', 'Testimonial', $locale, rows: 4)
                                     ->columnSpanFull(),
                             ],
-                            label: 'Testimonial',
+                            label: __('admin.form.testimonial.content'),
                             columns: 1,
                         ),
                     ]),

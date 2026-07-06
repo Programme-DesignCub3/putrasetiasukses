@@ -14,45 +14,45 @@ class ContactMessageForm
     {
         return $schema
             ->components([
-                Section::make('Pesan')
-                    ->description('Data pengirim dari form kontak website.')
+                Section::make(__('admin.form.contact_message.section_message'))
+                    ->description(__('admin.form.contact_message.section_message_desc'))
                     ->schema([
                         TextInput::make('name')
-                            ->label('Nama')
+                            ->label(__('admin.form.contact_message.name'))
                             ->required()
                             ->maxLength(255),
                         TextInput::make('company')
-                            ->label('Perusahaan')
+                            ->label(__('admin.form.contact_message.company'))
                             ->maxLength(255),
                         TextInput::make('phone')
-                            ->label('Telepon')
+                            ->label(__('admin.form.contact_message.phone'))
                             ->required()
                             ->maxLength(50),
                         TextInput::make('email')
-                            ->label('Email')
+                            ->label(__('admin.form.contact_message.email'))
                             ->email()
                             ->maxLength(255),
                     ])
                     ->columns(2),
 
-                Section::make('Isi Pesan')
+                Section::make(__('admin.form.contact_message.section_body'))
                     ->schema([
                         TextInput::make('subject')
-                            ->label('Subjek')
+                            ->label(__('admin.form.contact_message.subject'))
                             ->required()
                             ->maxLength(255),
                         Textarea::make('message')
-                            ->label('Pesan')
+                            ->label(__('admin.form.contact_message.message'))
                             ->required()
                             ->rows(8)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
 
-                Section::make('Status')
+                Section::make(__('admin.form.contact_message.section_status'))
                     ->schema([
                         DateTimePicker::make('read_at')
-                            ->label('Dibaca pada'),
+                            ->label(__('admin.form.contact_message.read_at')),
                     ]),
             ]);
     }

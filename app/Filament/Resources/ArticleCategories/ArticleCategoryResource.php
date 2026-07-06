@@ -20,15 +20,24 @@ class ArticleCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::RectangleGroup;
 
-    protected static ?string $navigationLabel = 'Kategori Artikel';
+    protected static ?int $navigationSort = 1;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.article_category.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Artikel';
 
-    protected static ?int $navigationSort = 1;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.article_category.label');
+    }
 
-    protected static ?string $modelLabel = 'Kategori Artikel';
-
-    protected static ?string $pluralModelLabel = 'Kategori Artikel';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.article_category.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

@@ -19,36 +19,36 @@ class ArticlesTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('article_image')
-                    ->label('Gambar')
+                    ->label(__('admin.table.article.image'))
                     ->collection(Article::ImageCollection),
                 TextColumn::make('title')
-                    ->label('Judul')
+                    ->label(__('admin.table.article.title'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('category_names')
-                    ->label('Kategori')
+                    ->label(__('admin.table.article.category'))
                     ->badge(),
                 IconColumn::make('is_featured')
-                    ->label('Unggulan')
+                    ->label(__('admin.table.article.featured'))
                     ->boolean(),
                 IconColumn::make('is_published')
-                    ->label('Published')
+                    ->label(__('admin.table.article.published'))
                     ->boolean(),
                 TextColumn::make('published_at')
-                    ->label('Dipublikasi')
+                    ->label(__('admin.table.article.published_at'))
                     ->dateTime()
                     ->sortable(),
             ])
             ->filters([
                 TernaryFilter::make('is_published')
-                    ->label('Published')
-                    ->trueLabel('Published')
-                    ->falseLabel('Draft'),
+                    ->label(__('admin.table.filters.published'))
+                    ->trueLabel(__('admin.table.filters.published_true'))
+                    ->falseLabel(__('admin.table.filters.published_false')),
                 TernaryFilter::make('is_featured')
-                    ->label('Unggulan')
-                    ->trueLabel('Unggulan')
-                    ->falseLabel('Biasa'),
+                    ->label(__('admin.table.filters.featured'))
+                    ->trueLabel(__('admin.table.filters.featured_true'))
+                    ->falseLabel(__('admin.table.filters.featured_false')),
             ])
             ->modifyQueryUsing(fn ($query) => $query->with('categories'))
             ->defaultSort('published_at', 'desc')

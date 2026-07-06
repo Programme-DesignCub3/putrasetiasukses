@@ -21,7 +21,7 @@ class HeroSlidesTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('hero_image')
-                    ->label('Gambar')
+                    ->label(__('admin.table.hero_slide.image'))
                     ->collection(HeroSlide::ImageCollection)
                     ->width(80)
                     ->height(40)
@@ -38,24 +38,24 @@ class HeroSlidesTable
                         return $fallback->isNotEmpty() ? $fallback : $media;
                     }),
                 TextColumn::make('label')
-                    ->label('Label')
+                    ->label(__('admin.table.hero_slide.label'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('title')
-                    ->label('Judul')
+                    ->label(__('admin.table.hero_slide.title'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('subtitle')
-                    ->label('Subjudul')
+                    ->label(__('admin.table.hero_slide.subtitle'))
                     ->limit(40)
                     ->wrap(),
                 IconColumn::make('is_active')
-                    ->label('Aktif')
+                    ->label(__('admin.table.hero_slide.active'))
                     ->boolean(),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Status'),
+                    ->label(__('admin.table.hero_slide.status')),
             ])
             ->defaultSort('order_column')
             ->reorderable('order_column')

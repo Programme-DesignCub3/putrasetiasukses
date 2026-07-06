@@ -19,10 +19,10 @@ class ProductCategoriesTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('category_image')
-                    ->label('Gambar')
+                    ->label(__('admin.table.product_category.image'))
                     ->collection(ProductCategory::ImageCollection),
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.product_category.name'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
@@ -30,23 +30,23 @@ class ProductCategoriesTable
                     ->searchable()
                     ->toggleable(),
                 TextColumn::make('products_count')
-                    ->label('Produk')
+                    ->label(__('admin.table.product_category.product_count'))
                     ->counts('products')
                     ->sortable(),
                 IconColumn::make('is_active')
-                    ->label('Active')
+                    ->label(__('admin.table.product_category.active'))
                     ->boolean(),
                 TextColumn::make('updated_at')
-                    ->label('Diubah')
+                    ->label(__('admin.table.product_category.updated'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Active')
-                    ->trueLabel('Active')
-                    ->falseLabel('Inactive'),
+                    ->label(__('admin.table.filters.active'))
+                    ->trueLabel(__('admin.table.filters.active_true'))
+                    ->falseLabel(__('admin.table.filters.active_false')),
             ])
             ->modifyQueryUsing(fn ($query) => $query->withCount('products'))
             ->defaultSort('order_column')

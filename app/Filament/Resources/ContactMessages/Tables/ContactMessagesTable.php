@@ -17,32 +17,32 @@ class ContactMessagesTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.contact_message.name'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('phone')
-                    ->label('Telepon')
+                    ->label(__('admin.table.contact_message.phone'))
                     ->searchable(),
                 TextColumn::make('subject')
-                    ->label('Subjek')
+                    ->label(__('admin.table.contact_message.subject'))
                     ->searchable()
                     ->limit(48)
                     ->wrap(),
                 IconColumn::make('read_at')
-                    ->label('Dibaca')
+                    ->label(__('admin.table.contact_message.read'))
                     ->boolean()
                     ->state(fn ($record): bool => filled($record->read_at)),
                 TextColumn::make('created_at')
-                    ->label('Masuk')
+                    ->label(__('admin.table.contact_message.received'))
                     ->dateTime()
                     ->sortable(),
             ])
             ->filters([
                 TernaryFilter::make('read_at')
-                    ->label('Status baca')
+                    ->label(__('admin.table.contact_message.status'))
                     ->nullable()
-                    ->trueLabel('Sudah dibaca')
-                    ->falseLabel('Belum dibaca'),
+                    ->trueLabel(__('admin.table.contact_message.read_true'))
+                    ->falseLabel(__('admin.table.contact_message.read_false')),
             ])
             ->defaultSort('created_at', 'desc')
             ->recordActions([

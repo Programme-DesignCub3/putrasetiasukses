@@ -19,30 +19,30 @@ class ProductsTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('main_image')
-                    ->label('Gambar')
+                    ->label(__('admin.table.product.image'))
                     ->collection(Product::MainImageCollection),
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.product.name'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('category_names')
-                    ->label('Kategori')
+                    ->label(__('admin.table.product.category'))
                     ->badge(),
                 IconColumn::make('is_published')
-                    ->label('Published')
+                    ->label(__('admin.table.product.published'))
                     ->boolean(),
                 TextColumn::make('updated_at')
-                    ->label('Diubah')
+                    ->label(__('admin.table.product.updated'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
                 TernaryFilter::make('is_published')
-                    ->label('Published')
-                    ->trueLabel('Published')
-                    ->falseLabel('Draft'),
+                    ->label(__('admin.table.filters.published'))
+                    ->trueLabel(__('admin.table.filters.published_true'))
+                    ->falseLabel(__('admin.table.filters.published_false')),
             ])
             ->modifyQueryUsing(fn ($query) => $query->with('categories'))
             ->defaultSort('order_column')

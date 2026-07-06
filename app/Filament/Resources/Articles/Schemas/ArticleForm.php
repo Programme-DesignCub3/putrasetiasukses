@@ -20,11 +20,11 @@ class ArticleForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Artikel')
-                    ->description('Atur kategori, penulis, dan status publikasi.')
+                Section::make(__('admin.form.article.section_info'))
+                    ->description(__('admin.form.article.section_info_desc'))
                     ->schema([
                         Select::make('categories')
-                            ->label('Kategori')
+                            ->label(__('admin.form.article.category'))
                             ->multiple()
                             ->relationship(
                                 name: 'categories',
@@ -37,26 +37,26 @@ class ArticleForm
                             ->required()
                             ->columnSpanFull(),
                         Toggle::make('is_published')
-                            ->label('Published')
+                            ->label(__('admin.form.article.published'))
                             ->default(true),
                         Toggle::make('is_featured')
-                            ->label('Artikel unggulan')
+                            ->label(__('admin.form.article.featured'))
                             ->default(false),
                         TextInput::make('author')
-                            ->label('Penulis')
+                            ->label(__('admin.form.article.author'))
                             ->required()
                             ->maxLength(255),
                         DateTimePicker::make('published_at')
-                            ->label('Tanggal publikasi'),
+                            ->label(__('admin.form.article.published_at')),
                         TextInput::make('slug')
                             ->visible(fn (string $operation): bool => $operation === 'edit')
                             ->disabled(fn (Get $get): bool => ! $get('edit_slug'))
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
-                            ->helperText('Aktifkan "Edit slug" untuk mengubah.')
+                            ->helperText(__('admin.form.article.slug_helper'))
                             ->columnSpanFull(),
                         Toggle::make('edit_slug')
-                            ->label('Edit slug')
+                            ->label(__('admin.form.article.edit_slug'))
                             ->default(false)
                             ->live()
                             ->dehydrated(false)
@@ -64,15 +64,15 @@ class ArticleForm
                     ])
                     ->columns(2),
 
-                Section::make('Konten Artikel')
-                    ->description('Bahasa Indonesia wajib diisi; bahasa lain boleh kosong.')
+                Section::make(__('admin.form.article.section_content'))
+                    ->description(__('admin.form.article.section_content_desc'))
                     ->schema([
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
                                 FilamentTranslatableFields::textInput('title', 'Judul', $locale)
                                     ->maxLength(255),
                             ],
-                            label: 'Judul Artikel',
+                            label: __('admin.form.article.title_label'),
                             columns: 1,
                         ),
                         FilamentTranslatableFields::translate(
@@ -80,7 +80,7 @@ class ArticleForm
                                 FilamentTranslatableFields::textarea('excerpt', 'Ringkasan', $locale, 3)
                                     ->columnSpanFull(),
                             ],
-                            label: 'Ringkasan',
+                            label: __('admin.form.article.excerpt'),
                             columns: 1,
                         ),
                         FilamentTranslatableFields::translate(
@@ -88,15 +88,15 @@ class ArticleForm
                                 FilamentTranslatableFields::richEditor('body', 'Isi', $locale)
                                     ->columnSpanFull(),
                             ],
-                            label: 'Isi Artikel',
+                            label: __('admin.form.article.body_label'),
                             columns: 1,
                         ),
                     ]),
 
-                Section::make('Media')
+                Section::make(__('admin.form.article.section_media'))
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('article_image')
-                            ->label('Gambar utama')
+                            ->label(__('admin.form.article.main_image'))
                             ->collection(Article::ImageCollection)
                             ->required()
                             ->image()

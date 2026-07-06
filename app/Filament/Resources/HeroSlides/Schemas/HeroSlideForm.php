@@ -15,18 +15,18 @@ class HeroSlideForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Slide')
-                    ->description('Atur konten dan status hero slide.')
+                Section::make(__('admin.form.hero_slide.section_info'))
+                    ->description(__('admin.form.hero_slide.section_info_desc'))
                     ->schema([
                         Toggle::make('is_active')
-                            ->label('Aktif')
+                            ->label(__('admin.form.hero_slide.active'))
                             ->default(true),
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
                                 FilamentTranslatableFields::textInput('label', 'Label', $locale)
                                     ->maxLength(255),
                             ],
-                            label: 'Label',
+                            label: __('admin.form.hero_slide.label'),
                             columns: 1,
                         ),
                         FilamentTranslatableFields::translate(
@@ -34,7 +34,7 @@ class HeroSlideForm
                                 FilamentTranslatableFields::textInput('title', 'Judul', $locale)
                                     ->maxLength(255),
                             ],
-                            label: 'Judul',
+                            label: __('admin.form.hero_slide.title'),
                             columns: 1,
                         ),
                         FilamentTranslatableFields::translate(
@@ -42,30 +42,30 @@ class HeroSlideForm
                                 FilamentTranslatableFields::textarea('subtitle', 'Subjudul', $locale, 3)
                                     ->columnSpanFull(),
                             ],
-                            label: 'Subjudul',
+                            label: __('admin.form.hero_slide.subtitle'),
                             columns: 1,
                         ),
                         TextInput::make('link')
-                            ->label('Tautan (opsional)')
-                            ->helperText('Jika diisi, slide akan menjadi link yang bisa diklik.')
+                            ->label(__('admin.form.hero_slide.link'))
+                            ->helperText(__('admin.form.hero_slide.link_helper'))
                             ->url()
                             ->maxLength(255)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
 
-                Section::make('Gambar')
-                    ->description('Upload gambar atau isi URL fallback.')
+                Section::make(__('admin.form.hero_slide.section_image'))
+                    ->description(__('admin.form.hero_slide.section_image_desc'))
                     ->schema([
                         ...FilamentTranslatableFields::localeImageUploads(
                             name: 'hero_image',
-                            label: 'Upload Gambar',
+                            label: __('admin.form.hero_slide.upload_image'),
                             collection: HeroSlide::ImageCollection,
                             required: true,
                         ),
                         TextInput::make('image')
-                            ->label('URL Gambar (fallback)')
-                            ->helperText('Terpakai jika tidak ada gambar yang diupload.')
+                            ->label(__('admin.form.hero_slide.image_url'))
+                            ->helperText(__('admin.form.hero_slide.image_url_helper'))
                             ->maxLength(255),
                     ])
                     ->columns(2),

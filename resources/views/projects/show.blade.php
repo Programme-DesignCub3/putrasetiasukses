@@ -59,8 +59,10 @@
 
             <div class="mt-8">
                 <h2 class="section-title">{{ __('projects.description') }}</h2>
-                <div class="prose prose-lg prose-zinc mt-6 max-w-none">
-                    {!! $project->renderRichContent('description') !!}
+                <div class="max-h-115 mt-6 overflow-y-auto pr-4 text-lg font-medium leading-relaxed text-zinc-700">
+                    @foreach (preg_split('/\R+/', $project->description) as $paragraph)
+                        <p class="mb-6 last:mb-0">{{ $paragraph }}</p>
+                    @endforeach
                 </div>
             </div>
 
@@ -71,5 +73,14 @@
             </a>
         </section>
         </div>
+
+        @if (filled($project->content))
+            <div class="mx-auto mt-16 max-w-5xl">
+                <div
+                    class="prose prose-lg prose-zinc max-w-none [&_a]:text-brand-red [&_a]:font-black [&_blockquote]:border-brand-red [&_blockquote]:border-l-4 [&_blockquote]:pl-5 [&_blockquote]:italic [&_h2]:mt-10 [&_h2]:text-3xl [&_h2]:font-black [&_h2]:text-black [&_h3]:mt-8 [&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-black [&_li]:mb-2 [&_ol]:my-7 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-7 [&_ul]:my-7 [&_ul]:list-disc [&_ul]:pl-6">
+                    {!! $project->renderRichContent('content') !!}
+                </div>
+            </div>
+        @endif
     </main>
 </x-app>

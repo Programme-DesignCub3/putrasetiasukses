@@ -36,7 +36,7 @@ class ProjectController extends Controller
 
         $metadata->build(
             title: $project->name.' - '.__('site.company_name'),
-            description: strip_tags($project->description),
+            description: $project->description,
             image: $project->main_image_url,
         );
 

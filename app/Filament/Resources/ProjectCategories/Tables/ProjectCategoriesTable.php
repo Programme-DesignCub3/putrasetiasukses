@@ -19,10 +19,10 @@ class ProjectCategoriesTable
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('category_image')
-                    ->label('Gambar')
+                    ->label(__('admin.table.project_category.image'))
                     ->collection(ProjectCategory::ImageCollection),
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.table.project_category.name'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
@@ -30,23 +30,23 @@ class ProjectCategoriesTable
                     ->searchable()
                     ->toggleable(),
                 TextColumn::make('projects_count')
-                    ->label('Project')
+                    ->label(__('admin.table.project_category.project_count'))
                     ->counts('projects')
                     ->sortable(),
                 IconColumn::make('is_active')
-                    ->label('Active')
+                    ->label(__('admin.table.project_category.active'))
                     ->boolean(),
                 TextColumn::make('updated_at')
-                    ->label('Diubah')
+                    ->label(__('admin.table.project_category.updated'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Active')
-                    ->trueLabel('Active')
-                    ->falseLabel('Inactive'),
+                    ->label(__('admin.table.filters.active'))
+                    ->trueLabel(__('admin.table.filters.active_true'))
+                    ->falseLabel(__('admin.table.filters.active_false')),
             ])
             ->modifyQueryUsing(fn ($query) => $query->withCount('projects'))
             ->defaultSort('order_column')

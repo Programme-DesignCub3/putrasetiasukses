@@ -12,31 +12,31 @@ class ContactMessageInfolist
     {
         return $schema
             ->components([
-                Section::make('Detail Pesan')
+                Section::make(__('admin.form.contact_infolist.section_detail'))
                     ->columns(2)
                     ->schema([
                         TextEntry::make('name')
-                            ->label('Nama'),
+                            ->label(__('admin.form.contact_infolist.name')),
                         TextEntry::make('company')
-                            ->label('Perusahaan'),
+                            ->label(__('admin.form.contact_infolist.company')),
                         TextEntry::make('phone')
-                            ->label('Telepon'),
+                            ->label(__('admin.form.contact_infolist.phone')),
                         TextEntry::make('email')
-                            ->label('Email'),
+                            ->label(__('admin.form.contact_infolist.email')),
                         TextEntry::make('subject')
-                            ->label('Subjek')
+                            ->label(__('admin.form.contact_infolist.subject'))
                             ->columnSpanFull(),
                         TextEntry::make('message')
-                            ->label('Pesan')
+                            ->label(__('admin.form.contact_infolist.message'))
                             ->columnSpanFull()
                             ->markdown(),
                         TextEntry::make('created_at')
-                            ->label('Diterima')
+                            ->label(__('admin.form.contact_infolist.received'))
                             ->dateTime(),
                         TextEntry::make('read_at')
-                            ->label('Dibaca')
+                            ->label(__('admin.form.contact_infolist.read'))
                             ->dateTime()
-                            ->placeholder('Belum dibaca'),
+                            ->placeholder(__('admin.form.contact_infolist.not_read')),
                     ]),
             ]);
     }

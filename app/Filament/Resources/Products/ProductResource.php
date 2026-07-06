@@ -20,15 +20,24 @@ class ProductResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Cube;
 
-    protected static ?string $navigationLabel = 'Produk';
+    protected static ?int $navigationSort = 2;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.resource.product.navigation_label');
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Produk';
 
-    protected static ?int $navigationSort = 2;
+    public static function getModelLabel(): string
+    {
+        return __('admin.resource.product.label');
+    }
 
-    protected static ?string $modelLabel = 'Produk';
-
-    protected static ?string $pluralModelLabel = 'Produk';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.resource.product.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Database\Factories\ProductFactory;
-use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,8 +31,6 @@ class Product extends Model implements HasMedia, HasRichContent, Sortable
     public const MainImageCollection = 'main_image';
 
     public const GalleryCollection = 'gallery';
-
-    public const BodyAttachmentCollection = 'product_body_attachments';
 
     /**
      * @var list<string>
@@ -109,11 +106,7 @@ class Product extends Model implements HasMedia, HasRichContent, Sortable
 
     protected function setUpRichContent(): void
     {
-        $this->registerRichContent('description')
-            ->fileAttachmentProvider(
-                SpatieMediaLibraryFileAttachmentProvider::make()
-                    ->collection(self::BodyAttachmentCollection),
-            );
+        //
     }
 
     public function registerMediaCollections(): void
@@ -122,9 +115,6 @@ class Product extends Model implements HasMedia, HasRichContent, Sortable
             ->useDisk('public');
 
         $this->addMediaCollection(self::GalleryCollection)
-            ->useDisk('public');
-
-        $this->addMediaCollection(self::BodyAttachmentCollection)
             ->useDisk('public');
     }
 

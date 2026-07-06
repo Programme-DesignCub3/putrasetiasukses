@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\FallbackSpatieFileAttachmentProvider;
 use Database\Factories\ArticleFactory;
-use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -79,8 +79,9 @@ class Article extends Model implements HasMedia, HasRichContent
     protected function setUpRichContent(): void
     {
         $this->registerRichContent('body')
+            ->fileAttachmentsDisk('public')
             ->fileAttachmentProvider(
-                SpatieMediaLibraryFileAttachmentProvider::make()
+                FallbackSpatieFileAttachmentProvider::make()
                     ->collection(self::BodyAttachmentCollection),
             );
     }

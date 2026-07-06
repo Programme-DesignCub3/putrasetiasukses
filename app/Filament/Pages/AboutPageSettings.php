@@ -46,7 +46,7 @@ class AboutPageSettings extends AbstractPageSettings
         $state = $this->form->getState();
 
         collect($state)->each(function ($setting, $key) {
-            DbConfig::set($this->settingName() . '.' . $key, $setting);
+            DbConfig::set($this->settingName().'.'.$key, $setting);
         });
 
         $this->cleanRemovedFiles($oldData, $state);

@@ -25,7 +25,7 @@ class ArticleCategoryForm
                             ->default(true),
                         TextInput::make('slug')
                             ->visible(fn (string $operation): bool => $operation === 'edit')
-                            ->disabled(fn (Get $get): bool => !$get('edit_slug'))
+                            ->disabled(fn (Get $get): bool => ! $get('edit_slug'))
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
                             ->helperText('Aktifkan "Edit slug" untuk mengubah.'),
@@ -62,12 +62,12 @@ class ArticleCategoryForm
                 Section::make('Media')
                     ->description('Gambar untuk kartu kategori di halaman publik.')
                     ->schema([
-                        SpatieMediaLibraryFileUpload::make('category_image')
-                            ->label('Gambar utama')
-                            ->collection(ArticleCategory::ImageCollection)
-                            ->image()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120),
+                        ...FilamentTranslatableFields::localeImageUploads(
+                            name: 'category_image',
+                            label: 'Gambar utama',
+                            collection: ArticleCategory::ImageCollection,
+                            required: true,
+                        ),
                         SpatieMediaLibraryFileUpload::make('category_gallery')
                             ->label('Galeri')
                             ->collection(ArticleCategory::GalleryCollection)

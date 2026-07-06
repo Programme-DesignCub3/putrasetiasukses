@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\HeroSlides\Schemas;
 
 use App\Models\HeroSlide;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -38,12 +38,12 @@ class HeroSlideForm
                 Section::make('Gambar')
                     ->description('Upload gambar atau isi URL fallback.')
                     ->schema([
-                        SpatieMediaLibraryFileUpload::make('hero_image')
-                            ->label('Upload Gambar')
-                            ->collection(HeroSlide::ImageCollection)
-                            ->image()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120),
+                        ...FilamentTranslatableFields::localeImageUploads(
+                            name: 'hero_image',
+                            label: 'Upload Gambar',
+                            collection: HeroSlide::ImageCollection,
+                            required: true,
+                        ),
                         TextInput::make('image')
                             ->label('URL Gambar (fallback)')
                             ->helperText('Terpakai jika tidak ada gambar yang diupload.')

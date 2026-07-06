@@ -7,7 +7,6 @@ use App\Models\ArticleCategory;
 use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -50,7 +49,7 @@ class ArticleForm
                             ->label('Tanggal publikasi'),
                         TextInput::make('slug')
                             ->visible(fn (string $operation): bool => $operation === 'edit')
-                            ->disabled(fn (Get $get): bool => !$get('edit_slug'))
+                            ->disabled(fn (Get $get): bool => ! $get('edit_slug'))
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
                             ->helperText('Aktifkan "Edit slug" untuk mengubah.')
@@ -95,12 +94,12 @@ class ArticleForm
 
                 Section::make('Media')
                     ->schema([
-                        SpatieMediaLibraryFileUpload::make('article_image')
-                            ->label('Gambar utama')
-                            ->collection(Article::ImageCollection)
-                            ->image()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120),
+                        ...FilamentTranslatableFields::localeImageUploads(
+                            name: 'article_image',
+                            label: 'Gambar utama',
+                            collection: Article::ImageCollection,
+                            required: true,
+                        ),
                     ]),
             ]);
     }

@@ -41,7 +41,7 @@ class ProjectForm
                             ->default(true),
                         TextInput::make('slug')
                             ->visible(fn (string $operation): bool => $operation === 'edit')
-                            ->disabled(fn (Get $get): bool => !$get('edit_slug'))
+                            ->disabled(fn (Get $get): bool => ! $get('edit_slug'))
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
                             ->helperText('Aktifkan "Edit slug" untuk mengubah.'),
@@ -92,12 +92,12 @@ class ProjectForm
                 Section::make('Media Project')
                     ->description('Gunakan gambar WebP/JPEG/PNG teroptimasi.')
                     ->schema([
-                        SpatieMediaLibraryFileUpload::make('main_image')
-                            ->label('Gambar utama')
-                            ->collection(Project::MainImageCollection)
-                            ->image()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120),
+                        ...FilamentTranslatableFields::localeImageUploads(
+                            name: 'main_image',
+                            label: 'Gambar utama',
+                            collection: Project::MainImageCollection,
+                            required: true,
+                        ),
                         SpatieMediaLibraryFileUpload::make('gallery_media')
                             ->label('Galeri project')
                             ->collection(Project::GalleryCollection)

@@ -11,6 +11,8 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ArticlesTable
 {
@@ -20,7 +22,17 @@ class ArticlesTable
             ->columns([
                 SpatieMediaLibraryImageColumn::make('article_image')
                     ->label('Gambar')
-                    ->collection(Article::ImageCollection),
+                    ->collection(Article::ImageCollection)
+                    ->filterMediaUsing(function (Collection $media): Collection {
+                        $locale = app()->getLocale();
+                        $filtered = $media->filter(fn (Media $item): bool => $item->getCustomProperty('locale') === $locale);
+
+                        if ($filtered->isNotEmpty()) {
+                            return $filtered;
+                        }
+
+                        return $media->filter(fn (Media $item): bool => $item->getCustomProperty('locale') === 'id');
+                    }),
                 TextColumn::make('title')
                     ->label('Judul')
                     ->searchable()

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\WithLocaleImages;
 use Database\Factories\PartnerFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Partner extends Model implements HasMedia, Sortable
 
     use InteractsWithMedia;
     use SortableTrait;
+    use WithLocaleImages;
 
     public const LogoCollection = 'logo';
 
@@ -51,12 +53,11 @@ class Partner extends Model implements HasMedia, Sortable
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::LogoCollection)
-            ->useDisk('public')
-            ->singleFile();
+            ->useDisk('public');
     }
 
     public function getLogoAttribute(): string
     {
-        return $this->getFirstMediaUrl(self::LogoCollection);
+        return $this->getLocaleImageUrl(self::LogoCollection);
     }
 }

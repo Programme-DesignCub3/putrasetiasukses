@@ -11,6 +11,8 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class HeroSlidesTable
 {
@@ -22,7 +24,17 @@ class HeroSlidesTable
                     ->label('Gambar')
                     ->collection(HeroSlide::ImageCollection)
                     ->width(80)
-                    ->height(40),
+                    ->height(40)
+                    ->filterMediaUsing(function (Collection $media): Collection {
+                        $locale = app()->getLocale();
+                        $filtered = $media->filter(fn (Media $item): bool => $item->getCustomProperty('locale') === $locale);
+
+                        if ($filtered->isNotEmpty()) {
+                            return $filtered;
+                        }
+
+                        return $media->filter(fn (Media $item): bool => $item->getCustomProperty('locale') === 'id');
+                    }),
                 TextColumn::make('label')
                     ->label('Label')
                     ->searchable()

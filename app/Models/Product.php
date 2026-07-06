@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\WithLocaleImages;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,6 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
@@ -24,6 +24,7 @@ class Product extends Model implements HasMedia, Sortable
     use HasTranslations;
     use InteractsWithMedia;
     use SortableTrait;
+    use WithLocaleImages;
 
     public const MainImageCollection = 'main_image';
 
@@ -104,8 +105,7 @@ class Product extends Model implements HasMedia, Sortable
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::MainImageCollection)
-            ->useDisk('public')
-            ->singleFile();
+            ->useDisk('public');
 
         $this->addMediaCollection(self::GalleryCollection)
             ->useDisk('public');
@@ -113,7 +113,7 @@ class Product extends Model implements HasMedia, Sortable
 
     public function getMainImageUrlAttribute(?string $value): string
     {
-        return $this->getFirstMediaUrl(self::MainImageCollection) ?: (string) $value;
+        return $this->getLocaleImageUrl(self::MainImageCollection, $value);
     }
 
     /**
@@ -122,12 +122,7 @@ class Product extends Model implements HasMedia, Sortable
     public function getGalleryImagesAttribute(?string $value): array
     {
         if ($this->hasMedia(self::GalleryCollection)) {
-            return $this->getMedia(self::GalleryCollection)
-                ->map(fn (Media $media): array => [
-                    'url' => $media->getUrl(),
-                    'alt' => $media->name,
-                ])
-                ->all();
+            return $this->getLocaleGalleryImages(self::GalleryCollection);
         }
 
         return json_decode((string) $value, true) ?: [];

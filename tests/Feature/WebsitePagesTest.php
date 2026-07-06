@@ -44,7 +44,7 @@ test('about page renders hardcoded copy with settings media', function () {
         ->assertSee('Galeri')
         ->assertSee('Video')
         ->assertSee('/storage/about/gallery/warehouse.jpg', false)
-        ->assertSee('https://www.youtube.com/embed/test-video', false);
+        ->assertSee('https://www.youtube-nocookie.com/embed/test-video', false);
 });
 
 test('product page renders managed content', function () {

@@ -9,9 +9,12 @@ use Awcodes\RicherEditor\Plugins\SourceCodePlugin;
 use Closure;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\RichEditor\RichContentRenderer;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Support\Collection;
 use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class FilamentTranslatableFields
 {
@@ -81,6 +84,46 @@ class FilamentTranslatableFields
             ->dehydrateStateUsing(
                 fn (mixed $state): mixed => self::isBlankRichContent($state) ? null : $state,
             );
+    }
+
+    /**
+     * @return array<int, SpatieMediaLibraryFileUpload>
+     */
+    public static function localeImageUploads(
+        string $name,
+        string $label,
+        string $collection,
+        bool $multiple = false,
+        bool $required = false,
+    ): array {
+        $fields = [];
+        $locales = self::locales();
+
+        foreach ($locales as $locale) {
+            $isRequired = $required && $locale === self::RequiredLocale;
+
+            $field = SpatieMediaLibraryFileUpload::make("{$name}_{$locale}")
+                ->label(self::localeLabels()[$locale] ?? $locale)
+                ->collection($collection)
+                ->customProperties(['locale' => $locale])
+                ->filterMediaUsing(
+                    fn (Collection $media): Collection => $media->filter(
+                        fn (Media $item): bool => $item->getCustomProperty('locale') === $locale,
+                    ),
+                )
+                ->required($isRequired)
+                ->image()
+                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                ->maxSize(5120);
+
+            if ($multiple) {
+                $field->multiple()->reorderable()->panelLayout('grid');
+            }
+
+            $fields[] = $field;
+        }
+
+        return $fields;
     }
 
     private static function isBlankRichContent(mixed $state): bool

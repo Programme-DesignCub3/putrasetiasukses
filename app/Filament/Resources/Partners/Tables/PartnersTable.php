@@ -11,6 +11,8 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PartnersTable
 {
@@ -23,7 +25,17 @@ class PartnersTable
                     ->collection(Partner::LogoCollection)
                     ->square()
                     ->width(64)
-                    ->height(64),
+                    ->height(64)
+                    ->filterMediaUsing(function (Collection $media): Collection {
+                        $locale = app()->getLocale();
+                        $filtered = $media->filter(fn (Media $item): bool => $item->getCustomProperty('locale') === $locale);
+
+                        if ($filtered->isNotEmpty()) {
+                            return $filtered;
+                        }
+
+                        return $media->filter(fn (Media $item): bool => $item->getCustomProperty('locale') === 'id');
+                    }),
                 TextColumn::make('name')
                     ->label('Nama')
                     ->searchable()

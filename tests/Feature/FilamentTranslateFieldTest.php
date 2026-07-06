@@ -8,6 +8,7 @@ use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
 use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
@@ -51,6 +52,7 @@ test('indonesian article translations are required while other locales are optio
                 'en' => null,
                 'zh' => null,
             ],
+            'article_image_id' => UploadedFile::fake()->image('article.jpg'),
             'is_featured' => false,
             'is_published' => true,
         ])

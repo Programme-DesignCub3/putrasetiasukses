@@ -49,23 +49,26 @@ class HomeController extends Controller
      */
     private function advantages(): array
     {
-        return [
-            ['title' => 'Stockist & Distributor Terpercaya', 'copy' => 'Kami memastikan ketersediaan stok plat selalu terjaga untuk memenuhi kebutuhan pelanggan.', 'icon' => 'warehouse'],
-            ['title' => 'Harga Kompetitif', 'copy' => 'Kami menawarkan harga bersaing dengan kualitas plat terbaik.', 'icon' => 'tag'],
-            ['title' => 'Pengiriman Tepat Waktu', 'copy' => 'Setiap pesanan dikirim sesuai jadwal yang telah disepakati.', 'icon' => 'clock'],
-            ['title' => 'Kualitas Terbaik', 'copy' => 'Kami berkomitmen memberikan plat berkualitas tinggi dan pelayanan terbaik.', 'icon' => 'thumb'],
-        ];
+        $icons = ['warehouse', 'tag', 'clock', 'thumb'];
+
+        return array_map(fn (int $i, string $icon): array => [
+            'title' => __("home.advantage_{$i}_title"),
+            'copy' => __("home.advantage_{$i}_copy"),
+            'icon' => $icon,
+        ], range(1, 4), $icons);
     }
 
     /**
-     * @return array<int, array{title: string, copy: string, class: string}>
+     * @return array<int, array{title: string, copy: string, image: string}>
      */
     private function sectors(): array
     {
-        return [
-            ['title' => 'Building Construction', 'copy' => 'Baja menjadi salah satu bahan utama dalam konstruksi dan pembangunan gedung, selain untuk pondasi juga digunakan pada atap.', 'image' => 'sector-1.png'],
-            ['title' => 'Automotive Industry', 'copy' => 'Material plat baja untuk kebutuhan fabrikasi, komponen, dan lini produksi industri otomotif.', 'image' => 'sector-2.png'],
-            ['title' => 'Warehouse Supply', 'copy' => 'Dukungan stok material untuk distributor, kontraktor, dan kebutuhan gudang berskala besar.', 'image' => 'sector-3.png'],
-        ];
+        $images = ['sector-1.png', 'sector-2.png', 'sector-3.png'];
+
+        return array_map(fn (int $i, string $image): array => [
+            'title' => __("home.sector_{$i}_title"),
+            'copy' => __("home.sector_{$i}_copy"),
+            'image' => $image,
+        ], range(1, 3), $images);
     }
 }

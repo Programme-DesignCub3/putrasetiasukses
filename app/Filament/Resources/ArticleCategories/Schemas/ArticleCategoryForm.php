@@ -62,12 +62,13 @@ class ArticleCategoryForm
                 Section::make('Media')
                     ->description('Gambar untuk kartu kategori di halaman publik.')
                     ->schema([
-                        ...FilamentTranslatableFields::localeImageUploads(
-                            name: 'category_image',
-                            label: 'Gambar utama',
-                            collection: ArticleCategory::ImageCollection,
-                            required: true,
-                        ),
+                        SpatieMediaLibraryFileUpload::make('category_image')
+                            ->label('Gambar utama')
+                            ->collection(ArticleCategory::ImageCollection)
+                            ->required()
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
                         SpatieMediaLibraryFileUpload::make('category_gallery')
                             ->label('Galeri')
                             ->collection(ArticleCategory::GalleryCollection)

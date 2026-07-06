@@ -182,15 +182,13 @@ class TestSeeder extends Seeder
         ]);
 
         Testimonial::factory()->create([
-            'name' => 'Jonathan Doe',
-            'role' => 'Pemilik Rumah',
-            'content' => 'PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan.',
+            'name' => ['id' => 'Jonathan Doe', 'en' => 'Jonathan Doe', 'zh' => '乔纳森·多伊'],
+            'content' => ['id' => 'PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan.', 'en' => 'PT Putra Setia Sukses Bersama is a professional and reliable partner.', 'zh' => 'PT Putra Setia Sukses Bersama 是一家专业可靠的合作伙伴。'],
         ]);
 
         Testimonial::factory()->create([
-            'name' => 'Andi Pratama',
-            'role' => 'Kontraktor',
-            'content' => 'Pelayanan responsif dan stok material sangat membantu kebutuhan proyek kami.',
+            'name' => ['id' => 'Andi Pratama', 'en' => 'Andi Pratama', 'zh' => '安迪·普拉塔马'],
+            'content' => ['id' => 'Pelayanan responsif dan stok material sangat membantu kebutuhan proyek kami.', 'en' => 'Responsive service and material stock helped our project needs.', 'zh' => '响应式服务和材料库存在我们工期紧张时极大地帮助了我们的项目需求。'],
         ]);
 
         Partner::factory()->create([

@@ -38,6 +38,7 @@ class HeroSlide extends Model implements HasMedia, Sortable
         'label',
         'title',
         'subtitle',
+        'link',
         'is_active',
         'order_column',
     ];

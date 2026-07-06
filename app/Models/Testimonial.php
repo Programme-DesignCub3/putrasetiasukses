@@ -7,13 +7,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Spatie\Translatable\HasTranslations;
 
 class Testimonial extends Model implements Sortable
 {
     /** @use HasFactory<TestimonialFactory> */
     use HasFactory;
 
+    use HasTranslations;
     use SortableTrait;
+
+    /**
+     * @var list<string>
+     */
+    public array $translatable = [
+        'name',
+        'content',
+    ];
 
     /**
      * @var array<string, mixed>

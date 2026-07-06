@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Partners\Schemas;
 
 use App\Models\Partner;
-use App\Support\FilamentTranslatableFields;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -32,12 +32,13 @@ class PartnerForm
                 Section::make('Logo')
                     ->description('Format: JPG, PNG, WebP. Maks: 5MB. Ukuran ideal: 500x500px.')
                     ->schema([
-                        ...FilamentTranslatableFields::localeImageUploads(
-                            name: 'logo',
-                            label: 'Logo Perusahaan',
-                            collection: Partner::LogoCollection,
-                            required: true,
-                        ),
+                        SpatieMediaLibraryFileUpload::make('logo')
+                            ->label('Logo Perusahaan')
+                            ->collection(Partner::LogoCollection)
+                            ->required()
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
                     ]),
             ]);
     }

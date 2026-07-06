@@ -77,12 +77,13 @@ class ProductForm
                 Section::make('Media Produk')
                     ->description('Gunakan gambar WebP/JPEG/PNG teroptimasi.')
                     ->schema([
-                        ...FilamentTranslatableFields::localeImageUploads(
-                            name: 'main_image',
-                            label: 'Gambar utama',
-                            collection: Product::MainImageCollection,
-                            required: true,
-                        ),
+                        SpatieMediaLibraryFileUpload::make('main_image')
+                            ->label('Gambar utama')
+                            ->collection(Product::MainImageCollection)
+                            ->required()
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
                         SpatieMediaLibraryFileUpload::make('gallery_media')
                             ->label('Galeri produk')
                             ->collection(Product::GalleryCollection)

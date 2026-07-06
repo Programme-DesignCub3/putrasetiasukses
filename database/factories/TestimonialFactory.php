@@ -12,15 +12,18 @@ class TestimonialFactory extends Factory
 {
     public function definition(): array
     {
+        $idName = fake()->name();
+        $idContent = fake()->randomElement([
+            'PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan, dengan kualitas produk yang konsisten serta pengiriman yang tepat waktu.',
+            'Pelayanan responsif dan stok material sangat membantu kebutuhan proyek kami saat jadwal sedang padat.',
+            'Kualitas plat sesuai spesifikasi dan proses pengiriman berjalan rapi dari pemesanan sampai barang diterima.',
+            'Harga kompetitif dengan kualitas terbaik. Sangat direkomendasikan untuk kebutuhan material konstruksi.',
+            'Pengiriman tepat waktu dan barang sesuai pesanan. Tim sales sangat membantu dan responsif.',
+        ]);
+
         return [
-            'name' => fake()->name(),
-            'content' => fake()->randomElement([
-                'PT Putra Setia Sukses Bersama merupakan mitra yang profesional dan dapat diandalkan, dengan kualitas produk yang konsisten serta pengiriman yang tepat waktu.',
-                'Pelayanan responsif dan stok material sangat membantu kebutuhan proyek kami saat jadwal sedang padat.',
-                'Kualitas plat sesuai spesifikasi dan proses pengiriman berjalan rapi dari pemesanan sampai barang diterima.',
-                'Harga kompetitif dengan kualitas terbaik. Sangat direkomendasikan untuk kebutuhan material konstruksi.',
-                'Pengiriman tepat waktu dan barang sesuai pesanan. Tim sales sangat membantu dan responsif.',
-            ]),
+            'name' => ['id' => $idName, 'en' => $idName, 'zh' => $idName],
+            'content' => ['id' => $idContent, 'en' => $idContent, 'zh' => $idContent],
             'is_active' => true,
         ];
     }

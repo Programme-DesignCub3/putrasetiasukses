@@ -52,7 +52,7 @@ test('indonesian article translations are required while other locales are optio
                 'en' => null,
                 'zh' => null,
             ],
-            'article_image_id' => UploadedFile::fake()->image('article.jpg'),
+            'article_image' => UploadedFile::fake()->image('article.jpg'),
             'is_featured' => false,
             'is_published' => true,
         ])

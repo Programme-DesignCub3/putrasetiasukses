@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\WithLocaleImages;
 use Database\Factories\ArticleFactory;
 use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
@@ -25,7 +24,6 @@ class Article extends Model implements HasMedia, HasRichContent
     use HasTranslations;
     use InteractsWithMedia;
     use InteractsWithRichContent;
-    use WithLocaleImages;
 
     public const BodyAttachmentCollection = 'article_body_attachments';
 
@@ -118,6 +116,6 @@ class Article extends Model implements HasMedia, HasRichContent
 
     public function getImageUrlAttribute(?string $value): string
     {
-        return $this->getLocaleImageUrl(self::ImageCollection, $value);
+        return $this->getFirstMediaUrl(self::ImageCollection) ?: (string) $value;
     }
 }

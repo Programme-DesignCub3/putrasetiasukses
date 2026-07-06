@@ -6,6 +6,7 @@ use App\Models\HeroSlide;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Project;
+use App\Models\Testimonial;
 use App\Support\Sitemap\SitemapBuilder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -25,6 +26,24 @@ test('home page renders with shared site content', function () {
         ->assertSee('Plat Lembaran')
         ->assertSee('home-testimonials-swiper')
         ->assertSee('home-partners-swiper');
+});
+
+test('home page testimonials show translated content', function () {
+    Testimonial::factory()->create([
+        'name' => ['id' => 'Jonathan Doe', 'en' => 'Jonathan Doe', 'zh' => '乔纳森·多伊'],
+        'content' => ['id' => 'Mitra yang profesional.', 'en' => 'A professional partner.', 'zh' => '专业的合作伙伴。'],
+    ]);
+
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/')
+        ->assertSuccessful()
+        ->assertSee('Mitra yang profesional.')
+        ->assertSee('Jonathan Doe')
+        ->assertDontSee('A professional partner.');
+
+    $this->withHeaders(['Accept-Language' => 'en'])->get('/en')
+        ->assertSuccessful()
+        ->assertSee('A professional partner.')
+        ->assertDontSee('Mitra yang profesional.');
 });
 
 test('about page renders hardcoded copy with settings media', function () {

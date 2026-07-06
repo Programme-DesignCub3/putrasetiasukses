@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\WithLocaleImages;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +9,7 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
@@ -21,7 +21,6 @@ abstract class Category extends Model implements HasMedia, Sortable
     use HasTranslations;
     use InteractsWithMedia;
     use SortableTrait;
-    use WithLocaleImages;
 
     public const ImageCollection = 'category_image';
 
@@ -92,7 +91,7 @@ abstract class Category extends Model implements HasMedia, Sortable
 
     public function getImageUrlAttribute(?string $value): string
     {
-        return $this->getLocaleImageUrl(self::ImageCollection, $value);
+        return $this->getFirstMediaUrl(self::ImageCollection) ?: (string) $value;
     }
 
     /**
@@ -101,7 +100,13 @@ abstract class Category extends Model implements HasMedia, Sortable
     public function getGalleryImagesAttribute(?string $value): array
     {
         if ($this->hasMedia(self::GalleryCollection)) {
-            return $this->getLocaleGalleryImages(self::GalleryCollection);
+            return $this->getMedia(self::GalleryCollection)
+                ->map(fn (Media $media): array => [
+                    'url' => $media->getUrl(),
+                    'alt' => $media->name,
+                ])
+                ->values()
+                ->all();
         }
 
         return json_decode((string) $value, true) ?: [];

@@ -19,10 +19,8 @@ class TestimonialsTable
                 TextColumn::make('name')
                     ->label('Nama')
                     ->searchable()
-                    ->sortable(),
-                TextColumn::make('role')
-                    ->label('Jabatan')
-                    ->searchable(),
+                    ->sortable()
+                    ->wrap(),
                 TextColumn::make('content')
                     ->label('Testimonial')
                     ->limit(60)

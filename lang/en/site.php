@@ -18,7 +18,8 @@ return [
     ],
     'cta' => [
         'contact_us' => 'Contact Us',
-        'strip' => 'Please contact us now. We will be happy to assist you.',
+        'strip-1' => 'Please contact us now. ',
+        'strip-2' => 'We will be happy to assist you.',
     ],
     'slider' => [
         'prev' => 'Previous',

@@ -32,6 +32,12 @@ class HeroSlideForm
                             ->label('Subjudul')
                             ->rows(3)
                             ->columnSpanFull(),
+                        TextInput::make('link')
+                            ->label('Tautan (opsional)')
+                            ->helperText('Jika diisi, slide akan menjadi link yang bisa diklik.')
+                            ->url()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
 

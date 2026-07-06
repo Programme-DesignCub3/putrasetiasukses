@@ -7,6 +7,7 @@ use App\Models\ArticleCategory;
 use App\Support\FilamentTranslatableFields;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -94,12 +95,13 @@ class ArticleForm
 
                 Section::make('Media')
                     ->schema([
-                        ...FilamentTranslatableFields::localeImageUploads(
-                            name: 'article_image',
-                            label: 'Gambar utama',
-                            collection: Article::ImageCollection,
-                            required: true,
-                        ),
+                        SpatieMediaLibraryFileUpload::make('article_image')
+                            ->label('Gambar utama')
+                            ->collection(Article::ImageCollection)
+                            ->required()
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
                     ]),
             ]);
     }

@@ -100,8 +100,22 @@ return [
         ],
 
     ],
+    /*
+
+    |--------------------------------------------------------------------------
+    | Serializable Classes
+    |--------------------------------------------------------------------------
+    |
+    | When set to false, Laravel's cache serialization will reject unserializing
+    | arbitrary PHP objects. If your application stores PHP objects in cache,
+    | list their class names here to allow them to be unserialized.
+    |
+    */
+
+    'serializable_classes' => env('CACHE_SERIALIZABLE_CLASSES', false),
 
     /*
+
     |--------------------------------------------------------------------------
     | Cache Key Prefix
     |--------------------------------------------------------------------------

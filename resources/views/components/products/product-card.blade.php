@@ -17,7 +17,7 @@
         </div>
         <p
             class="line-clamp-3 flex-1 text-xs font-medium leading-relaxed max-md:text-zinc-600 sm:mt-4 sm:line-clamp-4 sm:text-sm">
-            {{ $product->description }}
+            {{ strip_tags($product->description) }}
         </p>
 
         <a class="bg-brand-red hover:bg-brand-red-dark inline-flex items-center justify-center rounded-full px-4 py-2 text-xs font-black uppercase text-white transition sm:mt-6 sm:px-6 sm:py-3 sm:text-sm"

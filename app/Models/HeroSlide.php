@@ -10,12 +10,14 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Translatable\HasTranslations;
 
 class HeroSlide extends Model implements HasMedia, Sortable
 {
     /** @use HasFactory<HeroSlideFactory> */
     use HasFactory;
 
+    use HasTranslations;
     use InteractsWithMedia;
     use SortableTrait;
     use WithLocaleImages;
@@ -28,6 +30,15 @@ class HeroSlide extends Model implements HasMedia, Sortable
     public array $sortable = [
         'order_column_name' => 'order_column',
         'sort_when_creating' => true,
+    ];
+
+    /**
+     * @var list<string>
+     */
+    public array $translatable = [
+        'label',
+        'title',
+        'subtitle',
     ];
 
     /**

@@ -4,7 +4,6 @@ namespace App\Filament\Resources\HeroSlides\Schemas;
 
 use App\Models\HeroSlide;
 use App\Support\FilamentTranslatableFields;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -22,16 +21,30 @@ class HeroSlideForm
                         Toggle::make('is_active')
                             ->label('Aktif')
                             ->default(true),
-                        TextInput::make('label')
-                            ->label('Label')
-                            ->maxLength(255),
-                        TextInput::make('title')
-                            ->label('Judul')
-                            ->maxLength(255),
-                        Textarea::make('subtitle')
-                            ->label('Subjudul')
-                            ->rows(3)
-                            ->columnSpanFull(),
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::textInput('label', 'Label', $locale)
+                                    ->maxLength(255),
+                            ],
+                            label: 'Label',
+                            columns: 1,
+                        ),
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::textInput('title', 'Judul', $locale)
+                                    ->maxLength(255),
+                            ],
+                            label: 'Judul',
+                            columns: 1,
+                        ),
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::textarea('subtitle', 'Subjudul', $locale, 3)
+                                    ->columnSpanFull(),
+                            ],
+                            label: 'Subjudul',
+                            columns: 1,
+                        ),
                         TextInput::make('link')
                             ->label('Tautan (opsional)')
                             ->helperText('Jika diisi, slide akan menjadi link yang bisa diklik.')

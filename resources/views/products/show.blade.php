@@ -25,7 +25,7 @@
             '@context' => 'https://schema.org',
             '@type' => 'Product',
             'name' => $product->name,
-            'description' => $product->description,
+            'description' => strip_tags($product->description),
             'image' => $product->main_image_url,
             'category' => $product->category_names,
         ];
@@ -60,10 +60,8 @@
 
             <div class="mt-12">
                 <h2 class="section-title">{{ __('products.description') }}</h2>
-                <div class="max-h-115 mt-6 overflow-y-auto pr-4 text-lg font-medium leading-relaxed text-zinc-700">
-                    @foreach (preg_split('/\R+/', $product->description) as $paragraph)
-                        <p class="mb-6 last:mb-0">{{ $paragraph }}</p>
-                    @endforeach
+                <div class="prose prose-lg prose-zinc mt-6 max-w-none">
+                    {!! $product->renderRichContent('description') !!}
                 </div>
             </div>
 

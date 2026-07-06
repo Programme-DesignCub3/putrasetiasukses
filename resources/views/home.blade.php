@@ -6,20 +6,23 @@
                     @foreach ($heroSlides as $slide)
                         <div class="swiper-slide">
                             @if ($slide['link'])
-                                <a href="{{ $slide['link'] }}"
-                                    class="home-hero-slide clamp-[min-h,240px,800px] flex items-center justify-center bg-cover bg-center px-4 text-center sm:px-5"
+                                <a class="home-hero-slide clamp-[min-h,240px,800px] flex items-center justify-center bg-cover bg-center px-4 text-center sm:px-5"
+                                    href="{{ $slide['link'] }}"
                                     style="background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),url('{{ $slide['image'] }}')">
                                     <div class="text-white drop-shadow-2xl">
                                         @if ($slide['label'])
                                             <p class="hero-slide-label text-xs font-black uppercase sm:text-sm">
-                                                {{ $slide['label'] }}</p>
+                                                {{ $slide['label'] }}
+                                            </p>
                                         @endif
                                         @if ($slide['title'])
                                             <p class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
-                                                {{ $slide['title'] }}</p>
+                                                {{ $slide['title'] }}
+                                            </p>
                                         @endif
                                         @if ($slide['subtitle'])
-                                            <p class="mt-3 text-sm font-black uppercase sm:text-lg">{{ $slide['subtitle'] }}
+                                            <p class="mt-3 text-sm font-black uppercase sm:text-lg">
+                                                {{ $slide['subtitle'] }}
                                             </p>
                                         @endif
                                     </div>
@@ -30,14 +33,17 @@
                                     <div class="text-white drop-shadow-2xl">
                                         @if ($slide['label'])
                                             <p class="hero-slide-label text-xs font-black uppercase sm:text-sm">
-                                                {{ $slide['label'] }}</p>
+                                                {{ $slide['label'] }}
+                                            </p>
                                         @endif
                                         @if ($slide['title'])
                                             <p class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
-                                                {{ $slide['title'] }}</p>
+                                                {{ $slide['title'] }}
+                                            </p>
                                         @endif
                                         @if ($slide['subtitle'])
-                                            <p class="mt-3 text-sm font-black uppercase sm:text-lg">{{ $slide['subtitle'] }}
+                                            <p class="mt-3 text-sm font-black uppercase sm:text-lg">
+                                                {{ $slide['subtitle'] }}
                                             </p>
                                         @endif
                                     </div>
@@ -80,8 +86,8 @@
                         @foreach ($testimonials as $testimonial)
                             <div class="swiper-slide">
                                 <figure class="bg-brand-red relative p-6 text-white shadow-lg sm:p-8">
-                                    <blockquote class="text-sm font-bold italic leading-relaxed sm:text-base">
-                                        "{{ $testimonial['content'] }}"
+                                    <blockquote class="prose prose-sm prose-invert max-w-none">
+                                        {!! $testimonial->renderRichContent('content') !!}
                                     </blockquote>
                                     <figcaption class="mt-6 text-sm font-bold">{{ $testimonial['name'] }}</figcaption>
                                     <span

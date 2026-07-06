@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Database\Factories\ProjectFactory;
+use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
+use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
+use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,7 +18,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
-class Project extends Model implements HasMedia, Sortable
+class Project extends Model implements HasMedia, HasRichContent, Sortable
 {
     /** @use HasFactory<ProjectFactory> */
     use HasFactory;
@@ -23,11 +26,14 @@ class Project extends Model implements HasMedia, Sortable
     use HasSlug;
     use HasTranslations;
     use InteractsWithMedia;
+    use InteractsWithRichContent;
     use SortableTrait;
 
     public const MainImageCollection = 'main_image';
 
     public const GalleryCollection = 'gallery';
+
+    public const BodyAttachmentCollection = 'project_body_attachments';
 
     /**
      * @var list<string>
@@ -106,12 +112,24 @@ class Project extends Model implements HasMedia, Sortable
         return (string) $this->category;
     }
 
+    protected function setUpRichContent(): void
+    {
+        $this->registerRichContent('description')
+            ->fileAttachmentProvider(
+                SpatieMediaLibraryFileAttachmentProvider::make()
+                    ->collection(self::BodyAttachmentCollection),
+            );
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::MainImageCollection)
             ->useDisk('public');
 
         $this->addMediaCollection(self::GalleryCollection)
+            ->useDisk('public');
+
+        $this->addMediaCollection(self::BodyAttachmentCollection)
             ->useDisk('public');
     }
 

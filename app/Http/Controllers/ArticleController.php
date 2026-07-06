@@ -20,12 +20,13 @@ class ArticleController extends Controller
             ->with(['categories', 'media'])
             ->where('is_published', true)
             ->latest('published_at')
-            ->take(6)
+            ->take(4)
             ->get();
 
         return view('articles.index', [
             'latestArticles' => $latestArticles,
-            'latestArticleIds' => $latestArticles->pluck('id')->all(),
+            // 'latestArticleIds' => $latestArticles->pluck('id')->all(),
+            'latestArticleIds' => [],
         ]);
     }
 

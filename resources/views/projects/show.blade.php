@@ -59,10 +59,8 @@
 
             <div class="mt-8">
                 <h2 class="section-title">{{ __('projects.description') }}</h2>
-                <div class="max-h-115 mt-6 overflow-y-auto pr-4 text-lg font-medium leading-relaxed text-zinc-700">
-                    @foreach (preg_split('/\R+/', $project->description) as $paragraph)
-                        <p class="mb-6 last:mb-0">{{ $paragraph }}</p>
-                    @endforeach
+                <div class="prose prose-lg prose-zinc mt-6 max-w-none">
+                    {!! $project->renderRichContent('description') !!}
                 </div>
             </div>
 

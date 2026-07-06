@@ -43,7 +43,7 @@ class ProductController extends Controller
 
         $metadata->build(
             title: $product->name.' - '.__('site.company_name'),
-            description: $product->description,
+            description: strip_tags($product->description),
             image: $product->main_image_url,
         );
 

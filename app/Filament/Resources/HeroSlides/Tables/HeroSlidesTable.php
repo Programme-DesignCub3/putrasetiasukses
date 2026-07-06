@@ -33,7 +33,9 @@ class HeroSlidesTable
                             return $filtered;
                         }
 
-                        return $media->filter(fn (Media $item): bool => $item->getCustomProperty('locale') === 'id');
+                        $fallback = $media->filter(fn (Media $item): bool => $item->getCustomProperty('locale') === 'id');
+
+                        return $fallback->isNotEmpty() ? $fallback : $media;
                     }),
                 TextColumn::make('label')
                     ->label('Label')

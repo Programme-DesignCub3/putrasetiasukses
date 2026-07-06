@@ -29,7 +29,7 @@ class TestimonialForm
                         ),
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
-                                FilamentTranslatableFields::textarea('content', 'Testimonial', $locale, 5)
+                                FilamentTranslatableFields::richEditor('content', 'Testimonial', $locale)
                                     ->columnSpanFull(),
                             ],
                             label: 'Testimonial',

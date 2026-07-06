@@ -16,8 +16,7 @@ export function initHeroSlider() {
         new Swiper(".home-hero", {
             modules: [Navigation, Pagination, Autoplay, EffectFade],
             loop: true,
-            // effect: "fade",
-            // fadeEffect: { crossFade: true },
+
             speed: 800,
             autoplay: {
                 delay: 5000,
@@ -27,10 +26,6 @@ export function initHeroSlider() {
                 nextEl: ".home-hero-button-next",
                 prevEl: ".home-hero-button-prev",
             },
-            // pagination: {
-            //     el: ".home-hero-pagination",
-            //     clickable: true,
-            // },
         });
     }
 }

@@ -73,7 +73,7 @@ class ProjectForm
                         ),
                         FilamentTranslatableFields::translate(
                             fn (string $locale): array => [
-                                FilamentTranslatableFields::textarea('description', 'Deskripsi', $locale, 8)
+                                FilamentTranslatableFields::richEditor('description', 'Deskripsi', $locale)
                                     ->columnSpanFull(),
                             ],
                             label: 'Deskripsi Project',

@@ -6,7 +6,7 @@
 
     $data = [
         '@context' => 'https://schema.org',
-        '@type' => 'Organization',
+        '@type' => ['Organization', 'LocalBusiness'],
         'name' => $companyName,
         'url' => url('/'),
         'email' => $email,

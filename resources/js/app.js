@@ -338,6 +338,32 @@ document.addEventListener("alpine:init", () => {
             this.observer?.disconnect();
         },
     }));
+
+    Alpine.data("heroSlider", () => ({
+        activeTitle: "",
+
+        init() {
+            const titles = [...this.$el.querySelectorAll("[data-hero-title]")].map(
+                (el) => el.textContent,
+            );
+
+            this.activeTitle = titles[0] ?? "";
+
+            const poll = () => {
+                const swiperEl = this.$el.querySelector(".home-hero");
+
+                if (swiperEl?.swiper) {
+                    swiperEl.swiper.on("slideChange", () => {
+                        this.activeTitle = titles[swiperEl.swiper.realIndex] ?? "";
+                    });
+                } else {
+                    setTimeout(poll, 100);
+                }
+            };
+
+            setTimeout(poll, 100);
+        },
+    }));
 });
 
 const hasSliders = () =>

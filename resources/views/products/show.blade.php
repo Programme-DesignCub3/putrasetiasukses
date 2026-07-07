@@ -28,6 +28,10 @@
             'description' => strip_tags($product->description),
             'image' => $product->main_image_url,
             'category' => $product->category_names,
+            'brand' => [
+                '@type' => 'Brand',
+                'name' => __('site.company_name'),
+            ],
         ];
     @endphp
     <script type="application/ld+json">{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}</script>

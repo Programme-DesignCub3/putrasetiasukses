@@ -18,6 +18,8 @@
         ];
     @endphp
 
+    {!! app(\App\Support\HreflangLinks::class)->render() !!}
+
     @metadata
 
     <x-seo.organization />

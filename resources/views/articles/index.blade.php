@@ -14,7 +14,7 @@
         <x-site.layout.page-hero :title="__('articles.title')" :image="asset('assets/home/sector-2.png')" />
 
         <x-site.layout.container class="clamp-[py,40px,56px]">
-            <x-site.section-heading :level="1" :label="__('articles.latest')" />
+            <x-site.section-heading :level="2" :label="__('articles.latest')" />
 
             <div class="relative mt-8" data-featured-articles>
                 <div class="featured-articles-swiper swiper">

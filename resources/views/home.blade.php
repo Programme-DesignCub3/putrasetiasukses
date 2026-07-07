@@ -1,6 +1,8 @@
 <x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased">
     <main>
-        <section class="relative -mt-1" id="beranda">
+        <section class="relative -mt-1" id="beranda" x-data="heroSlider()">
+            <h1 class="sr-only text-3xl font-black uppercase leading-none text-white sm:text-5xl" x-text="activeTitle"></h1>
+
             <div class="home-hero swiper">
                 <div class="swiper-wrapper">
                     @foreach ($heroSlides as $slide)
@@ -16,9 +18,10 @@
                                             </p>
                                         @endif
                                         @if ($slide['title'])
-                                            <p class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
+                                            <span class="mt-2 block text-3xl font-black uppercase leading-none sm:text-5xl"
+                                                data-hero-title>
                                                 {{ $slide['title'] }}
-                                            </p>
+                                            </span>
                                         @endif
                                         @if ($slide['subtitle'])
                                             <p class="mt-3 text-sm font-black uppercase sm:text-lg">
@@ -37,9 +40,10 @@
                                             </p>
                                         @endif
                                         @if ($slide['title'])
-                                            <p class="mt-2 text-3xl font-black uppercase leading-none sm:text-5xl">
+                                            <span class="mt-2 block text-3xl font-black uppercase leading-none sm:text-5xl"
+                                                data-hero-title>
                                                 {{ $slide['title'] }}
-                                            </p>
+                                            </span>
                                         @endif
                                         @if ($slide['subtitle'])
                                             <p class="mt-3 text-sm font-black uppercase sm:text-lg">

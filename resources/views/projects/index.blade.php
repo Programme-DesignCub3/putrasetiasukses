@@ -15,7 +15,7 @@
 
         <x-site.layout.container class="clamp-[py,48px,72px]">
             <div class="max-w-3xl">
-                <x-site.section-heading :level="1" :label="__('projects.title')" />
+                <x-site.section-heading :level="2" :label="__('projects.title')" />
                 <p class="mt-6 text-base font-semibold leading-relaxed text-zinc-600 sm:text-lg">
                     {{ __('projects.intro') }}
                 </p>

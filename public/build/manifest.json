@@ -1,0 +1,42 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-Chzw2JTD.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/assets/cta-bg.jpg": {
+    "file": "assets/cta-bg-DpzpAI4t.jpg",
+    "src": "resources/css/assets/cta-bg.jpg"
+  },
+  "resources/css/filament/admin/theme.css": {
+    "file": "assets/theme-BoaBPBGJ.css",
+    "src": "resources/css/filament/admin/theme.css",
+    "isEntry": true,
+    "name": "theme",
+    "names": [
+      "theme.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CtVZ35Z_.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/sliders.js"
+    ]
+  },
+  "resources/js/sliders.js": {
+    "file": "assets/sliders-Xa4ZzDIU.js",
+    "name": "sliders",
+    "src": "resources/js/sliders.js",
+    "isDynamicEntry": true,
+    "css": [
+      "assets/sliders-BVYAVZZL.css"
+    ]
+  }
+}

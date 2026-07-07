@@ -5,7 +5,7 @@ namespace App\Support;
 use Honeystone\Seo\Contracts\BuildsMetadata;
 use Honeystone\Seo\OpenGraph\ArticleProperties;
 use Honeystone\Seo\OpenGraph\ProfileProperties;
-use Illuminate\Support\Facades\App as Locale;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 class SeoMetadataBuilder
@@ -91,22 +91,12 @@ class SeoMetadataBuilder
     private function localizedUrlFor(string $locale): ?string
     {
         $route = request()->route();
-        $routeName = $route?->getName();
 
-        if (! $routeName) {
+        if (! $route || ! $route->getName()) {
             return null;
         }
 
-        $currentLocale = Locale::getLocale();
-        $parameters = $this->localizedParameters($route->parameters(), $locale);
-
-        try {
-            Locale::setLocale($locale);
-
-            return route($routeName, $parameters);
-        } finally {
-            Locale::setLocale($currentLocale);
-        }
+        return Route::localizedUrl($locale);
     }
 
     /**
@@ -199,24 +189,5 @@ class SeoMetadataBuilder
         }
 
         return (string) $value;
-    }
-
-    /**
-     * @param  array<string, mixed>  $parameters
-     * @return array<string, mixed>
-     */
-    private function localizedParameters(array $parameters, string $locale): array
-    {
-        $defaultLocale = config('localizer.geoip.fallback_locale', app()->getLocale());
-
-        if ($locale === $defaultLocale && config('localizer.hide_default_locale', false)) {
-            unset($parameters['locale']);
-
-            return $parameters;
-        }
-
-        $parameters['locale'] = $locale;
-
-        return $parameters;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ContactMessages\Tables;
 
 use App\Models\ContactMessage;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
@@ -10,7 +11,6 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
-use Filament\Actions\Action;
 
 class ContactMessagesTable
 {

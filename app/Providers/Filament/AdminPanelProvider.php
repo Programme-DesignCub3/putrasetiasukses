@@ -19,6 +19,8 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Prunacatalin\FilamentLocaleSwitcher\Http\Middleware\ApplyLocale;
+use Prunacatalin\FilamentLocaleSwitcher\LocaleSwitchPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -52,10 +54,12 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 BotlyPlugin::make(),
                 BenriadhFilamentTranslationManagerPlugin::make(),
-                FilamentLanguageSwitcherPlugin::make()
-                    ->locales(['id', 'en', 'zh'])
-                    ->rememberLocale(days: 30)
-                    ->showOnAuthPages(),
+                LocaleSwitchPlugin::make()
+                    ->locales(['id', 'en', 'zh']),
+                // FilamentLanguageSwitcherPlugin::make()
+                //     ->locales(['id', 'en', 'zh'])
+                //     ->rememberLocale(days: 30)
+                //     ->showOnAuthPages(),
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
@@ -71,6 +75,8 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                ApplyLocale::class,
+
             ])
             ->authMiddleware([
                 Authenticate::class,

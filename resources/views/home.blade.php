@@ -63,17 +63,18 @@
         </section>
 
         <section class="brand-panel clamp-[py,48px,56px] relative z-10 px-4 text-white sm:-mt-16 sm:px-5 lg:px-8">
-            <div class="mx-auto grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4" x-data="staggerFade">
+            <x-site.layout.container class="mx-auto grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4" as="div"
+                x-data="staggerFade">
                 @foreach ($advantages as $advantage)
                     <x-home.advantage-card :icon="$advantage['icon']" :title="$advantage['title']" :copy="$advantage['copy']" />
                 @endforeach
-            </div>
+            </x-site.layout.container>
         </section>
 
         <section class="grid lg:grid-cols-3" id="produk" x-data="staggerFade({ duration: 0.5 })">
             @foreach ($sectors as $sector)
                 <x-home.sector-card style="background-image: url('assets/home/{{ $sector['image'] }}')"
-                    :title="$sector['title']" :copy="$sector['copy']" />
+                    :title="$sector['title']" :copy="$sector['copy']" :icon="$sector['icon']" />
             @endforeach
         </section>
 

@@ -13,7 +13,9 @@
                         @click="open($el.firstElementChild, {{ $loop->index }})">
                         <img class="aspect-4/3 w-full object-cover" src="{{ $image['url'] }}"
                             alt="{{ $image['alt'] ?? $name }}"
-                            @if ($loop->first && $firstImageTransitionName) style="view-transition-name: {{ $firstImageTransitionName }}" @endif>
+                            @style([
+                                'view-transition-name: ' . $firstImageTransitionName => $loop->first && $firstImageTransitionName,
+                            ])>
                     </button>
                 </div>
             @endforeach

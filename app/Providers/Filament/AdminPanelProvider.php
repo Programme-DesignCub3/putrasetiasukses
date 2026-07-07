@@ -4,7 +4,6 @@ namespace App\Providers\Filament;
 
 use Awcodes\Botly\BotlyPlugin;
 use Benriadh1\FilamentTranslationManager\BenriadhFilamentTranslationManagerPlugin;
-use CraftForge\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;

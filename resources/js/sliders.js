@@ -148,3 +148,35 @@ export function initFeaturedArticlesSlider() {
         },
     });
 }
+
+export function initCategorySlider() {
+    const container = document.querySelector("[data-category-slider]");
+
+    if (!container) return;
+
+    const swiperEl = container.querySelector(".category-slider-swiper");
+
+    if (!swiperEl) return;
+
+    if (swiperEl.swiper) {
+        swiperEl.swiper.destroy(true, true);
+    }
+
+    new Swiper(swiperEl, {
+        modules: [Navigation],
+        slidesPerView: 1.3,
+        spaceBetween: 12,
+        navigation: {
+            nextEl: container.querySelector(".slider-nav-next"),
+            prevEl: container.querySelector(".slider-nav-prev"),
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2.1,
+            },
+            1024: {
+                slidesPerView: 3.2,
+            },
+        },
+    });
+}

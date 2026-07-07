@@ -352,6 +352,8 @@ return [
             'status' => 'Read status',
             'read_true' => 'Read',
             'read_false' => 'Unread',
+            'mark_read' => 'Mark as read',
+            'mark_unread' => 'Mark as unread',
         ],
         'relation_manager' => [
             'article' => [

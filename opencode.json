@@ -9,14 +9,6 @@
                 "artisan",
                 "boost:mcp"
             ]
-        },
-        "motion-dev": {
-            "type": "local",
-            "enabled": true,
-            "command": [
-                "node",
-                "C:\\Users\\fsgha\\AppData\\Local\\Temp\\opencode\\motion-dev-mcp\\dist\\index.js"
-            ]
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ContactMessages\Tables;
 
+use App\Models\ContactMessage;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
@@ -9,6 +10,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Filament\Actions\Action;
 
 class ContactMessagesTable
 {
@@ -46,6 +48,16 @@ class ContactMessagesTable
             ])
             ->defaultSort('created_at', 'desc')
             ->recordActions([
+                Action::make('toggleRead')
+                    ->label(fn (ContactMessage $record): string => filled($record->read_at)
+                        ? __('admin.table.contact_message.mark_unread')
+                        : __('admin.table.contact_message.mark_read'))
+                    ->icon(fn (ContactMessage $record): string => filled($record->read_at)
+                        ? 'heroicon-o-envelope'
+                        : 'heroicon-o-envelope-open')
+                    ->action(fn (ContactMessage $record) => $record->update([
+                        'read_at' => filled($record->read_at) ? null : now(),
+                    ])),
                 ViewAction::make(),
             ])
             ->toolbarActions([

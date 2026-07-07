@@ -348,10 +348,12 @@ return [
             'phone' => '电话',
             'subject' => '主题',
             'read' => '已读',
-            'received' => '已接收',
+            'received' => '收到时间',
             'status' => '阅读状态',
             'read_true' => '已读',
             'read_false' => '未读',
+            'mark_read' => '标记为已读',
+            'mark_unread' => '标记为未读',
         ],
         'relation_manager' => [
             'article' => [

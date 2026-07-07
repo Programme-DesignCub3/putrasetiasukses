@@ -6,7 +6,10 @@
     'colSpan' => null,
 ])
 
-<label class="block text-sm font-bold {{ $colSpan ? "{$colSpan}" : '' }}">
+<label @class([
+    'block text-sm font-bold',
+    $colSpan => (bool) $colSpan,
+])>
     {{ $label }}
     <textarea
         class="mt-2 w-full bg-zinc-200 px-4 py-3 text-black"

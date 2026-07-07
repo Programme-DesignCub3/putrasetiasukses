@@ -15,4 +15,11 @@ class ViewContactMessage extends ViewRecord
     {
         return ContactMessageInfolist::configure($schema);
     }
+
+    protected function afterMount(): void
+    {
+        if ($this->record->read_at === null) {
+            $this->record->update(['read_at' => now()]);
+        }
+    }
 }

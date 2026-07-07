@@ -64,11 +64,13 @@ class HomeController extends Controller
     private function sectors(): array
     {
         $images = ['sector-1.png', 'sector-2.png', 'sector-3.png'];
+        $icons = ['building-2', 'factory', 'warehouse'];
 
-        return array_map(fn (int $i, string $image): array => [
+        return array_map(fn (int $i, string $image, string $icon): array => [
             'title' => __("home.sector_{$i}_title"),
             'copy' => __("home.sector_{$i}_copy"),
             'image' => $image,
-        ], range(1, 3), $images);
+            'icon' => $icon,
+        ], range(1, 3), $images, $icons);
     }
 }

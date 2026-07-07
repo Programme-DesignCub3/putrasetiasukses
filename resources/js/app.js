@@ -348,6 +348,7 @@ const hasSliders = () =>
             ".home-partners-swiper",
             "[data-gallery]",
             "[data-featured-articles]",
+            "[data-category-slider]",
         ].join(","),
     );
 
@@ -358,6 +359,7 @@ if (hasSliders()) {
             initHomeSliders,
             initProductGalleries,
             initFeaturedArticlesSlider,
+            initCategorySlider,
         }) => {
             const run = () => {
                 initHeroSlider();
@@ -366,11 +368,45 @@ if (hasSliders()) {
                 initFeaturedArticlesSlider();
             };
 
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", run);
-            } else {
+            const initAll = () => {
                 run();
+                initCategorySlider();
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initAll);
+            } else {
+                initAll();
             }
+
+            let categorySliderIndex = null;
+
+            const setupCategorySliderHook = () => {
+                if (window.Livewire?.hook) {
+                    window.Livewire.hook('morph.updating', ({ component }) => {
+                        if (component.el?.querySelector('[data-category-slider]')) {
+                            const swiperEl = component.el.querySelector('.category-slider-swiper');
+                            if (swiperEl?.swiper) {
+                                categorySliderIndex = swiperEl.swiper.realIndex;
+                            }
+                        }
+                    });
+
+                    window.Livewire.hook('morph.updated', ({ component }) => {
+                        if (component.el?.querySelector('[data-category-slider]')) {
+                            initCategorySlider();
+                            const swiperEl = component.el.querySelector('.category-slider-swiper');
+                            if (swiperEl?.swiper && categorySliderIndex !== null) {
+                                swiperEl.swiper.slideTo(categorySliderIndex, 0);
+                            }
+                        }
+                    });
+                } else {
+                    setTimeout(setupCategorySliderHook, 50);
+                }
+            };
+
+            setupCategorySliderHook();
         },
     );
 }

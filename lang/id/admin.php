@@ -348,10 +348,12 @@ return [
             'phone' => 'Telepon',
             'subject' => 'Subjek',
             'read' => 'Dibaca',
-            'received' => 'Masuk',
+            'received' => 'Diterima',
             'status' => 'Status baca',
             'read_true' => 'Sudah dibaca',
             'read_false' => 'Belum dibaca',
+            'mark_read' => 'Tandai sudah dibaca',
+            'mark_unread' => 'Tandai belum dibaca',
         ],
         'relation_manager' => [
             'article' => [

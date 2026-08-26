@@ -38,43 +38,44 @@
 @endpush
 
 @php
-    $productGallery = $productImages->map(fn($img) => [
-        'url' => $img['url'],
-        'alt' => $img['alt'] ?? $product->name,
-    ]);
+    $productGallery = $productImages->map(
+        fn($img) => [
+            'url' => $img['url'],
+            'alt' => $img['alt'] ?? $product->name,
+        ],
+    );
 @endphp
 
-<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products"
-    x-data="galleryLightbox({ images: {{ Illuminate\Support\Js::from($productGallery) }} })">
-    <main class="clamp-[py,4px,80px] mx-auto max-w-7xl px-4 sm:px-5 lg:px-8">
-        <a href="{{ route('products.index') }}"
-            class="mb-6 inline-flex items-center gap-2 text-sm font-bold uppercase text-brand-red hover:text-brand-red-dark transition">
+<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products" x-data="galleryLightbox({ images: {{ Illuminate\Support\Js::from($productGallery) }} })">
+    <x-site.layout.container class="clamp-[py,4px,80px] px-4">
+        <a class="text-brand-red hover:text-brand-red-dark mb-6 inline-flex items-center gap-2 text-sm font-bold uppercase transition"
+            href="{{ route('products.index') }}">
             <x-lucide-arrow-left class="size-4" stroke-width="3" />
             {{ __('site.back') }}
         </a>
 
         <div class="grid gap-10 lg:grid-cols-2">
-        <x-site.gallery-slider class="max-lg:max-w-[95vw]" :images="$productImages" :name="$product->name"
-            firstImageTransitionName="product-image-{{ $product->id }}" />
-        <x-site.gallery-lightbox />
+            <x-site.gallery-slider class="max-lg:max-w-[95vw]" :images="$productImages" :name="$product->name"
+                firstImageTransitionName="product-image-{{ $product->id }}" />
+            <x-site.gallery-lightbox />
 
-        <section class="flex flex-col">
-            <p class="text-brand-red-dark text-2xl font-black">{{ $product->category_names }}</p>
-            <h1 class="mt-3 text-5xl font-black leading-none text-black sm:text-6xl">{{ $product->name }}</h1>
+            <section class="flex flex-col">
+                <p class="text-brand-red-dark text-2xl font-black">{{ $product->category_names }}</p>
+                <h1 class="mt-3 text-5xl font-black leading-none text-black sm:text-6xl">{{ $product->name }}</h1>
 
-            <div class="mt-12">
-                <h2 class="section-title">{{ __('products.description') }}</h2>
-                <div class="prose prose-lg prose-zinc mt-6 max-w-none">
-                    {!! $product->renderRichContent('description') !!}
+                <div class="mt-12">
+                    <h2 class="section-title">{{ __('products.description') }}</h2>
+                    <div class="prose prose-lg prose-zinc mt-6 max-w-none">
+                        {!! $product->renderRichContent('description') !!}
+                    </div>
                 </div>
-            </div>
 
-            <a class="bg-brand-red hover:bg-brand-red-dark mt-10 inline-flex w-full max-w-xl items-center justify-center gap-4 rounded-full px-8 py-5 text-2xl font-black uppercase text-white transition"
-                href="{{ route('contact') }}">
-                <x-lucide-phone class="h-8 w-8" />
-                {{ __('products.order') }}
-            </a>
-        </section>
+                <a class="bg-brand-red hover:bg-brand-red-dark mt-10 inline-flex w-full max-w-[1556px] max-w-xl items-center justify-center gap-4 rounded-full px-8 py-5 text-2xl font-black uppercase text-white transition"
+                    href="{{ route('contact') }}">
+                    <x-lucide-phone class="h-8 w-8" />
+                    {{ __('products.order') }}
+                </a>
+            </section>
         </div>
-    </main>
+    </x-site.layout.container>
 </x-app>

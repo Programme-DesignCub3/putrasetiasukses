@@ -17,6 +17,9 @@
     --color-brand-red-dark: #870000;
     --color-brand-ink: #171717;
     --color-brand-steel: #5f6872;
+
+    --shadow-top:
+        0px 5px 20px 0px rgb(0 0 0 / 0.35), 0px 5px 40px 0px rgb(8 8 8 / 0.15);
 }
 
 @view-transition {
@@ -217,7 +220,9 @@
         margin: 0;
         background: rgba(255, 255, 255, 0.6);
         opacity: 1;
-        transition: background-color 200ms ease, width 200ms ease;
+        transition:
+            background-color 200ms ease,
+            width 200ms ease;
         border-radius: 9999px;
         cursor: pointer;
     }

@@ -71,6 +71,20 @@ export function initHomeSliders() {
     }
 }
 
+export function initAboutSlider() {
+    if (document.querySelector(".gallery-slider")) {
+        new Swiper(".gallery-slider", {
+            modules: [Navigation, EffectFade],
+            loop: true,
+
+            navigation: {
+                nextEl: ".gallery-slider-button-next",
+                prevEl: ".gallery-slider-button-prev",
+            },
+        });
+    }
+}
+
 export function initProductGalleries() {
     document.querySelectorAll("[data-gallery]").forEach((gallery) => {
         const mainElement = gallery.querySelector(".gallery-main");

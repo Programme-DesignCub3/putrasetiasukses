@@ -1,0 +1,65 @@
+@props(['data'])
+
+@php
+    $aboutGallery = collect($data)
+        ->map(fn($url) => ['url' => Storage::url($url), 'alt' => 'Galeri material baja'])
+        ->values();
+
+    $aboutGalleryJson = Illuminate\Support\Js::from($aboutGallery);
+@endphp
+
+<div
+    class="clamp-[px,48px,64px] clamp-[py,12px,24px] shadow-top grid grid-cols-[1fr_40%] content-center items-center gap-4 rounded-2xl">
+
+    <div class="text-brand-red uppercase">
+        <h2 class="clamp-[text,2xl,4xl] font-bold">Our Gallery</h2>
+        <p class="clamp-[text,lg,xl]">More Than Steel, We Deliver Confidence</p>
+    </div>
+
+    <div class="clamp-[pr,12,24]" x-data="aboutGallery({ images: {{ $aboutGalleryJson }} })">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            @foreach ($aboutGallery as $index => $image)
+                <button class="cursor-pointer overflow-clip rounded-xl" type="button"
+                    @click="open($el.firstElementChild, {{ $index }})">
+                    <img class="aspect-square w-full object-cover" src="{{ $image['url'] }}" alt="{{ $image['alt'] }}"
+                        loading="lazy" decoding="async">
+                </button>
+            @endforeach
+        </div>
+
+        <div class="about-lb-overlay fixed inset-0 z-50 items-center justify-center bg-black/80" @click.self="close">
+            <div class="z-1 relative flex max-h-[90vh] max-w-[95vw] items-center justify-center">
+                <button
+                    class="absolute -right-3 -top-3 z-10 flex size-9 items-center justify-center rounded-full bg-white text-gray-800 shadow-lg hover:bg-gray-100"
+                    type="button" @click="close">
+                    <x-lucide-x class="size-4" stroke-width="3" />
+                </button>
+                <img class="about-lb-image max-h-[90vh] max-w-[95vw] rounded object-contain drop-shadow-2xl"
+                    src="" alt="">
+            </div>
+            <template x-if="images.length > 1">
+                <div class="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+                    <template x-for="(image, i) in images" :key="i">
+                        <button class="size-2.5 rounded-full transition"
+                            x-bind:class="i === currentIndex ? 'bg-white' : 'bg-white/40'" type="button"
+                            @click="goTo(i)"></button>
+                    </template>
+                </div>
+            </template>
+            <template x-if="images.length > 1">
+                <button
+                    class="absolute left-4 top-1/2 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-800 shadow-lg hover:bg-white"
+                    type="button" @click="prev">
+                    <x-lucide-chevron-left class="size-6" stroke-width="2.5" />
+                </button>
+            </template>
+            <template x-if="images.length > 1">
+                <button
+                    class="absolute right-4 top-1/2 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-800 shadow-lg hover:bg-white"
+                    type="button" @click="next">
+                    <x-lucide-chevron-right class="size-6" stroke-width="2.5" />
+                </button>
+            </template>
+        </div>
+    </div>
+</div>

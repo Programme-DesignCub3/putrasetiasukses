@@ -3,7 +3,7 @@
 @php
     $src = match ($variant) {
         'white' => 'assets/logo-white-text.png',
-        default => 'assets/logo.png',
+        default => 'assets/logo-simbol-stroke.png',
     };
 @endphp
 

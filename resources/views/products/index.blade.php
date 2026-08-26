@@ -11,7 +11,7 @@
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
     <main>
-        <x-site.layout.page-hero :title="__('products.title')" :image="asset('assets/product-hero.png')" />
+        {{-- <x-site.layout.page-hero :title="__('products.title')" :image="asset('assets/product-hero.png')" /> --}}
 
         <x-site.layout.container>
 
@@ -33,14 +33,17 @@
                 $faqSchema = [
                     '@context' => 'https://schema.org',
                     '@type' => 'FAQPage',
-                    'mainEntity' => array_map(fn($faq) => [
-                        '@type' => 'Question',
-                        'name' => $faq['question'],
-                        'acceptedAnswer' => [
-                            '@type' => 'Answer',
-                            'text' => $faq['answer'],
+                    'mainEntity' => array_map(
+                        fn($faq) => [
+                            '@type' => 'Question',
+                            'name' => $faq['question'],
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => $faq['answer'],
+                            ],
                         ],
-                    ], $faqs),
+                        $faqs,
+                    ),
                 ];
             @endphp
             <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}</script>

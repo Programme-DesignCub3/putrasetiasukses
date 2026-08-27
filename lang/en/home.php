@@ -5,6 +5,7 @@ return [
     'hero_subtitle' => 'Black Plate - White Plate - Galvanized Plate',
     'testimonial_title' => 'Testimonials',
     'partners_title' => 'Our Partners',
+    'projects_title' => 'Our Projects',
     'advantage_1_title' => 'Trusted Stockist & Distributor',
     'advantage_1_copy' => 'We ensure plate stock availability is always maintained to meet customer needs.',
     'advantage_2_title' => 'Competitive Pricing',

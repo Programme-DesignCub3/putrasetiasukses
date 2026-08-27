@@ -1,4 +1,4 @@
-import { animate, animateView, inView, stagger, spring } from "motion";
+import { animate, animateView, inView, spring, stagger } from "motion";
 import "./bootstrap";
 
 const COOKIE_CONSENT_KEY = "pssb_cookie_consent_v1";
@@ -86,7 +86,8 @@ document.addEventListener("alpine:init", () => {
         init() {
             const fromY = keyframes.y?.[0] ?? 24;
             const rect = this.$el.getBoundingClientRect();
-            const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+            const isInViewport =
+                rect.top < window.innerHeight && rect.bottom > 0;
 
             if (isInViewport) {
                 return;
@@ -117,7 +118,13 @@ document.addEventListener("alpine:init", () => {
                 () => {
                     const children = [...this.$el.children];
 
-                    if (children.every((child) => parseFloat(getComputedStyle(child).opacity) > 0.9)) {
+                    if (
+                        children.every(
+                            (child) =>
+                                parseFloat(getComputedStyle(child).opacity) >
+                                0.9,
+                        )
+                    ) {
                         return;
                     }
 
@@ -125,7 +132,7 @@ document.addEventListener("alpine:init", () => {
                         children,
                         { opacity: [0, 1], y: [50, 0] },
                         {
-                            delay: stagger(0.10, { ease: "easeIn" }),
+                            delay: stagger(0.1, { ease: "easeIn" }),
                             ...options,
                         },
                     );
@@ -161,9 +168,12 @@ document.addEventListener("alpine:init", () => {
             this.activeThumb = thumbEl;
             this.currentIndex = index;
 
-            animateView(() => {
-                this.isOpen = true;
-            }, { type: spring, duration: 0.5, bounce: 0.15 }).add(thumbEl, ".lightbox-image");
+            animateView(
+                () => {
+                    this.isOpen = true;
+                },
+                { type: spring, duration: 0.5, bounce: 0.15 },
+            ).add(thumbEl, ".lightbox-image");
         },
 
         close() {
@@ -172,9 +182,12 @@ document.addEventListener("alpine:init", () => {
             this.panX = 0;
             this.panY = 0;
 
-            animateView(() => {
-                this.isOpen = false;
-            }, { type: spring, duration: 0.5, bounce: 0.15 }).add(".lightbox-image", thumb);
+            animateView(
+                () => {
+                    this.isOpen = false;
+                },
+                { type: spring, duration: 0.5, bounce: 0.15 },
+            ).add(".lightbox-image", thumb);
         },
 
         next() {
@@ -186,7 +199,8 @@ document.addEventListener("alpine:init", () => {
 
         prev() {
             this.currentIndex =
-                (this.currentIndex - 1 + this.images.length) % this.images.length;
+                (this.currentIndex - 1 + this.images.length) %
+                this.images.length;
             this.scale = 1;
             this.panX = 0;
             this.panY = 0;
@@ -260,25 +274,49 @@ document.addEventListener("alpine:init", () => {
             img.src = this.currentImage.url;
             img.alt = this.currentImage.alt;
 
-            animateView(() => {
-                overlay.classList.add("is-open");
-                this.isOpen = true;
-            }, { type: spring, duration: 0.5, bounce: 0.15 }).add(thumbEl, ".about-lb-image");
+            const swiper = document.querySelector(".gallery-slider")?.swiper;
+            if (swiper?.autoplay) swiper.autoplay.stop();
+
+            animateView(
+                () => {
+                    overlay.classList.add("is-open");
+                    this.isOpen = true;
+                },
+                { type: spring, duration: 0.5, bounce: 0.15 },
+            ).add(thumbEl, ".about-lb-image");
         },
 
         close() {
             const thumb = this.thumbs[this.currentIndex] ?? this.activeThumb;
             const overlay = document.querySelector(".about-lb-overlay");
+            const swiperEl = document.querySelector(".gallery-slider");
+            const swiper = swiperEl?.swiper;
+            const targetSlide = Math.floor(this.currentIndex / 8);
 
-            animateView(() => {
-                overlay.classList.remove("is-open");
-                this.isOpen = false;
-            }, { type: spring, duration: 0.5, bounce: 0.15 }).add(".about-lb-image", thumb);
+            const doClose = () => {
+                animateView(
+                    () => {
+                        overlay.classList.remove("is-open");
+                        this.isOpen = false;
+                    },
+                    { type: spring, duration: 0.5, bounce: 0.15 },
+                ).add(".about-lb-image", thumb);
+
+                if (swiper?.autoplay) swiper.autoplay.start();
+            };
+
+            if (swiper && swiper.activeIndex !== targetSlide) {
+                swiper.slideTo(targetSlide);
+                swiper.once("transitionEnd", doClose);
+            } else {
+                doClose();
+            }
         },
 
         next() {
             this.currentIndex = (this.currentIndex + 1) % this.images.length;
-            this.activeThumb = this.thumbs[this.currentIndex] ?? this.activeThumb;
+            this.activeThumb =
+                this.thumbs[this.currentIndex] ?? this.activeThumb;
 
             const overlay = document.querySelector(".about-lb-overlay");
             const img = overlay.querySelector(".about-lb-image");
@@ -287,8 +325,11 @@ document.addEventListener("alpine:init", () => {
         },
 
         prev() {
-            this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-            this.activeThumb = this.thumbs[this.currentIndex] ?? this.activeThumb;
+            this.currentIndex =
+                (this.currentIndex - 1 + this.images.length) %
+                this.images.length;
+            this.activeThumb =
+                this.thumbs[this.currentIndex] ?? this.activeThumb;
 
             const overlay = document.querySelector(".about-lb-overlay");
             const img = overlay.querySelector(".about-lb-image");
@@ -314,7 +355,13 @@ document.addEventListener("alpine:init", () => {
         ready: false,
 
         init() {
-            inView(this.$el, () => { this.ready = true; }, { amount: 0.15 });
+            inView(
+                this.$el,
+                () => {
+                    this.ready = true;
+                },
+                { amount: 0.15 },
+            );
 
             this.observer = new MutationObserver(() => {
                 if (!this.ready) return;
@@ -326,7 +373,7 @@ document.addEventListener("alpine:init", () => {
                     children,
                     { opacity: [0, 1], y: [50, 0] },
                     {
-                        delay: stagger(0.10, { ease: "easeIn" }),
+                        delay: stagger(0.1, { ease: "easeIn" }),
                         ...options,
                     },
                 );
@@ -343,9 +390,9 @@ document.addEventListener("alpine:init", () => {
         activeTitle: "",
 
         init() {
-            const titles = [...this.$el.querySelectorAll("[data-hero-title]")].map(
-                (el) => el.textContent,
-            );
+            const titles = [
+                ...this.$el.querySelectorAll("[data-hero-title]"),
+            ].map((el) => el.textContent);
 
             this.activeTitle = titles[0] ?? "";
 
@@ -354,7 +401,8 @@ document.addEventListener("alpine:init", () => {
 
                 if (swiperEl?.swiper) {
                     swiperEl.swiper.on("slideChange", () => {
-                        this.activeTitle = titles[swiperEl.swiper.realIndex] ?? "";
+                        this.activeTitle =
+                            titles[swiperEl.swiper.realIndex] ?? "";
                     });
                 } else {
                     setTimeout(poll, 100);
@@ -372,9 +420,11 @@ const hasSliders = () =>
             ".home-hero",
             ".home-testimonials-swiper",
             ".home-partners-swiper",
+            ".gallery-slider",
             "[data-gallery]",
             "[data-featured-articles]",
             "[data-category-slider]",
+            "[data-home-projects]",
         ].join(","),
     );
 
@@ -383,15 +433,19 @@ if (hasSliders()) {
         ({
             initHeroSlider,
             initHomeSliders,
+            initAboutSlider,
             initProductGalleries,
             initFeaturedArticlesSlider,
             initCategorySlider,
+            initHomeProjectSlider,
         }) => {
             const run = () => {
                 initHeroSlider();
                 initHomeSliders();
+                initAboutSlider();
                 initProductGalleries();
                 initFeaturedArticlesSlider();
+                initHomeProjectSlider();
             };
 
             const initAll = () => {
@@ -409,20 +463,35 @@ if (hasSliders()) {
 
             const setupCategorySliderHook = () => {
                 if (window.Livewire?.hook) {
-                    window.Livewire.hook('morph.updating', ({ component }) => {
-                        if (component.el?.querySelector('[data-category-slider]')) {
-                            const swiperEl = component.el.querySelector('.category-slider-swiper');
+                    window.Livewire.hook("morph.updating", ({ component }) => {
+                        if (
+                            component.el?.querySelector(
+                                "[data-category-slider]",
+                            )
+                        ) {
+                            const swiperEl = component.el.querySelector(
+                                ".category-slider-swiper",
+                            );
                             if (swiperEl?.swiper) {
                                 categorySliderIndex = swiperEl.swiper.realIndex;
                             }
                         }
                     });
 
-                    window.Livewire.hook('morph.updated', ({ component }) => {
-                        if (component.el?.querySelector('[data-category-slider]')) {
+                    window.Livewire.hook("morph.updated", ({ component }) => {
+                        if (
+                            component.el?.querySelector(
+                                "[data-category-slider]",
+                            )
+                        ) {
                             initCategorySlider();
-                            const swiperEl = component.el.querySelector('.category-slider-swiper');
-                            if (swiperEl?.swiper && categorySliderIndex !== null) {
+                            const swiperEl = component.el.querySelector(
+                                ".category-slider-swiper",
+                            );
+                            if (
+                                swiperEl?.swiper &&
+                                categorySliderIndex !== null
+                            ) {
                                 swiperEl.swiper.slideTo(categorySliderIndex, 0);
                             }
                         }

@@ -69,77 +69,123 @@
             </div>
         </section>
 
-        <section class="brand-panel clamp-[py,48px,56px] relative z-10 px-4 text-white sm:-mt-16 sm:px-5 lg:px-8">
-            <x-site.layout.container class="mx-auto grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4" as="div"
-                x-data="staggerFade">
-                @foreach ($advantages as $advantage)
-                    <x-home.advantage-card :icon="$advantage['icon']" :title="$advantage['title']" :copy="$advantage['copy']" />
-                @endforeach
-            </x-site.layout.container>
-        </section>
-
-        <section class="grid lg:grid-cols-3" id="produk" x-data="staggerFade({ duration: 0.5 })">
-            @foreach ($sectors as $sector)
-                <x-home.sector-card style="background-image: url('assets/home/{{ $sector['image'] }}')"
-                    :title="$sector['title']" :copy="$sector['copy']" :icon="$sector['icon']" />
-            @endforeach
-        </section>
-
-        <x-site.layout.container class="clamp-[py,56px,64px] grid gap-12 overflow-hidden lg:grid-cols-2"
-            id="tentang-kami">
-            <div class="min-w-0">
-                <x-site.section-heading :label="__('home.testimonial_title')" />
-                <div class="home-slider home-testimonials-swiper swiper mt-8 overflow-hidden">
-                    <div class="swiper-wrapper">
-                        @foreach ($testimonials as $testimonial)
-                            <div class="swiper-slide">
-                                <figure class="bg-brand-red relative p-6 text-white shadow-lg sm:p-8">
-                                    <blockquote class="prose prose-sm prose-invert max-w-none">
-                                        {!! $testimonial->renderRichContent('content') !!}
-                                    </blockquote>
-                                    <figcaption class="mt-6 text-sm font-bold">{{ $testimonial['name'] }}</figcaption>
-                                    <span
-                                        class="-bottom-7.5 border-b-30 border-r-30 absolute left-0 z-0 inline-block h-0 w-0 border-l-0 border-t-0 border-solid border-b-transparent border-l-transparent border-r-[#590802] border-t-transparent"></span>
-                                </figure>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="home-swiper-pagination home-testimonials-pagination mt-9"></div>
-                </div>
-            </div>
-
-            <div class="min-w-0 lg:px-8">
-                <x-site.section-heading :label="__('home.partners_title')" />
-                <div class="relative mt-8">
-                    <div class="home-slider home-partners-swiper swiper overflow-hidden border border-zinc-300">
-                        <div class="swiper-wrapper">
-                            @foreach ($partners as $partner)
-                                <div class="swiper-slide">
-                                    <div
-                                        class="flex min-h-44 flex-col items-center justify-center border-zinc-300 p-8 sm:min-h-52">
-                                        @if ($partner['logo'])
-                                            <img class="object-contain" src="{{ $partner['logo'] }}"
-                                                alt="{{ $partner['name'] }}">
-                                        @else
-                                            <span
-                                                class="mt-3 text-center text-xs font-black uppercase text-zinc-700 sm:text-sm">{{ $partner['name'] }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="mt-6 flex items-center justify-center gap-3">
-                        {{-- <button class="home-swiper-button home-partners-prev" type="button" aria-label="Partner sebelumnya"></button> --}}
-                        <div class="home-swiper-pagination home-partners-pagination"></div>
-                        {{-- <button class="home-swiper-button home-partners-next" type="button" aria-label="Partner berikutnya"></button> --}}
-                    </div>
+        <x-site.layout.container class="text-center">
+            <div class="flex flex-col justify-center">
+                <div class="mt-8 text-base leading-relaxed">
+                    {!! __('about.section-1') !!}
                 </div>
             </div>
         </x-site.layout.container>
 
-        <x-site.layout.container class="clamp-[pb,56px,64px]" id="kontak" as="section">
-            <x-site.cta-strip />
+        <x-site.layout.container class="clamp-[my,8,16] grid max-w-6xl gap-10 md:grid-cols-2">
+            <x-about.visi-misi :title="__('about.vision.title')" :content="__('about.vision.content')" />
+            <x-about.visi-misi :title="__('about.mission.title')" :content="__('about.mission.content')" />
+        </x-site.layout.container>
+
+
+        <section class="bg-brand-red my-12 py-8">
+            <x-site.layout.container class="bg-brand-red" as="div">
+                <x-site.section-heading label="OUR ADVANTAGES"
+                    subtitle="Why Customers Choose PT Putra Setia Sukses
+                    Bersama" />
+
+                <div class="my-4 grid gap-4 pt-8 md:grid-cols-2">
+                    @foreach ($advantages as $advantage)
+                        <div class="flex items-center gap-4 rounded-xl bg-white p-5 py-4">
+
+                            <div class="bg-brand-red rounded-lg p-2 text-white">
+                                <x-dynamic-component class="size-6 fill-white"
+                                    component="lucide-{{ $advantage['icon'] }}" />
+                            </div>
+
+                            <div class="text-brand-red">
+                                <h3 class="text-lg font-bold">{{ $advantage['title'] }}</h3>
+                                <p>{{ $advantage['copy'] }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+            </x-site.layout.container>
+        </section>
+
+        <x-site.layout.container class="my-12">
+            <livewire:product-list :compact="true" />
+        </x-site.layout.container>
+
+        @if ($partners->isNotEmpty())
+            <x-site.layout.container class="my-12 flex flex-col gap-4">
+                <x-site.section-heading label="{{ __('home.partners_title') }}" titleClass="text-brand-red" />
+
+                <div class="home-partners-swiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($partners as $partner)
+                            <div class="swiper-slide hover:[&_img]:opacity-100">
+                                <div
+                                    class="hover:shadow-3xl flex aspect-square items-center justify-center shadow-xl transition">
+                                    <img class="max-h-48 w-auto object-contain opacity-70 transition duration-500"
+                                        src="{{ $partner->logo }}" alt="{{ $partner->name }}">
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </x-site.layout.container>
+        @endif
+
+        <x-site.layout.container>
+            <x-about.section.gallery :data="$aboutPage['gallery_images'] ?? []" />
+        </x-site.layout.container>
+
+        @if ($projects->isNotEmpty())
+            <x-site.layout.container class="my-12">
+                <div data-home-projects>
+                    <x-site.section-heading label="{{ __('home.projects_title') }}" />
+
+                    <div class="category-slider-nav mt-4">
+                        <x-site.slider-nav class="slider-nav-prev" direction="prev" />
+                        <div class="home-projects-swiper swiper min-w-0 flex-1 overflow-hidden">
+                            <div class="swiper-wrapper">
+                                @foreach ($projects as $project)
+                                    <div class="swiper-slide">
+                                        <a class="group block overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                                            href="{{ route('projects.show', $project) }}">
+                                            <div class="overflow-hidden">
+                                                <img class="aspect-4/3 w-full object-cover transition duration-300 group-hover:scale-105"
+                                                    src="{{ $project->main_image_url }}" alt="{{ $project->name }}">
+                                            </div>
+                                            <div class="p-4 sm:p-5">
+                                                <p class="text-brand-red-dark text-xs font-black uppercase sm:text-sm">
+                                                    {{ $project->category_names }}</p>
+                                                <h3
+                                                    class="mt-1 text-base font-black leading-tight text-black sm:text-lg">
+                                                    {{ $project->name }}</h3>
+                                                <p
+                                                    class="mt-2 line-clamp-2 text-xs font-medium text-zinc-600 sm:text-sm">
+                                                    {{ $project->description }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <x-site.slider-nav class="slider-nav-next" direction="next" />
+                    </div>
+                </div>
+            </x-site.layout.container>
+        @endif
+
+        <x-site.layout.container class="clamp-[my,12,24] flex items-center justify-center gap-4">
+            <p class="text-brand-red w-fit text-xl font-bold">{{ __('about.search_label') }}</p>
+            <form class="relative max-w-sm grow" action="{{ route('search') }}" method="GET">
+                <div class="border-brand-red flex overflow-hidden rounded-full border">
+                    <input class="w-full bg-zinc-200 px-3 py-2 font-semibold text-black placeholder-zinc-500"
+                        type="search" name="query" placeholder="{{ __('about.search_placeholder') }}">
+                    <button class="bg-brand-red px-2 py-1 pr-4" type="submit">
+                        <x-lucide-search class="pointer-events-none size-6 text-white" />
+                    </button>
+                </div>
+            </form>
         </x-site.layout.container>
     </main>
 </x-layouts.app>

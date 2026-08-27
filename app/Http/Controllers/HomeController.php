@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\HeroSlide;
 use App\Models\Partner;
+use App\Models\Project;
 use App\Models\Testimonial;
 use App\Support\SeoMetadataBuilder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Inerba\DbConfig\DbConfig;
 
 class HomeController extends Controller
 {
@@ -30,6 +32,16 @@ class HomeController extends Controller
                 ->where('is_active', true)
                 ->ordered()
                 ->get(),
+            'projects' => Project::query()
+                ->where('is_published', true)
+                ->ordered()
+                ->with('categories')
+                ->limit(10)
+                ->get(),
+            'aboutPage' => DbConfig::getGroup('about-page') ?? [
+                'gallery_images' => [],
+                'youtube_url' => null,
+            ],
         ]);
     }
 
@@ -49,7 +61,7 @@ class HomeController extends Controller
      */
     private function advantages(): array
     {
-        $icons = ['warehouse', 'tag', 'clock', 'thumb'];
+        $icons = ['warehouse', 'tag', 'clock', 'thumbs-up'];
 
         return array_map(fn (int $i, string $icon): array => [
             'title' => __("home.advantage_{$i}_title"),

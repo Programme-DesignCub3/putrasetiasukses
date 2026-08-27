@@ -1,64 +1,41 @@
 <div class="list-container">
-    <div class="relative mb-8" data-category-slider>
-        <div class="category-slider-swiper swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <button
-                        @class([
-                            'bg-brand-red ring-3 ring-white ring-offset-2 ring-offset-zinc-100 brightness-110' => $categoryId === '',
-                            'bg-brand-red/60 brightness-75 hover:brightness-100' => $categoryId !== '',
-                            'flex aspect-[1.2/1] w-full flex-col items-center justify-center gap-2 overflow-hidden rounded-xl text-center transition',
-                        ])
-                        wire:click="$set('categoryId', '')">
-                        <x-lucide-grid class="h-6 w-6 text-white" />
-                        <span
-                            class="text-xs font-black uppercase leading-tight text-white">{{ __('products.all_categories') }}</span>
-                    </button>
-                </div>
-
-                @foreach ($this->categories as $category)
-                    <div class="swiper-slide">
-                        <button
-                            @class([
-                                'bg-brand-red ring-3 ring-white ring-offset-2 ring-offset-zinc-100 brightness-110' => $categoryId == $category->id,
-                                'bg-brand-red/60 brightness-75 hover:brightness-100' => $categoryId != $category->id,
-                                'relative flex aspect-[1.2/1] w-full flex-col items-center justify-end overflow-hidden rounded-xl text-center transition',
-                            ])
-                            wire:click="$set('categoryId', '{{ $category->id }}')">
-                            @if ($category->image_url)
-                                <img class="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
-                                    src="{{ $category->image_url }}" alt="{{ $category->name }}" loading="lazy" />
-                            @else
-                                <div class="absolute inset-0 bg-gradient-to-br from-brand-red/80 to-brand-red-dark"></div>
-                            @endif
-                            <span class="relative z-10 px-2 pb-3 text-xs font-black uppercase leading-tight text-white">
-                                {{ $category->name }}
-                            </span>
-                        </button>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-
-        <x-site.slider-nav class="slider-nav-prev" direction="prev" />
-        <x-site.slider-nav class="slider-nav-next" direction="next" />
-    </div>
-
-    <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+    @if (!$compact)
         <div class="relative flex-1">
             <input class="w-full bg-zinc-200 px-4 py-3 pr-10 text-sm font-semibold text-black placeholder-zinc-500"
                 type="search" wire:model.live.debounce.300ms="search" placeholder="{{ __('products.search') }}">
             <x-lucide-search
                 class="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-500" />
         </div>
+    @endif
 
-        <select class="w-full bg-zinc-200 px-4 py-3 text-sm font-semibold text-black sm:w-56"
-            wire:model.live="categoryId">
-            <option value="">{{ __('products.all_categories') }}</option>
-            @foreach ($this->categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-            @endforeach
-        </select>
+    <div class="{{ $compact ? '' : 'mt-4' }} category-slider-nav" data-category-slider>
+        <x-site.slider-nav class="slider-nav-prev" direction="prev" />
+        <div class="category-slider-swiper swiper min-w-0 flex-1">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide w-fit!">
+                    <button @class([
+                        'rounded-full px-4 py-2 text-sm font-semibold transition',
+                        'bg-brand-red text-white' => $categorySlug === '',
+                        'bg-zinc-200 text-zinc-700 hover:bg-zinc-300' => $categorySlug !== '',
+                    ]) wire:click="$set('categorySlug', '')">
+                        {{ __('products.all_categories') }}
+                    </button>
+                </div>
+                @foreach ($this->categories as $category)
+                    <div class="swiper-slide w-fit!">
+                        <button @class([
+                            'rounded-full px-4 py-2 text-sm font-semibold transition',
+                            'bg-brand-red text-white' => $categorySlug == $category->slug,
+                            'bg-zinc-200 text-zinc-700 hover:bg-zinc-300' =>
+                                $categorySlug != $category->slug,
+                        ]) wire:click="$set('categorySlug', '{{ $category->slug }}')">
+                            {{ $category->name }}
+                        </button>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <x-site.slider-nav class="slider-nav-next" direction="next" />
     </div>
 
     <div class="mt-6 flex items-center justify-center py-12" wire:loading.delay>
@@ -78,7 +55,15 @@
         @endforelse
     </div>
 
-    @if ($products->hasPages())
+    @if ($compact)
+        <div class="mt-8 text-center">
+            <a class="bg-brand-red hover:bg-brand-red/90 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition"
+                href="{{ route('products.index') }}{{ $categorySlug ? '?category=' . $categorySlug : '' }}">
+                {{ __('products.see_more') }}
+                <x-lucide-arrow-right class="size-4" />
+            </a>
+        </div>
+    @elseif ($products->hasPages())
         <div class="mt-10">
             {{ $products->onEachSide(1)->links() }}
         </div>

@@ -6,26 +6,39 @@
         ->values();
 
     $aboutGalleryJson = Illuminate\Support\Js::from($aboutGallery);
+    $slides = $aboutGallery->chunk(8)->values();
 @endphp
 
-<div
-    class="clamp-[px,48px,64px] clamp-[py,12px,24px] shadow-top grid grid-cols-[1fr_40%] content-center items-center gap-4 rounded-2xl">
+<div class="clamp-[px,48px,64px] clamp-[py,12px,24px] shadow-top grid grid-cols-1 gap-12 rounded-2xl md:grid-cols-[1fr_35%] md:content-center md:items-center"
+    x-data="aboutGallery({ images: {{ $aboutGalleryJson }} })">
 
     <div class="text-brand-red uppercase">
         <h2 class="clamp-[text,2xl,4xl] font-bold">Our Gallery</h2>
         <p class="clamp-[text,lg,xl]">More Than Steel, We Deliver Confidence</p>
     </div>
 
-    <div class="clamp-[pr,12,24]" x-data="aboutGallery({ images: {{ $aboutGalleryJson }} })">
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            @foreach ($aboutGallery as $index => $image)
-                <button class="cursor-pointer overflow-clip rounded-xl" type="button"
-                    @click="open($el.firstElementChild, {{ $index }})">
-                    <img class="aspect-square w-full object-cover" src="{{ $image['url'] }}" alt="{{ $image['alt'] }}"
-                        loading="lazy" decoding="async">
-                </button>
-            @endforeach
+    <div class="about-gallery-nav clamp-[mr,0,24] relative">
+        <div class="gallery-slider swiper relative">
+            <div class="swiper-wrapper">
+                @foreach ($slides as $slideImages)
+                    <div class="swiper-slide">
+                        <div class="grid grid-cols-2 gap-2 md:grid-cols-4">
+                            @foreach ($slideImages as $image)
+                                @php $globalIndex = $loop->parent->iteration * 8 - 8 + $loop->iteration - 1; @endphp
+                                <button class="cursor-pointer overflow-clip rounded-xl" type="button"
+                                    @click="open($el.firstElementChild, {{ $globalIndex }})">
+                                    <img class="aspect-square w-full object-cover" src="{{ $image['url'] }}"
+                                        alt="{{ $image['alt'] }}" loading="lazy" decoding="async">
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
+
+        <x-site.slider-nav class="slider-nav-prev" direction="prev" />
+        <x-site.slider-nav class="slider-nav-next" direction="next" />
 
         <div class="about-lb-overlay fixed inset-0 z-50 items-center justify-center bg-black/80" @click.self="close">
             <div class="z-1 relative flex max-h-[90vh] max-w-[95vw] items-center justify-center">

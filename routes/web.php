@@ -20,14 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::localize(function (): void {
     Route::get('/', HomeController::class)->name('home');
-    Route::get('/tentang-kami', AboutController::class)->name('about');
-    Route::get('/produk', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/produk/{product:slug}', [ProductController::class, 'show'])->name('products.show');
-    Route::get('/artikel', [ArticleController::class, 'index'])->name('articles.index');
-    Route::get('/artikel/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
-    Route::get('/kontak', [ContactController::class, 'create'])->name('contact');
-    Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store');
-    Route::get('/proyek', [ProjectController::class, 'index'])->name('projects.index');
-    Route::get('/proyek/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
-    Route::get('/cari', SearchController::class)->name('search');
+    Route::get('/about', AboutController::class)->name('about');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+    Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+    Route::get('/contact', [ContactController::class, 'create'])->name('contact');
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('/search', SearchController::class)->name('search');
 });

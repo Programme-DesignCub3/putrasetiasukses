@@ -9,6 +9,7 @@ return [
     'search' => 'Search products...',
     'all_categories' => 'All Categories',
     'no_results' => 'No products found.',
+    'see_more' => 'See More Products',
     'faq_title' => 'Frequently Asked Questions',
     'faq_q1' => 'What steel plate products are available?',
     'faq_a1' => 'We provide various types of steel plates such as Black Plate (Hot Rolled), Cold Rolled Plate, Galvanized Plate, and Marine Plate. All products come from trusted manufacturers with guaranteed quality.',

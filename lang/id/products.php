@@ -9,6 +9,7 @@ return [
     'search' => 'Cari produk...',
     'all_categories' => 'Semua Kategori',
     'no_results' => 'Produk tidak ditemukan.',
+    'see_more' => 'Lihat Lebih Banyak',
     'faq_title' => 'Pertanyaan Umum',
     'faq_q1' => 'Apa saja produk plat baja yang tersedia?',
     'faq_a1' => 'Kami menyediakan berbagai jenis plat baja seperti Plat Hitam (Hot Rolled), Plat Putih (Cold Rolled), Plat Galvanil, dan Plat Kapal. Semua produk berasal dari pabrikan terpercaya dengan kualitas terjamin.',

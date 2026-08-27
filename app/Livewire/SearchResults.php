@@ -5,10 +5,12 @@ namespace App\Livewire;
 use App\Models\Article;
 use App\Models\Product;
 use App\Models\Project;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class SearchResults extends Component
 {
+    #[Url]
     public string $query = '';
 
     public function render()

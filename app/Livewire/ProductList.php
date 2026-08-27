@@ -14,18 +14,21 @@ class ProductList extends Component
 
     public string $search = '';
 
-    public string $categoryId = '';
+    public string $categorySlug = '';
+
+    public bool $compact = false;
 
     protected int $perPage = 6;
 
     public function mount(): void
     {
         $this->search = request('search', '');
+        $this->categorySlug = request('category', '');
     }
 
     public function updated($property): void
     {
-        if (in_array($property, ['search', 'categoryId'])) {
+        if (in_array($property, ['search', 'categorySlug'])) {
             $this->resetPage();
         }
     }
@@ -44,7 +47,7 @@ class ProductList extends Component
             ->with(['categories', 'media'])
             ->where('is_published', true);
 
-        if ($this->search) {
+        if (! $this->compact && $this->search) {
             $search = mb_strtolower($this->search);
             $products->where(function ($q) use ($search) {
                 $q->whereRaw('LOWER(name) LIKE ?', ["%{$search}%"])
@@ -52,12 +55,14 @@ class ProductList extends Component
             });
         }
 
-        if ($this->categoryId) {
-            $products->whereHas('categories', fn ($q) => $q->where('product_categories.id', $this->categoryId));
+        if ($this->categorySlug) {
+            $products->whereHas('categories', fn ($q) => $q->where('product_categories.slug', $this->categorySlug));
         }
 
+        $perPage = $this->compact ? 6 : $this->perPage;
+
         return view('livewire.product-list', [
-            'products' => $products->ordered()->paginate($this->perPage),
+            'products' => $products->ordered()->paginate($perPage),
         ]);
     }
 }

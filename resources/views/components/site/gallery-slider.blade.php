@@ -12,8 +12,7 @@
                     <button class="w-full cursor-pointer" type="button"
                         @click="open($el.firstElementChild, {{ $loop->index }})">
                         <img class="aspect-4/3 w-full object-cover" src="{{ $image['url'] }}"
-                            alt="{{ $image['alt'] ?? $name }}"
-                            @style([
+                            alt="{{ $image['alt'] ?? $name }}" @style([
                                 'view-transition-name: ' . $firstImageTransitionName => $loop->first && $firstImageTransitionName,
                             ])>
                     </button>

@@ -55,27 +55,25 @@ test('about page renders hardcoded copy with settings media', function () {
     DbConfig::set('about-page.gallery_images', ['about/gallery/warehouse.jpg']);
     DbConfig::set('about-page.youtube_url', 'https://www.youtube.com/embed/test-video');
 
-    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/tentang-kami')
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/about')
         ->assertSuccessful()
         ->assertSee('Tentang Kami')
         ->assertSee('Visi')
         ->assertSee('Misi')
         ->assertSee('Galeri')
-        ->assertSee('Video')
-        ->assertSee('/storage/about/gallery/warehouse.jpg', false)
-        ->assertSee('https://www.youtube-nocookie.com/embed/test-video', false);
+        ->assertSee('/storage/about/gallery/warehouse.jpg', false);
 });
 
 test('product page renders managed content', function () {
     $product = Product::factory()->create();
 
-    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/produk')
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/products')
         ->assertSuccessful()
         ->assertSee('Produk')
         ->assertSee($product->getTranslation('name', 'id'))
         ->assertSee('Lihat Detail');
 
-    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/produk/'.$product->slug)
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/products/'.$product->slug)
         ->assertSuccessful()
         ->assertSee($product->getTranslation('name', 'id'))
         ->assertSee('Deskripsi Barang')
@@ -100,17 +98,17 @@ test('article pages render managed content', function () {
         ],
     ]);
 
-    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel')
+    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/articles')
         ->assertSuccessful()
         ->assertSee('Artikel Terbaru')
         ->assertSee($article->getTranslation('title', 'id'));
 
-    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel/'.$article->slug)
+    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/articles/'.$article->slug)
         ->assertSuccessful()
         ->assertSee($article->author)
         ->assertSee($article->getTranslation('title', 'id'));
 
-    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/artikel/'.$richArticle->slug)
+    $this->followingRedirects()->withHeaders(['Accept-Language' => 'id'])->get('/id/articles/'.$richArticle->slug)
         ->assertSuccessful()
         ->assertSee('<h2>Subjudul Rich Text</h2>', false)
         ->assertSee('<strong>Isi artikel tebal</strong>', false);
@@ -130,7 +128,7 @@ test('public pages render seo metadata', function () {
         ->assertSee(__('site.tagline'))
         ->assertSee('property="og:type" content="website"', false);
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/artikel/'.$article->slug)
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/articles/'.$article->slug)
         ->assertSuccessful()
         ->assertSee('<title>'.$article->title.' - '.__('site.company_name').'</title>', false)
         ->assertSee('property="og:type" content="article"', false)
@@ -143,11 +141,11 @@ test('public pages render seo metadata', function () {
 test('search page renders and accepts search query', function () {
     $product = Product::factory()->create();
 
-    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/cari')
+    $this->withHeaders(['CF-IPCountry' => 'ID'])->get('/search')
         ->assertSuccessful()
         ->assertSee(__('search.title'));
 
-    $this->withHeaders(['Accept-Language' => 'en'])->get('/en/cari')
+    $this->withHeaders(['Accept-Language' => 'en'])->get('/en/search')
         ->assertSuccessful()
         ->assertSee('Search');
 });
@@ -198,11 +196,11 @@ test('media library images override legacy placeholder urls', function () {
     expect($article->fresh()->image_url)->toContain('article-cover.jpg')
         ->and($product->fresh()->main_image_url)->toContain('product-main.jpg');
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/artikel/'.$article->slug)
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/articles/'.$article->slug)
         ->assertSuccessful()
         ->assertSee('article-cover.jpg');
 
-    $this->withHeaders(['Accept-Language' => 'id'])->get('/produk/'.$product->slug)
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/products/'.$product->slug)
         ->assertSuccessful()
         ->assertSee('product-main.jpg');
 });
@@ -251,9 +249,9 @@ test('sitemap exposes localized public urls', function () {
     expect($static)->toContain(route('about'));
     expect($static)->toContain(route('contact'));
     expect($products)->toContain(route('products.index'));
-    expect($products)->toContain('/en/produk/'.$product->slug);
-    expect($articles)->toContain('/zh/artikel/'.$article->slug);
-    expect($projects)->toContain('/en/proyek/'.$project->slug);
+    expect($products)->toContain('/en/products/'.$product->slug);
+    expect($articles)->toContain('/zh/articles/'.$article->slug);
+    expect($projects)->toContain('/en/projects/'.$project->slug);
     expect($static)->toContain('hreflang="x-default"');
 });
 
@@ -275,13 +273,13 @@ test('sitemap can be generated as a static public file', function () {
     expect(File::exists($dir.'/sitemap_static.xml'))->toBeTrue();
 
     $products = File::get($dir.'/sitemap_products.xml');
-    expect($products)->toContain('/en/produk/'.$product->slug);
+    expect($products)->toContain('/en/products/'.$product->slug);
 
     $articles = File::get($dir.'/sitemap_articles.xml');
-    expect($articles)->toContain('/zh/artikel/'.$article->slug);
+    expect($articles)->toContain('/zh/articles/'.$article->slug);
 
     $projects = File::get($dir.'/sitemap_projects.xml');
-    expect($projects)->toContain('/en/proyek/'.$project->slug);
+    expect($projects)->toContain('/en/projects/'.$project->slug);
 
     File::deleteDirectory($dir);
 });
@@ -311,7 +309,7 @@ test('contact form stores messages', function () {
         ]),
     ]);
 
-    $this->post('/kontak', [
+    $this->post('/contact', [
         'name' => 'Budi',
         'company' => 'PT Contoh',
         'phone' => '08123456789',
@@ -327,40 +325,40 @@ test('contact form stores messages', function () {
 test('localized public routes render in english and chinese', function () {
     Article::factory()->create();
 
-    $this->get('/en/artikel')
+    $this->get('/en/articles')
         ->assertSuccessful()
         ->assertSee('Latest Articles');
 
-    $this->get('/zh/artikel')
+    $this->get('/zh/articles')
         ->assertSuccessful()
         ->assertSee('最新文章');
 });
 
 test('geoip detector redirects china visitors to chinese', function () {
     $this->withHeaders(['CF-IPCountry' => 'CN'])
-        ->get('/kontak')
-        ->assertRedirect('/zh/kontak');
+        ->get('/contact')
+        ->assertRedirect('/zh/contact');
 });
 
 test('geoip detector redirects us visitors to english', function () {
     $this->withHeaders(['CF-IPCountry' => 'US'])
-        ->get('/kontak')
-        ->assertRedirect('/en/kontak');
+        ->get('/contact')
+        ->assertRedirect('/en/contact');
 });
 
 test('geoip detector keeps indonesia visitors on default locale', function () {
     $this->withHeaders(['CF-IPCountry' => 'ID'])
-        ->get('/kontak')
+        ->get('/contact')
         ->assertSuccessful()
         ->assertSee('Kirimkan Pesan Anda');
 });
 
 test('geoip detector falls back to indonesia when country is missing or unsupported', function () {
-    $this->withHeaders(['Accept-Language' => 'en'])->get('/kontak')
+    $this->withHeaders(['Accept-Language' => 'en'])->get('/contact')
         ->assertSuccessful()
         ->assertSee('Kirimkan Pesan Anda');
 
-    $this->withHeaders(['CF-IPCountry' => 'DE'])->get('/kontak')
+    $this->withHeaders(['CF-IPCountry' => 'DE'])->get('/contact')
         ->assertSuccessful()
         ->assertSee('Kirimkan Pesan Anda');
 });

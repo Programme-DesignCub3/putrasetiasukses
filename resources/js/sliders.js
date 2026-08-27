@@ -50,21 +50,19 @@ export function initHomeSliders() {
 
     if (document.querySelector(".home-partners-swiper")) {
         new Swiper(".home-partners-swiper", {
-            modules: [Pagination, Autoplay],
+            modules: [Autoplay],
             loop: true,
-            slidesPerView: 1,
+            slidesPerView: 2,
+            spaceBetween: 10,
             autoplay: {
                 delay: 2500,
                 disableOnInteraction: false,
             },
             spaceBetween: 0,
-            pagination: {
-                el: ".home-partners-pagination",
-                clickable: true,
-            },
             breakpoints: {
                 640: {
-                    slidesPerView: 2,
+                    slidesPerView: 4,
+                    spaceBetween: 20,
                 },
             },
         });
@@ -72,17 +70,27 @@ export function initHomeSliders() {
 }
 
 export function initAboutSlider() {
-    if (document.querySelector(".gallery-slider")) {
-        new Swiper(".gallery-slider", {
-            modules: [Navigation, EffectFade],
-            loop: true,
+    const container = document.querySelector(".about-gallery-nav");
 
-            navigation: {
-                nextEl: ".gallery-slider-button-next",
-                prevEl: ".gallery-slider-button-prev",
-            },
-        });
-    }
+    if (!container) return;
+
+    const swiperEl = container.querySelector(".gallery-slider");
+
+    if (!swiperEl) return;
+
+    new Swiper(swiperEl, {
+        modules: [Navigation, Autoplay],
+        loop: true,
+        speed: 300,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: container.querySelector(".slider-nav-next"),
+            prevEl: container.querySelector(".slider-nav-prev"),
+        },
+    });
 }
 
 export function initProductGalleries() {
@@ -177,19 +185,50 @@ export function initCategorySlider() {
     }
 
     new Swiper(swiperEl, {
-        modules: [Navigation],
-        slidesPerView: 1.3,
-        spaceBetween: 12,
+        modules: [Navigation, FreeMode],
+        slidesPerView: "auto",
+        spaceBetween: 8,
+        freeMode: true,
+        navigation: {
+            nextEl: container.querySelector(".slider-nav-next"),
+            prevEl: container.querySelector(".slider-nav-prev"),
+        },
+    });
+}
+
+export function initHomeProjectSlider() {
+    const container = document.querySelector("[data-home-projects]");
+
+    if (!container) return;
+
+    const swiperEl = container.querySelector(".home-projects-swiper");
+
+    if (!swiperEl) return;
+
+    new Swiper(swiperEl, {
+        modules: [Navigation, Autoplay],
+        slidesPerView: 1,
+        spaceBetween: 16,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+        },
         navigation: {
             nextEl: container.querySelector(".slider-nav-next"),
             prevEl: container.querySelector(".slider-nav-prev"),
         },
         breakpoints: {
             640: {
-                slidesPerView: 2.1,
+                slidesPerView: 2,
+            },
+            768: {
+                slidesPerView: 3,
             },
             1024: {
-                slidesPerView: 3.2,
+                slidesPerView: 4,
+            },
+            1280: {
+                slidesPerView: 5,
             },
         },
     });

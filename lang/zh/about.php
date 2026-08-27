@@ -24,4 +24,6 @@ return [
     ],
     'gallery' => '图库',
     'video' => '视频',
+    'search_label' => '搜索 PT Putra Setia Sukses Bersama:',
+    'search_placeholder' => '输入关键词...',
 ];

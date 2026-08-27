@@ -24,4 +24,6 @@ return [
     ],
     'gallery' => 'Gallery',
     'video' => 'Video',
+    'search_label' => 'Search PT Putra Setia Sukses Bersama:',
+    'search_placeholder' => 'Enter keywords...',
 ];

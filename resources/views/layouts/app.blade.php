@@ -43,14 +43,12 @@
 </head>
 
 <body class="{{ $bodyClass }} font-montserrat">
-    <div class="min-h-screen overflow-x-clip">
-        <x-site.layout.header />
+    <x-site.layout.header />
 
-        {{ $slot }}
+    {{ $slot }}
 
-        <x-site.whatsapp-button />
-        <x-site.layout.footer />
-    </div>
+    <x-site.whatsapp-button />
+    <x-site.layout.footer />
 
     <x-site.cookie-consent :enabled="$siteAnalytics['cookieConsentEnabled']" />
 

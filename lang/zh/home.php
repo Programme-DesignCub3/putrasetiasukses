@@ -5,6 +5,7 @@ return [
     'hero_subtitle' => '黑钢板 - 白钢板 - 镀锌板',
     'testimonial_title' => '客户评价',
     'partners_title' => '合作伙伴',
+    'projects_title' => '我们的项目',
     'advantage_1_title' => '值得信赖的库存商与经销商',
     'advantage_1_copy' => '我们确保钢板库存充足，以满足客户需求。',
     'advantage_2_title' => '有竞争力的价格',

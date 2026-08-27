@@ -11,11 +11,6 @@
 
 <x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
     <main>
-        {{-- <x-site.layout.page-hero :title="__('products.title')" :image="asset('assets/product-hero.png')" /> --}}
-
-        <x-site.layout.container>
-
-        </x-site.layout.container>
 
         <x-site.layout.container class="clamp-[py,48px,72px]">
             <div class="max-w-3xl">

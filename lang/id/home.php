@@ -5,6 +5,7 @@ return [
     'hero_subtitle' => 'Plat Hitam - Plat Putih - Plat Galvanil',
     'testimonial_title' => 'Kata Mereka',
     'partners_title' => 'Partner Kami',
+    'projects_title' => 'Proyek Kami',
     'advantage_1_title' => 'Stockist & Distributor Terpercaya',
     'advantage_1_copy' => 'Kami memastikan ketersediaan stok plat selalu terjaga untuk memenuhi kebutuhan pelanggan.',
     'advantage_2_title' => 'Harga Kompetitif',

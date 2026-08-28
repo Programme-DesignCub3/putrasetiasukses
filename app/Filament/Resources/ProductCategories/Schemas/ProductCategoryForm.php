@@ -65,7 +65,6 @@ class ProductCategoryForm
                         SpatieMediaLibraryFileUpload::make('category_image')
                             ->label(__('admin.form.product_category.image'))
                             ->collection(ProductCategory::ImageCollection)
-                            ->required()
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120),

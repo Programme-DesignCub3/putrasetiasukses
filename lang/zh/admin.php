@@ -391,8 +391,8 @@ return [
     ],
 
     'locale' => [
-        'id' => 'Indonesia',
-        'en' => 'English',
+        'id' => '印度尼西亚',
+        'en' => '英语',
         'zh' => '中文',
     ],
 ];

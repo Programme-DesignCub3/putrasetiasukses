@@ -29,8 +29,8 @@ class ProductController extends Controller
         $keys = range(1, 5);
 
         return array_map(fn (int $i): array => [
-            'question' => __("products.faq_q{$i}"),
-            'answer' => __("products.faq_a{$i}"),
+            'question' => __("products.faq_{$i}.question"),
+            'answer' => __("products.faq_{$i}.answer"),
         ], $keys);
     }
 

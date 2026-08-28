@@ -34,14 +34,6 @@
     navigation: auto;
 }
 
-.about-lb-overlay {
-    display: none;
-}
-
-.about-lb-overlay.is-open {
-    display: flex;
-}
-
 @layer base {
     [x-cloak] {
         display: none !important;

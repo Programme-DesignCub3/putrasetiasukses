@@ -252,56 +252,31 @@ document.addEventListener("alpine:init", () => {
 
     Alpine.data("aboutGallery", (options = {}) => ({
         isOpen: false,
+        imageLoaded: false,
         images: options.images ?? [],
         currentIndex: 0,
-        activeThumb: null,
-        thumbs: [],
-
-        init() {
-            this.thumbs = [...this.$el.querySelectorAll("button > img")];
-        },
 
         get currentImage() {
             return this.images[this.currentIndex];
         },
 
-        open(thumbEl, index) {
+        open(index) {
             this.currentIndex = index;
-            this.activeThumb = thumbEl;
-
-            const overlay = document.querySelector(".about-lb-overlay");
-            const img = overlay.querySelector(".about-lb-image");
-            img.src = this.currentImage.url;
-            img.alt = this.currentImage.alt;
+            this.imageLoaded = false;
 
             const swiper = document.querySelector(".gallery-slider")?.swiper;
             if (swiper?.autoplay) swiper.autoplay.stop();
 
-            animateView(
-                () => {
-                    overlay.classList.add("is-open");
-                    this.isOpen = true;
-                },
-                { type: spring, duration: 0.5, bounce: 0.15 },
-            ).add(thumbEl, ".about-lb-image");
+            this.isOpen = true;
         },
 
         close() {
-            const thumb = this.thumbs[this.currentIndex] ?? this.activeThumb;
-            const overlay = document.querySelector(".about-lb-overlay");
             const swiperEl = document.querySelector(".gallery-slider");
             const swiper = swiperEl?.swiper;
             const targetSlide = Math.floor(this.currentIndex / 8);
 
             const doClose = () => {
-                animateView(
-                    () => {
-                        overlay.classList.remove("is-open");
-                        this.isOpen = false;
-                    },
-                    { type: spring, duration: 0.5, bounce: 0.15 },
-                ).add(".about-lb-image", thumb);
-
+                this.isOpen = false;
                 if (swiper?.autoplay) swiper.autoplay.start();
             };
 
@@ -315,38 +290,19 @@ document.addEventListener("alpine:init", () => {
 
         next() {
             this.currentIndex = (this.currentIndex + 1) % this.images.length;
-            this.activeThumb =
-                this.thumbs[this.currentIndex] ?? this.activeThumb;
-
-            const overlay = document.querySelector(".about-lb-overlay");
-            const img = overlay.querySelector(".about-lb-image");
-            img.src = this.currentImage.url;
-            img.alt = this.currentImage.alt;
+            this.imageLoaded = false;
         },
 
         prev() {
             this.currentIndex =
                 (this.currentIndex - 1 + this.images.length) %
                 this.images.length;
-            this.activeThumb =
-                this.thumbs[this.currentIndex] ?? this.activeThumb;
-
-            const overlay = document.querySelector(".about-lb-overlay");
-            const img = overlay.querySelector(".about-lb-image");
-            img.src = this.currentImage.url;
-            img.alt = this.currentImage.alt;
+            this.imageLoaded = false;
         },
 
         goTo(index) {
             this.currentIndex = index;
-            this.activeThumb = this.thumbs[index] ?? this.activeThumb;
-
-            const overlay = document.querySelector(".about-lb-overlay");
-            const img = overlay.querySelector(".about-lb-image");
-            img.src = this.currentImage.url;
-            img.alt = this.currentImage.alt;
-            img.src = this.currentImage.url;
-            img.alt = this.currentImage.alt;
+            this.imageLoaded = false;
         },
     }));
 

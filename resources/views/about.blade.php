@@ -21,7 +21,7 @@
             </div>
 
             <div class="flex flex-col justify-center">
-                <x-site.logo class="w-3/5 pt-8" />
+                <img class="w-3/5 pt-8" src="{{ asset('assets/logo.png') }}" alt="{{ __('site.company_name') }} logo">
 
                 <div class="mt-8 flex max-w-2xl flex-col gap-4 text-base leading-relaxed">
                     {!! __('about.section-1') !!}
@@ -57,16 +57,18 @@
             <x-site.section-heading :title="__('about.gallery')" :prominent="true" />
             <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($aboutGallery as $index => $image)
-                    <button class="cursor-pointer" type="button"
-                        @click="open($el.firstElementChild, {{ $index }})">
+                    <button class="cursor-pointer" type="button" @click="open({{ $index }})">
                         <img class="aspect-16/10 w-full object-cover" src="{{ $image['url'] }}"
                             alt="{{ $image['alt'] }}" loading="lazy" decoding="async">
                     </button>
                 @endforeach
             </div>
 
-            <div class="about-lb-overlay fixed inset-0 z-50 items-center justify-center bg-black/80"
-                @click.self="close">
+            <div class="about-lb-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+                x-show="isOpen" x-cloak x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0" @click.self="close">
                 <div class="z-1 relative flex max-h-[90vh] max-w-[95vw] items-center justify-center">
                     <button
                         class="absolute -right-3 -top-3 z-10 flex size-9 items-center justify-center rounded-full bg-white text-gray-800 shadow-lg hover:bg-gray-100"
@@ -75,7 +77,9 @@
                     </button>
 
                     <img class="about-lb-image max-h-[90vh] max-w-[95vw] rounded object-contain drop-shadow-2xl"
-                        src="" alt="">
+                        x-bind:src="currentImage.url" x-bind:alt="currentImage.alt" x-show="imageLoaded"
+                        x-transition:enter="transition duration-200" x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100" @load="imageLoaded = true" alt="">
                 </div>
 
                 <template x-if="images.length > 1">

@@ -1,7 +1,7 @@
 @props(['product'])
 
 <article
-    class="hover:shadow-top group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl transition hover:-translate-y-1 lg:mix-blend-multiply lg:hover:bg-black lg:hover:[&>div]:translate-y-0">
+    class="hover:shadow-top group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl transition hover:-translate-y-1 lg:mix-blend-multiply lg:hover:[&>div]:translate-y-0">
     <a class="block" href="{{ route('products.show', $product) }}">
         <div class="shadow-top overflow-hidden rounded-2xl">
             <img class="aspect-video w-full object-cover transition duration-300 group-hover:scale-105"

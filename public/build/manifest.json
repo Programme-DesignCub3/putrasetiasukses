@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-BDKY5r83.css",
+    "file": "assets/app-C11CO-2i.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -22,7 +22,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DbSI5yTx.js",
+    "file": "assets/app-D7v0SQ_c.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -31,7 +31,7 @@
     ]
   },
   "resources/js/sliders.js": {
-    "file": "assets/sliders-DFg4RUP_.js",
+    "file": "assets/sliders-DdW9leR3.js",
     "name": "sliders",
     "src": "resources/js/sliders.js",
     "isDynamicEntry": true,

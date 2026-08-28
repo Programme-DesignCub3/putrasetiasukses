@@ -3,6 +3,7 @@
 use App\Models\Article;
 use App\Models\ContactMessage;
 use App\Models\HeroSlide;
+use App\Models\Partner;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Project;
@@ -26,6 +27,18 @@ test('home page renders with shared site content', function () {
         ->assertSee('Plat Lembaran')
         ->assertSee('home-testimonials-swiper')
         ->assertSee('home-partners-swiper');
+});
+
+test('home page partners render navigation arrows when partners exist', function () {
+    Partner::factory()->create([
+        'name' => 'PT Mitra Sukses',
+    ]);
+
+    $this->withHeaders(['Accept-Language' => 'id'])->get('/')
+        ->assertSuccessful()
+        ->assertSee('PT Mitra Sukses')
+        ->assertSee('home-partners-button-prev')
+        ->assertSee('home-partners-button-next');
 });
 
 test('home page testimonials show translated content', function () {

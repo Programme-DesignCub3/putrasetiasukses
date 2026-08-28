@@ -36,7 +36,7 @@
             {{ __('site.back') }}
         </a>
 
-        <div class="grid gap-10 lg:grid-cols-2">
+        <div class="grid grid-cols-1 gap-10 lg:grid-cols-2">
             <x-site.gallery-slider :images="$projectImages" :name="$project->name"
                 firstImageTransitionName="project-image-{{ $project->id }}" />
             <x-site.gallery-lightbox />
@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <a class="bg-brand-red hover:bg-brand-red-dark mt-10 inline-flex w-full max-w-xl items-center justify-center gap-4 rounded-full px-8 py-5 text-2xl font-black uppercase text-white transition"
+                <a class="bg-brand-red hover:bg-brand-red-dark clamp-[px,4,8] clamp-[py,2,5] clamp-[text,xl,2xl] mt-10 flex w-full max-w-xl items-center justify-center gap-4 rounded-full font-black uppercase text-white transition"
                     href="{{ route('contact') }}">
                     <x-lucide-phone class="h-8 w-8" />
                     {{ __('projects.inquiry') }}

@@ -8,10 +8,10 @@
     'subtitleClass' => '',
 ])
 
-<div x-data="scrollReveal" {{ $attributes->class('text-center text-white')->class($class) }}>
+<div x-data="scrollReveal" {{ $attributes->class('text-center mb-4 text-white')->class($class) }}>
     <h{{ $level }} @class([
-        'clamp-[text,xl,2xl] font-bold' => !$prominent,
-        'clamp-[text,2xl,4xl] font-black' => $prominent,
+        'clamp-[text,2xl,4xl] font-bold' => !$prominent,
+        'clamp-[text,4xl,6xl] font-black' => $prominent,
         $titleClass,
     ])>
         {{ $title }}

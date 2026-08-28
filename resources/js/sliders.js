@@ -50,19 +50,22 @@ export function initHomeSliders() {
 
     if (document.querySelector(".home-partners-swiper")) {
         new Swiper(".home-partners-swiper", {
-            modules: [Autoplay],
+            modules: [Navigation, Autoplay],
             loop: true,
             slidesPerView: 2,
-            spaceBetween: 10,
             autoplay: {
                 delay: 2500,
-                disableOnInteraction: false,
+                disableOnInteraction: true,
             },
-            spaceBetween: 0,
+            navigation: {
+                nextEl: ".home-partners-button-next",
+                prevEl: ".home-partners-button-prev",
+            },
+            spaceBetween: 20,
             breakpoints: {
                 640: {
                     slidesPerView: 4,
-                    spaceBetween: 20,
+                    spaceBetween: 40,
                 },
             },
         });

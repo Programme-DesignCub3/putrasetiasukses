@@ -85,7 +85,7 @@
 
         <section class="bg-brand-red my-12 py-8">
             <x-site.layout.container class="bg-brand-red" as="div">
-                <x-site.section-heading label="OUR ADVANTAGES"
+                <x-site.section-heading title="OUR ADVANTAGES"
                     subtitle="Why Customers Choose PT Putra Setia Sukses
                     Bersama" />
 
@@ -115,7 +115,7 @@
 
         @if ($partners->isNotEmpty())
             <x-site.layout.container class="my-12 flex flex-col gap-4">
-                <x-site.section-heading label="{{ __('home.partners_title') }}" titleClass="text-brand-red" />
+                <x-site.section-heading title="{{ __('home.partners_title') }}" titleClass="text-brand-red" />
 
                 <div class="home-partners-swiper">
                     <div class="swiper-wrapper">
@@ -140,36 +140,22 @@
         @if ($projects->isNotEmpty())
             <x-site.layout.container class="my-12">
                 <div data-home-projects>
-                    <x-site.section-heading label="{{ __('home.projects_title') }}" />
+                    <x-site.section-heading title="{{ __('home.projects_title') }}" />
 
-                    <div class="category-slider-nav mt-4">
-                        <x-site.slider-nav class="slider-nav-prev" direction="prev" />
+                    <div class="relative mt-4">
+                        <x-site.slider-nav class="slider-nav-prev clamp-[left,2,-12,@md]" direction="prev" />
+
                         <div class="home-projects-swiper swiper min-w-0 flex-1 overflow-hidden">
                             <div class="swiper-wrapper">
                                 @foreach ($projects as $project)
                                     <div class="swiper-slide">
-                                        <a class="group block overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                                            href="{{ route('projects.show', $project) }}">
-                                            <div class="overflow-hidden">
-                                                <img class="aspect-4/3 w-full object-cover transition duration-300 group-hover:scale-105"
-                                                    src="{{ $project->main_image_url }}" alt="{{ $project->name }}">
-                                            </div>
-                                            <div class="p-4 sm:p-5">
-                                                <p class="text-brand-red-dark text-xs font-black uppercase sm:text-sm">
-                                                    {{ $project->category_names }}</p>
-                                                <h3
-                                                    class="mt-1 text-base font-black leading-tight text-black sm:text-lg">
-                                                    {{ $project->name }}</h3>
-                                                <p
-                                                    class="mt-2 line-clamp-2 text-xs font-medium text-zinc-600 sm:text-sm">
-                                                    {{ $project->description }}</p>
-                                            </div>
-                                        </a>
+                                        <x-projects.project-card :project="$project" />
                                     </div>
                                 @endforeach
                             </div>
                         </div>
-                        <x-site.slider-nav class="slider-nav-next" direction="next" />
+
+                        <x-site.slider-nav class="slider-nav-next clamp-[right,2,-12,@md]" direction="next" />
                     </div>
                 </div>
             </x-site.layout.container>

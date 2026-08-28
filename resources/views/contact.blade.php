@@ -14,13 +14,13 @@
         {{-- <x-site.layout.page-hero :title="__('contact.title')" :image="asset('assets/contact-hero.png')" /> --}}
 
         <x-site.layout.container class="clamp-[py,32px,48px]">
-            <x-site.section-heading :level="2" :label="__('contact.message_title')" />
+            <x-site.section-heading :level="2" :title="__('contact.message_title')" />
 
             <livewire:contact-form />
         </x-site.layout.container>
 
         <x-site.layout.container class="pb-8">
-            <x-site.section-heading :label="__('contact.locations')" />
+            <x-site.section-heading :title="__('contact.locations')" />
 
             <div class="mt-8 grid gap-6">
                 <x-contact.location-card label="Head Office" :address="__('site.head_office_address')" />

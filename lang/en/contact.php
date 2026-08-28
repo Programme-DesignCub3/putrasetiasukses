@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'Contact',
+    'title' => 'Contact Us',
     'message_title' => 'Send Us a Message',
     'name' => 'Name',
     'company' => 'Company',

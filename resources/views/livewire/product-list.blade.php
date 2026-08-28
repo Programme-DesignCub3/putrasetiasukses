@@ -14,9 +14,9 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide w-fit!">
                     <button @class([
-                        'rounded-full px-4 py-2 text-sm font-semibold transition',
+                        'rounded-full border px-4 py-2 text-sm font-semibold transition',
                         'bg-brand-red text-white' => $categorySlug === '',
-                        'bg-zinc-200 text-zinc-700 hover:bg-zinc-300' => $categorySlug !== '',
+                        'text-zinc-700 hover:bg-zinc-300' => $categorySlug !== '',
                     ]) wire:click="$set('categorySlug', '')">
                         {{ __('products.all_categories') }}
                     </button>
@@ -24,10 +24,9 @@
                 @foreach ($this->categories as $category)
                     <div class="swiper-slide w-fit!">
                         <button @class([
-                            'rounded-full px-4 py-2 text-sm font-semibold transition',
+                            'border rounded-full px-4 py-2 text-sm font-semibold transition',
                             'bg-brand-red text-white' => $categorySlug == $category->slug,
-                            'bg-zinc-200 text-zinc-700 hover:bg-zinc-300' =>
-                                $categorySlug != $category->slug,
+                            ' text-zinc-700 hover:bg-zinc-300' => $categorySlug != $category->slug,
                         ]) wire:click="$set('categorySlug', '{{ $category->slug }}')">
                             {{ $category->name }}
                         </button>

@@ -15,7 +15,7 @@
 <header class="from-brand-red bg-linear-[135deg] to-white">
 
     <x-site.layout.container
-        class="clamp-[py,5,7] z-20 mx-auto flex flex-col justify-between gap-4 px-4 md:flex-row lg:items-center lg:justify-between">
+        class="clamp-[py,5,7] max-w-384! z-20 mx-auto flex flex-col justify-between gap-4 px-4 md:flex-row lg:items-center lg:justify-between">
         <div class="clamp-[gap,3,6] flex items-center text-white">
             <a class="basis-20" href="{{ route('home') }}">
                 <x-site.logo />

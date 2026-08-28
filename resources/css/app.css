@@ -8,15 +8,20 @@
 @source '../**/*.js';
 
 @theme {
+    --clamp-label: 0.625rem, 0.75rem;
+
     --font-sans:
         "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
     --font-montserrat: "Montserrat", sans-serif;
+
     --color-brand-red: #a60000;
     --color-brand-red-dark: #870000;
     --color-brand-ink: #171717;
     --color-brand-steel: #5f6872;
+
+    --text-label: var(--clamp-label);
 
     --shadow-top:
         0px 5px 20px 0px rgb(0 0 0 / 0.35), 0px 5px 40px 0px rgb(8 8 8 / 0.15);

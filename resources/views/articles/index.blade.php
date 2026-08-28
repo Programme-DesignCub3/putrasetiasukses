@@ -14,7 +14,7 @@
         {{-- <x-site.layout.page-hero :title="__('articles.title')" :image="asset('assets/home/sector-2.png')" /> --}}
 
         <x-site.layout.container class="clamp-[py,40px,56px]">
-            <x-site.section-heading :level="2" :label="__('articles.latest')" />
+            <x-site.section-heading :level="2" :title="__('articles.latest')" />
 
             <div class="relative mt-8" data-featured-articles>
                 <div class="featured-articles-swiper swiper">
@@ -33,7 +33,7 @@
         </x-site.layout.container>
 
         <x-site.layout.container class="pb-16">
-            <x-site.section-heading :label="__('articles.all')" />
+            <x-site.section-heading :title="__('articles.all')" />
 
             <livewire:article-list :excluded-ids="$latestArticleIds" />
         </x-site.layout.container>

@@ -9,12 +9,12 @@
     $slides = $aboutGallery->chunk(8)->values();
 @endphp
 
-<div class="clamp-[px,48px,64px] clamp-[py,12px,24px] shadow-top grid grid-cols-1 gap-12 rounded-2xl md:grid-cols-[1fr_35%] md:content-center md:items-center"
+<div class="clamp-[px,10,16] clamp-[py,3,6] shadow-top clamp-[gap,6,12] grid grid-cols-1 rounded-2xl md:grid-cols-[1fr_35%] md:content-center md:items-center"
     x-data="aboutGallery({ images: {{ $aboutGalleryJson }} })">
 
     <div class="text-brand-red uppercase">
         <h2 class="clamp-[text,2xl,4xl] font-bold">Our Gallery</h2>
-        <p class="clamp-[text,lg,xl]">More Than Steel, We Deliver Confidence</p>
+        <p class="clamp-[text,sm,xl]">More Than Steel, We Deliver Confidence</p>
     </div>
 
     <div class="about-gallery-nav clamp-[mr,0,24] relative">
@@ -37,8 +37,8 @@
             </div>
         </div>
 
-        <x-site.slider-nav class="slider-nav-prev" direction="prev" />
-        <x-site.slider-nav class="slider-nav-next" direction="next" />
+        <x-site.slider-nav class="slider-nav-prev clamp-[left,-8,-12,@md]" direction="prev" />
+        <x-site.slider-nav class="slider-nav-next clamp-[right,-8,-12,@md]" direction="next" />
 
         <div class="about-lb-overlay fixed inset-0 z-50 items-center justify-center bg-black/80" @click.self="close">
             <div class="z-1 relative flex max-h-[90vh] max-w-[95vw] items-center justify-center">

@@ -14,7 +14,7 @@
 
         <x-site.layout.container class="clamp-[py,48px,72px]">
             <div class="max-w-3xl">
-                <x-site.section-heading :level="2" :label="__('products.title')" />
+                <x-site.section-heading :level="2" :title="__('products.title')" />
                 <p class="mt-6 text-base font-semibold leading-relaxed text-zinc-600 sm:text-lg">
                     {{ __('products.intro') }}
                 </p>
@@ -43,7 +43,7 @@
             @endphp
             <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}</script>
 
-            <x-site.section-heading :label="__('products.faq_title')" />
+            <x-site.section-heading :title="__('products.faq_title')" />
             <div class="mt-10">
                 <x-faq.accordion :faqs="$faqs" />
             </div>

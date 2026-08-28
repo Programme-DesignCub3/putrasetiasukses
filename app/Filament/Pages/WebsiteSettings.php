@@ -119,8 +119,7 @@ class WebsiteSettings extends AbstractPageSettings
                                 TextInput::make('label')
                                     ->label(__('admin.form.website_settings.label'))
                                     ->placeholder('Sales 1')
-                                    ->maxLength(100)
-                                    ->required(),
+                                    ->maxLength(100),
                                 TextInput::make('number')
                                     ->label(__('admin.form.website_settings.number'))
                                     ->placeholder('0812-8438-805')

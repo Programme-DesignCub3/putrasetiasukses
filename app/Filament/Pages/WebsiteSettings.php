@@ -6,6 +6,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -47,6 +48,18 @@ class WebsiteSettings extends AbstractPageSettings
             'analytics' => [
                 'cookie_consent_enabled' => true,
                 'google_measurement_id' => config('services.google_analytics.measurement_id'),
+            ],
+            'social_links' => [
+                'facebook' => null,
+                'facebook_show' => true,
+                'tiktok' => null,
+                'tiktok_show' => true,
+                'youtube' => null,
+                'youtube_show' => true,
+                'email' => null,
+                'email_show' => true,
+                'footer_whatsapp' => null,
+                'footer_whatsapp_show' => true,
             ],
             'footer_phones' => [],
             'whatsapp' => null,
@@ -137,6 +150,60 @@ class WebsiteSettings extends AbstractPageSettings
                             ->helperText(__('admin.form.website_settings.whatsapp_helper'))
                             ->maxLength(50)
                             ->prefix('+'),
+                    ]),
+                Section::make(__('admin.form.website_settings.section_social'))
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('social_links.facebook')
+                                ->label('Facebook')
+                                ->placeholder('https://facebook.com/yourpage')
+                                ->url()
+                                ->maxLength(255),
+                            Toggle::make('social_links.facebook_show')
+                                ->label(__('admin.form.website_settings.show_in_footer'))
+                                ->default(true),
+                        ]),
+                        Grid::make(2)->schema([
+                            TextInput::make('social_links.tiktok')
+                                ->label('TikTok')
+                                ->placeholder('https://tiktok.com/@yourpage')
+                                ->url()
+                                ->maxLength(255),
+                            Toggle::make('social_links.tiktok_show')
+                                ->label(__('admin.form.website_settings.show_in_footer'))
+                                ->default(true),
+                        ]),
+                        Grid::make(2)->schema([
+                            TextInput::make('social_links.youtube')
+                                ->label('YouTube')
+                                ->placeholder('https://youtube.com/@yourchannel')
+                                ->url()
+                                ->maxLength(255),
+                            Toggle::make('social_links.youtube_show')
+                                ->label(__('admin.form.website_settings.show_in_footer'))
+                                ->default(true),
+                        ]),
+                        Grid::make(2)->schema([
+                            TextInput::make('social_links.email')
+                                ->label(__('admin.form.website_settings.email'))
+                                ->placeholder('info@company.com')
+                                ->email()
+                                ->maxLength(255),
+                            Toggle::make('social_links.email_show')
+                                ->label(__('admin.form.website_settings.show_in_footer'))
+                                ->default(true),
+                        ]),
+                        Grid::make(2)->schema([
+                            TextInput::make('social_links.footer_whatsapp')
+                                ->label(__('admin.form.website_settings.footer_whatsapp'))
+                                ->placeholder('628128438805')
+                                ->helperText(__('admin.form.website_settings.footer_whatsapp_helper'))
+                                ->maxLength(50)
+                                ->prefix('+'),
+                            Toggle::make('social_links.footer_whatsapp_show')
+                                ->label(__('admin.form.website_settings.show_in_footer'))
+                                ->default(true),
+                        ]),
                     ]),
                 Section::make(__('admin.form.website_settings.section_cookie'))
                     ->schema([

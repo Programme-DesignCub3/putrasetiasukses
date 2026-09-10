@@ -48,6 +48,7 @@
     {{ $slot }}
 
     <x-site.whatsapp-button />
+
     <x-site.layout.footer />
 
     <x-site.cookie-consent :enabled="$siteAnalytics['cookieConsentEnabled']" />

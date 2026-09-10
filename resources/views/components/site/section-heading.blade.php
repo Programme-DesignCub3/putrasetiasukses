@@ -16,6 +16,7 @@
     ])>
         {{ $title }}
         </h{{ $level }}>
+
         @if ($subtitle)
             <p @class([$subtitleClass])>{{ $subtitle }}</p>
         @endif

@@ -1,5 +1,3 @@
-{{-- @props(['active' => 'home']) --}}
-
 @php
     $navigation = [
         ['label' => __('site.navigation.home'), 'key' => 'home', 'url' => route('home')],
@@ -13,15 +11,14 @@
 @endphp
 
 <header class="from-brand-red bg-linear-[135deg] to-white">
-
     <x-site.layout.container
         class="clamp-[py,5,7] max-w-384! z-20 mx-auto flex flex-col justify-between gap-4 px-4 md:flex-row lg:items-center lg:justify-between">
         <div class="clamp-[gap,3,6] flex items-center text-white">
-            <a class="basis-20" href="{{ route('home') }}">
+            <a class="clamp-[basis,12,20] shrink-0" href="{{ route('home') }}">
                 <x-site.logo />
             </a>
             <div class="flex flex-col uppercase">
-                <p class="clamp-[text,xl,4xl] font-semibold">
+                <p class="clamp-[text,base,1.75rem] text-nowrap font-semibold">
                     PT PUTRA SETIA SUKSES BERSAMA
                 </p>
                 <p class="clamp-[text,xs,sm]">
@@ -29,6 +26,7 @@
                 </p>
             </div>
         </div>
+
         <div class="flex flex-col gap-3 lg:items-end">
             <div class="flex items-center justify-between gap-3 md:flex-col md:items-end">
                 <x-site.language-switcher />
@@ -66,8 +64,7 @@
 
                 {{-- ? desktop nav --}}
                 <nav class="mx-auto hidden overflow-hidden rounded-full xl:block" aria-label="Navigasi utama">
-                    <div class="text-brand-red flex flex-nowrap bg-white shadow-xl shadow-black/10"
-                        x-data="staggerFade({ duration: 0.3 })">
+                    <div class="text-brand-red flex bg-white shadow-xl shadow-black/10" x-data="staggerFade({ duration: 0.3 })">
                         @foreach ($navigation as $item)
                             <div class="first:[&>a]:pl-8 last:[&>a]:pr-8 hover:[&_div.absolute]:block">
                                 <a @class([

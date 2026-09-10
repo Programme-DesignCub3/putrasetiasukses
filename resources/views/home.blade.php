@@ -18,10 +18,10 @@
                         </div>
                     @endforeach
                 </div>
-                <button class="home-hero-button-prev" type="button" aria-label="Sebelumnya">
+                <button class="home-hero-button-prev" type="button" aria-label="{{ __('site.slider.prev') }}">
                     <x-lucide-chevron-left class="size-5" />
                 </button>
-                <button class="home-hero-button-next" type="button" aria-label="Selanjutnya">
+                <button class="home-hero-button-next" type="button" aria-label="{{ __('site.slider.next') }}">
                     <x-lucide-chevron-right class="size-5" />
                 </button>
                 <div class="home-hero-pagination"></div>
@@ -29,10 +29,10 @@
         </section>
 
         <x-site.layout.container class="my-8 text-center">
-            <x-site.section-heading class="text-brand-red! uppercase" title="Our Location" />
+            <x-site.section-heading class="text-brand-red! uppercase" :title="__('home.about_title')" />
 
             <div class="flex flex-col justify-center">
-                <div class="text-base leading-relaxed">
+                <div class="clamp-[text,xs,base] text-balance leading-relaxed">
                     {!! __('about.section-1') !!}
                 </div>
             </div>
@@ -46,9 +46,7 @@
 
         <section class="bg-brand-red my-12 py-8">
             <x-site.layout.container class="bg-brand-red" as="div">
-                <x-site.section-heading title="OUR ADVANTAGES"
-                    subtitle="Why Customers Choose PT Putra Setia Sukses
-                    Bersama" />
+                <x-site.section-heading :title="__('home.advantages_title')" :subtitle="__('home.advantages_subtitle')" />
 
                 <div class="my-4 grid gap-4 pt-8 md:grid-cols-2">
                     @foreach ($advantages as $advantage)

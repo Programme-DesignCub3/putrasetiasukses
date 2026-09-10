@@ -2,8 +2,8 @@
 
 return [
     'home' => [
-        'title' => 'Stockist and Distributor of Iron and Steel Materials',
-        'description' => 'Stockist and Distributor of Various Types of Iron and Steel Materials',
+        'title' => 'Stockist and Distributor of Steel Material',
+        'description' => 'Stockist and Distributor of Steel Material',
     ],
     'about' => [
         'title' => 'About Us',

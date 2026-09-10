@@ -2,8 +2,8 @@
 
 return [
     'home' => [
-        'title' => 'Stockist dan Distributor Material Besi dan Baja',
-        'description' => 'Stockist dan Distributor Aneka Jenis Material Besi dan Baja',
+        'title' => 'Stockist dan Distributor Material Baja',
+        'description' => 'Stockist dan Distributor Material Baja',
     ],
     'about' => [
         'title' => 'Tentang Kami',

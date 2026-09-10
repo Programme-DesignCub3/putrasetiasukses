@@ -6,6 +6,9 @@ return [
     'testimonial_title' => '客户评价',
     'partners_title' => '合作伙伴',
     'projects_title' => '我们的项目',
+    'about_title' => '关于我们',
+    'advantages_title' => '我们的优势',
+    'advantages_subtitle' => '为什么客户选择 PT Putra Setia Sukses Bersama',
     'advantage_1' => [
         'title' => '优质产品',
         'copy' => '我们提供符合公认质量标准的优质钢铁产品，确保每个项目的可靠性和性能。',

@@ -6,6 +6,9 @@ return [
     'testimonial_title' => 'Testimonials',
     'partners_title' => 'Our Partners',
     'projects_title' => 'Our Projects',
+    'about_title' => 'About Us',
+    'advantages_title' => 'OUR ADVANTAGES',
+    'advantages_subtitle' => 'Why Customers Choose PT Putra Setia Sukses Bersama',
 
     'advantage_1' => [
         'title' => 'High-Quality Products',

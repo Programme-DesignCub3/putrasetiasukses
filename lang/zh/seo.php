@@ -2,8 +2,8 @@
 
 return [
     'home' => [
-        'title' => '钢铁材料库存商和分销商',
-        'description' => '各类钢铁材料的库存商和分销商',
+        'title' => '钢铁材料库存商与经销商',
+        'description' => '钢铁材料库存商与经销商',
     ],
     'about' => [
         'title' => '关于我们',

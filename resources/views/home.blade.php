@@ -79,10 +79,10 @@
                     <div class="home-partners-swiper swiper clamp-[px,3,6]!">
                         <div class="swiper-wrapper py-4">
                             @foreach ($partners as $partner)
-                                <div class="swiper-slide hover:[&_img]:opacity-100">
+                                <div class="swiper-slide">
                                     <div
-                                        class="hover:shadow-top shadow-top-center flex aspect-square items-center justify-center rounded-xl transition">
-                                        <img class="clamp-[max-w,32,62] w-full object-contain opacity-70 transition duration-500"
+                                        class="shadow-top-center flex aspect-square items-center justify-center rounded-xl">
+                                        <img class="clamp-[max-w,32,62] w-full object-contain duration-500"
                                             src="{{ $partner->logo }}" alt="{{ $partner->name }}">
                                     </div>
                                 </div>

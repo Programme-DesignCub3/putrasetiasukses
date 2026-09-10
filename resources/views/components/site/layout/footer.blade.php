@@ -52,8 +52,8 @@
 
             <div class="text-label flex flex-col gap-3">
 
-                <x-site.section-heading class="text-brand-red! text-left uppercase" titleClass="clamp-[text,lg,2xl]!"
-                    :title="__('contact.title')" />
+                <x-site.section-heading class="text-brand-red! m-0! text-left uppercase"
+                    titleClass="clamp-[text,lg,2xl]!" :title="__('contact.title')" />
 
                 @php
                     $phones = safe_db_config('website.footer_phones', []);

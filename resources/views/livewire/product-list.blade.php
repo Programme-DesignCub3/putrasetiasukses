@@ -16,8 +16,9 @@
                     <button @class([
                         'rounded-full border px-4 py-2 text-sm font-semibold transition',
                         'bg-brand-red text-white' => $categorySlug === '',
-                        'text-zinc-700 hover:bg-zinc-300' => $categorySlug !== '',
-                    ]) wire:click="$set('categorySlug', '')">
+                        'text-zinc-700 hover:bg-zinc-300 cursor-pointer' => $categorySlug !== '',
+                    ])
+                        @if ($categorySlug !== '') wire:click="$set('categorySlug', '')" @endif>
                         {{ __('products.all_categories') }}
                     </button>
                 </div>
@@ -26,8 +27,10 @@
                         <button @class([
                             'border rounded-full px-4 py-2 text-sm font-semibold transition',
                             'bg-brand-red text-white' => $categorySlug == $category->slug,
-                            ' text-zinc-700 hover:bg-zinc-300' => $categorySlug != $category->slug,
-                        ]) wire:click="$set('categorySlug', '{{ $category->slug }}')">
+                            ' text-zinc-700 hover:bg-zinc-300 cursor-pointer' =>
+                                $categorySlug != $category->slug,
+                        ])
+                            @if ($categorySlug !== $category->slug) wire:click="$set('categorySlug', '{{ $category->slug }}')" @endif>
                             {{ $category->name }}
                         </button>
                     </div>
@@ -36,6 +39,23 @@
         </div>
         <x-site.slider-nav class="slider-nav-next" direction="next" />
     </div>
+
+    @php
+        $selectedCategory = $this->selectedCategory;
+    @endphp
+
+    @if ($selectedCategory && filled($selectedCategory->description))
+        <div class="mt-6 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 sm:p-6">
+            <h2 class="text-base font-black leading-tight text-black sm:text-lg">
+                {{ $selectedCategory->name }}
+            </h2>
+            <div class="mt-2 text-sm font-medium leading-relaxed text-zinc-600 sm:text-base">
+                @foreach (array_filter(preg_split('/\R+/', strip_tags($selectedCategory->description))) as $paragraph)
+                    <p class="mb-3 last:mb-0">{{ $paragraph }}</p>
+                @endforeach
+            </div>
+        </div>
+    @endif
 
     <div class="mt-6 flex items-center justify-center py-12" wire:loading.delay>
         <x-lucide-loader-circle class="text-brand-red h-8 w-8 animate-spin" />

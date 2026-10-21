@@ -41,6 +41,18 @@ class ProductList extends Component
             ->get();
     }
 
+    #[Computed]
+    public function selectedCategory(): ?ProductCategory
+    {
+        if ($this->categorySlug === '') {
+            return null;
+        }
+
+        return ProductCategory::query()
+            ->where('slug', $this->categorySlug)
+            ->first();
+    }
+
     public function render()
     {
         $products = Product::query()

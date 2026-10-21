@@ -61,13 +61,12 @@ class HomeController extends Controller
      */
     private function advantages(): array
     {
-        $icons = ['star', 'headset', 'tag', 'truck', 'shield', 'square-stack'];
+        $icons = ['star', 'headset', 'tag', 'truck', 'shield'];
 
-        return array_map(fn (int $i, string $icon): array => [
-            'title' => __("home.advantage_{$i}.title"),
-            'copy' => __("home.advantage_{$i}.copy"),
+        return array_map(fn ($i, string $icon): array => [
+            'copy' => $i,
             'icon' => $icon,
-        ], range(1, 6), $icons);
+        ], __('home.benefits'), $icons);
     }
 
     /**

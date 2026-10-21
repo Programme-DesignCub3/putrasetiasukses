@@ -9,7 +9,7 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="projects">
+<x-layouts.app active-section="projects">
     <main>
         {{-- <x-site.layout.page-hero :title="__('projects.title')" :image="asset('assets/contact-hero.png')" /> --}}
 
@@ -28,4 +28,4 @@
             </div>
         </x-site.layout.container>
     </main>
-</x-app>
+</x-layouts.app>

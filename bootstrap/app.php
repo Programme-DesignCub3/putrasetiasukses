@@ -38,7 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->view('errors.404', [
                 'site' => $site,
                 'activeSection' => null,
-                'bodyClass' => 'bg-white',
+                'class' => 'bg-white',
             ], 404);
         });
 
@@ -58,7 +58,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->view("errors.{$statusCode}", [
                 'site' => $site,
                 'activeSection' => null,
-                'bodyClass' => 'bg-white',
+                'class' => 'bg-white',
             ], $statusCode);
         });
     })->create();

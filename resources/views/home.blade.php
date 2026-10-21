@@ -1,7 +1,8 @@
 <x-layouts.app body-class="bg-white font-sans text-brand-ink antialiased">
     <main>
+        {{-- * Slider --}}
         <section class="relative -mt-1" id="beranda">
-            <div class="home-hero swiper">
+            <div class="home-hero swiper sepia-50 opacity-80">
                 <div class="swiper-wrapper">
                     @foreach ($heroSlides as $slide)
                         <div class="swiper-slide">
@@ -26,8 +27,16 @@
                 </button>
                 <div class="home-hero-pagination"></div>
             </div>
+
+            <x-site.section-heading
+                class="max-w-4/5 absolute left-1/2 top-1/2 z-20 w-full -translate-x-1/2 -translate-y-1/2 drop-shadow-2xl"
+                :level="1" title="Steel Ready to Ship. Your Project Stays on Schedule."
+                subtitle="We've been a trusted steel stockiest and distributor since 1993 — supplying plates, structural profiles, and SNI-certified construction materials with delivery across Indonesia."
+                prominent />
+
         </section>
 
+        {{-- * About section --}}
         <x-site.layout.container class="my-8 text-center">
             <x-site.section-heading class="text-brand-red! uppercase" :title="__('home.about_title')" />
 
@@ -38,11 +47,11 @@
             </div>
         </x-site.layout.container>
 
+        {{-- * Visi Misi --}}
         <x-site.layout.container class="clamp-[my,8,16] grid max-w-6xl gap-10 md:grid-cols-2">
             <x-about.visi-misi :title="__('about.vision.title')" :content="__('about.vision.content')" />
             <x-about.visi-misi :title="__('about.mission.title')" :content="__('about.mission.content')" />
         </x-site.layout.container>
-
 
         <section class="bg-brand-red my-12 py-8">
             <x-site.layout.container class="bg-brand-red" as="div">
@@ -57,8 +66,8 @@
                             </div>
 
                             <div class="text-brand-red">
-                                <h3 class="text-lg font-bold">{{ $advantage['title'] }}</h3>
-                                <p>{{ $advantage['copy'] }}</p>
+                                <h3 class="text-lg font-bold">{{ $advantage['copy'] }}</h3>
+                                {{-- <p>{{ $advantage['copy'] }}</p> --}}
                             </div>
                         </div>
                     @endforeach

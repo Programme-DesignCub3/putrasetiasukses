@@ -9,7 +9,7 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles">
+<x-layouts.app active-section="articles">
     <main>
         {{-- <x-site.layout.page-hero :title="__('articles.title')" :image="asset('assets/home/sector-2.png')" /> --}}
 
@@ -38,4 +38,4 @@
             <livewire:article-list :excluded-ids="$latestArticleIds" />
         </x-site.layout.container>
     </main>
-</x-app>
+</x-layouts.app>

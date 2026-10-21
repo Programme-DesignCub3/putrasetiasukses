@@ -1,38 +1,26 @@
 <?php
 
 return [
-    'hero_title' => 'Steel Plates',
-    'hero_subtitle' => 'Black Plate - White Plate - Galvanized Plate',
-    'testimonial_title' => 'Testimonials',
+    'hero_title' => 'Steel Ready to Ship. Your Project Stays on Schedule.',
+    'hero_subtitle' => "We've been a trusted steel stockiest and distributor since 1993 — supplying plates, structural profiles, and SNI-certified construction materials with delivery across Indonesia.",
+    // 'testimonial_title' => 'Testimonials',
     'partners_title' => 'Our Partners',
     'projects_title' => 'Our Projects',
     'about_title' => 'About Us',
     'advantages_title' => 'OUR ADVANTAGES',
     'advantages_subtitle' => 'Why Customers Choose PT Putra Setia Sukses Bersama',
 
-    'advantage_1' => [
-        'title' => 'High-Quality Products',
-        'copy' => 'We provide premium-grade iron and steel products that meet recognized quality standards, ensuring reliability and performance for every project.',
-    ],
-    'advantage_2' => [
-        'title' => 'Responsive Customer Support',
-        'copy' => 'Our dedicated team is ready to provide fast, professional, and reliable assistance to meet every customer’s needs.',
-    ],
-    'advantage_3' => [
-        'title' => 'Competitive Pricing',
-        'copy' => 'We offer competitive and transparent pricing, delivering excellent value without compromising product quality.',
-    ],
-    'advantage_4' => [
-        'title' => 'On-Time Delivery',
-        'copy' => 'We prioritize timely and dependable delivery to help our customers maintain smooth project schedules and operations.',
-    ],
-    'advantage_5' => [
-        'title' => 'Easy Purchasing Process',
-        'copy' => 'A simple and efficient purchasing process, supported by clear communication and responsive service, makes every transaction convenient.',
-    ],
-    'advantage_6' => [
-        'title' => 'Wide Product Selection',
-        'copy' => 'We offer a diverse range of steel and iron products to support various construction, industrial, manufacturing, and engineering requirements.',
+    'benefits' => [
+
+        'We provide premium-grade iron and steel products that meet recognized quality standards, ensuring reliability and performance for every project.',
+
+        'Competitive pricing backed by verified quality. Our products are sourced directly from leading national manufacturers including Krakatau Steel — not unverified imports. ',
+
+        "Delivery timelines you can actually rely on. Every order comes with a confirmed, realistic delivery estimate. We don't overpromise and underdeliver.",
+
+        'A sales team that picks up the phone. Three active sales contacts, fast response times, and real expertise to help you choose the right spec for your project.',
+
+        'Everything you need in one place. Steel plates, structural steel,galvanizedsheets,floordeck,lightsteelframing — fullrange,singlesupplier.',
     ],
 
     'sector_1' => [

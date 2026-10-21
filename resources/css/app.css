@@ -270,6 +270,14 @@
         transition:
             background-color 160ms ease,
             transform 160ms ease;
+
+        cursor: pointer;
+
+        &.swiper-button-disabled {
+            filter: sepia(0.8);
+            opacity: 50%;
+            cursor: not-allowed;
+        }
     }
 
     .slider-nav-button:hover {

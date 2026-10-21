@@ -9,7 +9,7 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products">
+<x-layouts.app active-section="products">
     <main>
 
         <x-site.layout.container class="clamp-[py,48px,72px]">
@@ -49,4 +49,4 @@
             </div>
         </x-site.layout.container>
     </main>
-</x-app>
+</x-layouts.app>

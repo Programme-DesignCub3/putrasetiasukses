@@ -1,4 +1,4 @@
-<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="search">
+<x-layouts.app active-section="search">
     <main>
         {{-- <x-site.layout.page-hero :title="__('search.title')" :image="asset('assets/about/about-header.png')" /> --}}
 
@@ -6,4 +6,4 @@
             <livewire:search-results />
         </x-site.layout.container>
     </main>
-</x-app>
+</x-layouts.app>

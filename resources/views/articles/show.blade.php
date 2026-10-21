@@ -10,7 +10,7 @@
     <x-seo.breadcrumbs :items="$breadcrumbs" />
 @endpush
 
-<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="articles">
+<x-layouts.app active-section="articles">
     <main class="clamp-[py,48px,72px] mx-auto max-w-6xl px-4 sm:px-5 lg:px-8">
         <a class="text-brand-red hover:text-brand-red-dark mb-6 inline-flex items-center gap-2 text-sm font-bold uppercase transition"
             href="{{ route('articles.index') }}">
@@ -36,4 +36,4 @@
             </div>
         </article>
     </main>
-</x-app>
+</x-layouts.app>

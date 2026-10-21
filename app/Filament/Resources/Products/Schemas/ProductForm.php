@@ -95,6 +95,19 @@ class ProductForm
                             ->maxSize(5120),
                     ])
                     ->columns(2),
+
+                Section::make(__('admin.form.product.section_body'))
+                    ->description(__('admin.form.product.section_body_desc'))
+                    ->schema([
+                        FilamentTranslatableFields::translate(
+                            fn (string $locale): array => [
+                                FilamentTranslatableFields::richEditor('content', 'Konten', $locale)
+                                    ->columnSpanFull(),
+                            ],
+                            label: __('admin.form.product.content_label'),
+                            columns: 1,
+                        ),
+                    ]),
             ]);
     }
 }

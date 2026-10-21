@@ -46,7 +46,7 @@
     );
 @endphp
 
-<x-app body-class="bg-white font-sans text-brand-ink antialiased" active-section="products" x-data="galleryLightbox({ images: {{ Illuminate\Support\Js::from($productGallery) }} })">
+<x-layouts.app active-section="products" x-data="galleryLightbox({ images: {{ Illuminate\Support\Js::from($productGallery) }} })">
     <x-site.layout.container class="clamp-[py,4px,80px] px-4">
         <a class="text-brand-red hover:text-brand-red-dark mb-6 inline-flex items-center gap-2 text-sm font-bold uppercase transition"
             href="{{ route('products.index') }}">
@@ -77,5 +77,14 @@
                 </a>
             </section>
         </div>
+
+        @if (filled($product->content))
+            <div class="mx-auto mt-16 max-w-5xl">
+                <div
+                    class="prose prose-lg prose-zinc [&_a]:text-brand-red [&_blockquote]:border-brand-red max-w-none [&_a]:font-black [&_blockquote]:border-l-4 [&_blockquote]:pl-5 [&_blockquote]:italic [&_h2]:mt-10 [&_h2]:text-3xl [&_h2]:font-black [&_h2]:text-black [&_h3]:mt-8 [&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-black [&_li]:mb-2 [&_ol]:my-7 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-7 [&_ul]:my-7 [&_ul]:list-disc [&_ul]:pl-6">
+                    {!! $product->renderRichContent('content') !!}
+                </div>
+            </div>
+        @endif
     </x-site.layout.container>
-</x-app>
+</x-layouts.app>

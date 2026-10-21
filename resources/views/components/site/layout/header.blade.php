@@ -71,10 +71,10 @@
                                     'hover:bg-brand-ink hover:text-white min-w-max max-w-50 flex justify-center items-center flex-1 clamp-[py,0,4] text-center text-xs font-black uppercase transition clamp-[pl,0,4] clamp-[pr,1.5,3.5]',
                                     'bg-brand-ink text-white' => request()->routeIs('*.' . $item['key']),
                                 ]) href="{{ $item['url'] }}">
-                                    <span class="flex gap-0.5">
-                                        {{ $item['label'] }}
-                                        <x-lucide-chevron-down class="h-4 w-4 transition" />
-                                    </span>
+                                    {{-- <span class="flex gap-0.5"> --}}
+                                    {{ $item['label'] }}
+                                    {{-- <x-lucide-chevron-down class="h-4 w-4 transition" /> --}}
+                                    {{-- </span> --}}
                                 </a>
                                 {{-- <div class="absolute z-50 hidden">
                                     @for ($i = 0; $i < 3; $i++)

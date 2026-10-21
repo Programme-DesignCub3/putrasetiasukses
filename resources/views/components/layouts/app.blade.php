@@ -1,3 +1,4 @@
+@props(['bodyClass' => ''])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     dir="{{ \NielsNumbers\LaravelLocalizer\Facades\Localizer::currentLocaleDirection() }}">
@@ -42,7 +43,7 @@
     @livewireStyles
 </head>
 
-<body class="{{ $bodyClass }} font-montserrat">
+<body {{ $attributes->merge(['class' => 'font-montserrat']) }}>
     <x-site.layout.header />
 
     {{ $slot }}

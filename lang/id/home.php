@@ -10,6 +10,19 @@ return [
     'advantages_title' => 'KEUNGGULAN KAMI',
     'advantages_subtitle' => 'Mengapa Pelanggan Memilih PT Putra Setia Sukses Bersama',
 
+    'benefits' => [
+
+        'We provide premium-grade iron and steel products that meet recognized quality standards, ensuring reliability and performance for every project.',
+
+        'Competitive pricing backed by verified quality. Our products are sourced directly from leading national manufacturers including Krakatau Steel — not unverified imports. ',
+
+        "Delivery timelines you can actually rely on. Every order comes with a confirmed, realistic delivery estimate. We don't overpromise and underdeliver.",
+
+        'A sales team that picks up the phone. Three active sales contacts, fast response times, and real expertise to help you choose the right spec for your project.',
+
+        'Everything you need in one place. Steel plates, structural steel,galvanizedsheets,floordeck,lightsteelframing — fullrange,singlesupplier.',
+    ],
+
     'sector_1' => [
         'title' => 'Konstruksi Bangunan',
         'copy' => 'Baja menjadi salah satu bahan utama dalam konstruksi dan pembangunan gedung, selain untuk pondasi juga digunakan pada atap.',

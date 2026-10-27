@@ -18,7 +18,7 @@
                 <x-site.logo />
             </a>
             <div class="flex flex-col uppercase">
-                <p class="clamp-[text,base,1.75rem] text-nowrap font-semibold">
+                <p class="clamp-[text,base,1.75rem] font-semibold">
                     PT PUTRA SETIA SUKSES BERSAMA
                 </p>
                 <p class="clamp-[text,xs,sm]">

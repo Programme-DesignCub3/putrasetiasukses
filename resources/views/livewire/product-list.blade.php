@@ -11,7 +11,7 @@
     <div class="{{ $compact ? '' : 'mt-4' }} category-slider-nav" data-category-slider>
         <x-site.slider-nav class="slider-nav-prev" direction="prev" />
         <div class="category-slider-swiper swiper min-w-0 flex-1">
-            <div class="swiper-wrapper">
+            <div class="swiper-wrapper items-center">
                 <div class="swiper-slide w-fit!">
                     <button @class([
                         'rounded-full border px-4 py-2 text-sm font-semibold transition',

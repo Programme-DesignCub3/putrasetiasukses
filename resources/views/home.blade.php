@@ -57,7 +57,7 @@
             <x-site.layout.container class="bg-brand-red" as="div">
                 <x-site.section-heading :title="__('home.advantages_title')" :subtitle="__('home.advantages_subtitle')" />
 
-                <div class="my-4 grid gap-4 pt-8 md:grid-cols-2">
+                <div class="my-4 md:grid flex flex-col gap-4 pt-8 md:grid-cols-2">
                     @foreach ($advantages as $advantage)
                         <div class="flex items-center gap-4 rounded-xl bg-white p-5 py-4">
 

@@ -20,7 +20,7 @@ return [
 
         'A sales team that picks up the phone. Three active sales contacts, fast response times, and real expertise to help you choose the right spec for your project.',
 
-        'Everything you need in one place. Steel plates, structural steel,galvanizedsheets,floordeck,lightsteelframing — fullrange,singlesupplier.',
+        'Everything you need in one place. Steel plates, structural steel, galvanized sheets, floor deck, light steel framing — full range, singlesupplier.',
     ],
 
     'sector_1' => [
